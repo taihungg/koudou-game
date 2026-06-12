@@ -15,12 +15,12 @@ export default function AssetsIndexPage() {
       
       {packages.length === 0 ? (
         <div className="text-center text-slate-500">
-          No asset packages found in public/assets.
+          No asset packages found in public/models.
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {packages.map(pack => (
-            <Link key={pack} href={`/assets/${pack}`}>
+            <Link key={pack} href={`/models/${pack}`}>
               <div className="bg-slate-800 p-6 rounded-2xl hover:bg-slate-700 transition-all duration-300 border border-slate-700 hover:border-sky-500 shadow-lg hover:shadow-sky-500/20 cursor-pointer h-full flex flex-col justify-center items-center text-center">
                 <div className="text-4xl mb-4">📦</div>
                 <h2 className="text-xl font-semibold break-words w-full">{pack}</h2>

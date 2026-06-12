@@ -14,7 +14,7 @@ export default async function PackageViewerPage({ params }: { params: Promise<{ 
     <div className="w-screen h-screen overflow-hidden relative bg-sky-100">
       {/* HUD tĩnh nằm đè lên trên */}
       <div className="absolute top-4 left-4 z-10">
-        <Link href="/assets" className="px-5 py-2.5 bg-slate-800/90 backdrop-blur-md text-white font-medium rounded-xl hover:bg-slate-700 transition-colors shadow-lg border border-slate-600 flex items-center gap-2">
+        <Link href="/models" className="px-5 py-2.5 bg-slate-800/90 backdrop-blur-md text-white font-medium rounded-xl hover:bg-slate-700 transition-colors shadow-lg border border-slate-600 flex items-center gap-2">
           <span className="text-xl leading-none">←</span> Back to Packages
         </Link>
       </div>

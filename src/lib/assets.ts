@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 
 export function getAssetPackages(): string[] {
-  const assetsDir = path.join(process.cwd(), 'public', 'assets');
+  const assetsDir = path.join(process.cwd(), 'public', 'models');
   if (!fs.existsSync(assetsDir)) return [];
 
   const entries = fs.readdirSync(assetsDir, { withFileTypes: true });
@@ -12,7 +12,7 @@ export function getAssetPackages(): string[] {
 }
 
 export function getModelsInPackage(packName: string): { models: string[], fallbackTextureUrl: string | null } {
-  const packDir = path.join(process.cwd(), 'public', 'assets', packName);
+  const packDir = path.join(process.cwd(), 'public', 'models', packName);
   if (!fs.existsSync(packDir)) return { models: [], fallbackTextureUrl: null };
 
   const models: string[] = [];

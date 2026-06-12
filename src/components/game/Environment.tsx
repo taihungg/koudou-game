@@ -3,9 +3,11 @@
 import { RigidBody } from "@react-three/rapier";
 import { useGLTF } from "@react-three/drei";
 
+import { GAME_ASSETS } from "@/constants/assets";
+
 // Wrapper component to load and clone the Tree GLTF
 function TreeModel({ position }: { position: [number, number, number] }) {
-  const { scene } = useGLTF("/assets/models/Tree_1_A_Color1.gltf");
+  const { scene } = useGLTF(GAME_ASSETS.MODELS.TREE_1);
   return (
     <RigidBody type="fixed" position={position} colliders="hull">
       <primitive object={scene.clone()} castShadow receiveShadow />
@@ -15,7 +17,7 @@ function TreeModel({ position }: { position: [number, number, number] }) {
 
 // Wrapper component for a Rock
 function RockModel({ position }: { position: [number, number, number] }) {
-  const { scene } = useGLTF("/assets/models/Rock_1_A_Color1.gltf");
+  const { scene } = useGLTF(GAME_ASSETS.MODELS.ROCK_1);
   return (
     <RigidBody type="fixed" position={position} colliders="hull">
       <primitive object={scene.clone()} castShadow receiveShadow />
@@ -25,13 +27,14 @@ function RockModel({ position }: { position: [number, number, number] }) {
 
 // Wrapper component for a Bush
 function BushModel({ position }: { position: [number, number, number] }) {
-  const { scene } = useGLTF("/assets/models/Bush_1_A_Color1.gltf");
+  const { scene } = useGLTF(GAME_ASSETS.MODELS.BUSH_1);
   return (
     <RigidBody type="fixed" position={position} colliders="hull">
       <primitive object={scene.clone()} castShadow receiveShadow />
     </RigidBody>
   );
 }
+
 
 export default function Environment() {
   return (
