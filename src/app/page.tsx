@@ -39,15 +39,15 @@ export default function Home() {
   return (
     <main className="w-screen h-screen overflow-hidden relative bg-sky-100">
       <HUD />
-      
+
       <KeyboardControls map={keyboardMap}>
         <Canvas shadows={{ type: THREE.PCFShadowMap }}>
-          <OrthographicCamera 
-            makeDefault 
-            position={[20, 20, 20]} 
-            zoom={40} 
-            near={-100} 
-            far={100} 
+          <OrthographicCamera
+            makeDefault
+            position={[20, 20, 20]}
+            zoom={40}
+            near={-100}
+            far={100}
             onUpdate={c => c.lookAt(0, 0, 0)}
           />
           <Physics debug={false}>

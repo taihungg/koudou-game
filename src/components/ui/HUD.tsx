@@ -30,7 +30,7 @@ export default function HUD() {
           </div>
         </div>
       </div>
-      
+
       {/* Quick controls hint */}
       <div className="bg-white/80 backdrop-blur-md px-5 py-3 rounded-2xl shadow-xl border border-white/50 text-sm font-bold text-gray-700 pointer-events-auto">
         WASD / Arrows to Move

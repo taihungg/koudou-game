@@ -7,7 +7,7 @@ import { GAME_ASSETS } from "@/constants/assets";
 
 // Wrapper component to load and clone the Tree GLTF
 function TreeModel({ position }: { position: [number, number, number] }) {
-  const { scene } = useGLTF(GAME_ASSETS.MODELS.TREE_1);
+  const { scene } = useGLTF(GAME_ASSETS.MODELS.FOREST1.TREE_1_A_COLOR1);
   return (
     <RigidBody type="fixed" position={position} colliders="hull">
       <primitive object={scene.clone()} castShadow receiveShadow />
@@ -17,7 +17,7 @@ function TreeModel({ position }: { position: [number, number, number] }) {
 
 // Wrapper component for a Rock
 function RockModel({ position }: { position: [number, number, number] }) {
-  const { scene } = useGLTF(GAME_ASSETS.MODELS.ROCK_1);
+  const { scene } = useGLTF(GAME_ASSETS.MODELS.FOREST1.ROCK_1_A_COLOR1);
   return (
     <RigidBody type="fixed" position={position} colliders="hull">
       <primitive object={scene.clone()} castShadow receiveShadow />
@@ -27,7 +27,7 @@ function RockModel({ position }: { position: [number, number, number] }) {
 
 // Wrapper component for a Bush
 function BushModel({ position }: { position: [number, number, number] }) {
-  const { scene } = useGLTF(GAME_ASSETS.MODELS.BUSH_1);
+  const { scene } = useGLTF(GAME_ASSETS.MODELS.FOREST1.BUSH_1_A_COLOR1);
   return (
     <RigidBody type="fixed" position={position} colliders="hull">
       <primitive object={scene.clone()} castShadow receiveShadow />
@@ -41,10 +41,10 @@ export default function Environment() {
     <>
       {/* Lighting */}
       <ambientLight intensity={0.6} />
-      <directionalLight 
-        position={[10, 20, 10]} 
-        intensity={1.5} 
-        castShadow 
+      <directionalLight
+        position={[10, 20, 10]}
+        intensity={1.5}
+        castShadow
         shadow-mapSize={[1024, 1024]}
       />
 
@@ -60,10 +60,10 @@ export default function Environment() {
       <TreeModel position={[5, 0, -5]} />
       <TreeModel position={[-8, 0, -3]} />
       <TreeModel position={[4, 0, 8]} />
-      
+
       <RockModel position={[-3, 0, 2]} />
       <RockModel position={[7, 0, -2]} />
-      
+
       <BushModel position={[-5, 0, -6]} />
       <BushModel position={[2, 0, 5]} />
     </>

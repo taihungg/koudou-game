@@ -23,8 +23,8 @@ function AnimatedCharacter({ modelUrl, animationState, rotationRef }: AnimatedCh
   const characterRef = useRef<THREE.Group>(null);
 
   const characterGltf = useGLTF(modelUrl);
-  const generalAnimations = useGLTF(GAME_ASSETS.ANIMATIONS.GENERAL);
-  const movementAnimations = useGLTF(GAME_ASSETS.ANIMATIONS.MOVEMENT);
+  const generalAnimations = useGLTF(GAME_ASSETS.MODELS.CHARACTERS.ANIMATIONS_RIG_MEDIUM_GENERAL);
+  const movementAnimations = useGLTF(GAME_ASSETS.MODELS.CHARACTERS.ANIMATIONS_RIG_MEDIUM_MOVEMENTBASIC);
 
   const allAnimations = useMemo(() => {
     return [...generalAnimations.animations, ...movementAnimations.animations];
@@ -87,11 +87,11 @@ export default function Player() {
   const sideVector = new THREE.Vector3();
 
   const [animation, setAnimation] = useState("Idle_A");
-  
-  // Here is where you can change the character! (Knight, Rogue, Mage, etc.)
-  const currentCharacterUrl = GAME_ASSETS.MODELS.ROGUE;
 
-  useFrame((_, delta) => {
+  // Here is where you can change the character! (Knight, Rogue, Mage, etc.)
+  const currentCharacterUrl = GAME_ASSETS.MODELS.CHARACTERS.PLAYERS_ROGUE;
+
+  useFrame((state, delta) => {
     if (!rigidBodyRef.current || isInteracting) {
       if (animation !== "Idle_A") setAnimation("Idle_A");
       return;
@@ -105,7 +105,7 @@ export default function Player() {
     direction.subVectors(frontVector, sideVector)
       .normalize()
       .multiplyScalar(speed);
-    
+
     const isMoving = direction.length() > 0.1;
     if (isMoving && animation !== "Running_A") setAnimation("Running_A");
     if (!isMoving && animation !== "Idle_A") setAnimation("Idle_A");
@@ -120,28 +120,35 @@ export default function Player() {
     if (isMoving) {
       rotationRef.current = Math.atan2(direction.x, direction.z);
     }
+    // Camera Follow Logic (Isometric view)
+    const pos = rigidBodyRef.current.translation();
+    state.camera.position.set(pos.x + 20, pos.y + 20, pos.z + 20);
+    state.camera.lookAt(pos.x, pos.y, pos.z);
   });
 
   return (
-    <RigidBody 
+    <RigidBody
       ref={rigidBodyRef}
       colliders={false}
       mass={1}
       type="dynamic"
       position={[0, 5, 0]}
       enabledRotations={[false, false, false]}
+      ccd={true}
     >
-      <CapsuleCollider args={[0.5, 0.4]} position={[0, 0.9, 0]} />
-      <AnimatedCharacter 
-        key={currentCharacterUrl} 
-        modelUrl={currentCharacterUrl} 
-        animationState={animation} 
-        rotationRef={rotationRef}
-      />
+      <CapsuleCollider args={[0.5, 0.4]} />
+      <group position={[0, 0.9, 0]}>
+        <AnimatedCharacter
+          key={currentCharacterUrl}
+          modelUrl={currentCharacterUrl}
+          animationState={animation}
+          rotationRef={rotationRef}
+        />
+      </group>
     </RigidBody>
   );
 }
 
-useGLTF.preload(GAME_ASSETS.MODELS.ROGUE);
-useGLTF.preload(GAME_ASSETS.ANIMATIONS.GENERAL);
-useGLTF.preload(GAME_ASSETS.ANIMATIONS.MOVEMENT);
+useGLTF.preload(GAME_ASSETS.MODELS.CHARACTERS.PLAYERS_ROGUE);
+useGLTF.preload(GAME_ASSETS.MODELS.CHARACTERS.ANIMATIONS_RIG_MEDIUM_GENERAL);
+useGLTF.preload(GAME_ASSETS.MODELS.CHARACTERS.ANIMATIONS_RIG_MEDIUM_MOVEMENTBASIC);
