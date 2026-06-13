@@ -1,5 +1,7 @@
 import { create } from 'zustand';
 
+import { persist } from 'zustand/middleware';
+
 export interface LearningEntityData {
   id: string;
   modelPath: string;
@@ -31,13 +33,23 @@ interface LearningState {
   markExerciseCompleted: (id: string) => void;
 }
 
-export const useLearningStore = create<LearningState>((set) => ({
-  activeEntity: null,
-  setActiveEntity: (entity) => set({ activeEntity: entity }),
-  nearbyEntity: null,
-  setNearbyEntity: (entity) => set({ nearbyEntity: entity }),
-  completedExercises: [],
-  markExerciseCompleted: (id) => set((state) => ({ 
-    completedExercises: [...state.completedExercises, id] 
-  })),
-}));
+export const useLearningStore = create<LearningState>()(
+  persist(
+    (set) => ({
+      activeEntity: null,
+      setActiveEntity: (entity) => set({ activeEntity: entity }),
+      nearbyEntity: null,
+      setNearbyEntity: (entity) => set({ nearbyEntity: entity }),
+      completedExercises: [],
+      markExerciseCompleted: (id) => set((state) => ({ 
+        completedExercises: [...state.completedExercises, id] 
+      })),
+    }),
+    {
+      name: 'koudou-learning-storage',
+      partialize: (state) => ({
+        completedExercises: state.completedExercises
+      })
+    }
+  )
+);

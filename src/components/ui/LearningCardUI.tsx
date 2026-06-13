@@ -69,10 +69,10 @@ export default function LearningCardUI() {
       });
 
       if (!isCompleted) {
-        addXP(10);
+        addXP(5);
         useGameStore.getState().addBiodiversity(5); // +5 ODD 15
         markExerciseCompleted(activeEntity.id);
-        newFloatings.push({ id: Date.now(), text: '+10 XP', type: 'bonus' });
+        newFloatings.push({ id: Date.now(), text: '+5 XP', type: 'bonus' });
         newFloatings.push({ id: Date.now() + 1, text: '+5 ODD 15', type: 'bonus' });
       }
       

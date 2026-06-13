@@ -153,7 +153,7 @@ function VillageBuilding({ url, position, rotation, scale = 1, colliderArgs = [2
 
 export default function StaticVillage() {
   const houses = useMemo(() => {
-    const arr = [];
+    const arr: { id: string, position: [number, number, number], rotation: [number, number, number] }[] = [];
     const positions = [
       // Grid cells to place houses, skipping center [0,0] and inner cross
       [-2, -2], [-1, -2], [0, -2], [1, -2], [2, -2],

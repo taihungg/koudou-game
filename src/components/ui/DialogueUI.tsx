@@ -7,9 +7,10 @@ import confetti from "canvas-confetti";
 
 export default function DialogueUI() {
   const { isOpen, currentSequence, currentStepIndex, closeDialogue, nextStep, nearbyNPCId, openDialogue } = useDialogueStore();
-  const { setInteracting, addXP } = useGameStore();
+  const { setInteracting, addXP, addTrust } = useGameStore();
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
   const [feedback, setFeedback] = useState<string | null>(null);
+  const [floatingTexts, setFloatingTexts] = useState<{id: number, text: string, type: 'bonus' | 'fail'}[]>([]);
 
   const step = currentSequence?.[currentStepIndex];
 
@@ -52,7 +53,15 @@ export default function DialogueUI() {
     
     if (isCorrect) {
       setFeedback("Correct !");
-      addXP(10);
+      addXP(5);
+      addTrust(5);
+      
+      const newFloatings: {id: number, text: string, type: 'bonus' | 'fail'}[] = [
+        { id: Date.now(), text: '+5 XP', type: 'bonus' },
+        { id: Date.now() + 1, text: '+5 ODD 16', type: 'bonus' }
+      ];
+      setFloatingTexts(prev => [...prev, ...newFloatings]);
+
       confetti({
         particleCount: 50,
         spread: 30,
@@ -60,6 +69,7 @@ export default function DialogueUI() {
       });
       
       setTimeout(() => {
+        setFloatingTexts(prev => prev.filter(f => !newFloatings.find(n => n.id === f.id)));
         if (currentSequence && currentStepIndex < currentSequence.length - 1) {
           nextStep();
         } else {
@@ -68,9 +78,16 @@ export default function DialogueUI() {
         }
       }, 1500);
     } else {
-      setFeedback(step.hint || "Mauvaise réponse. Essayez encore.");
+      setFeedback(step?.hint || "Mauvaise réponse. Essayez encore.");
       addXP(-2);
+      
+      const newFloatings: {id: number, text: string, type: 'bonus' | 'fail'}[] = [
+        { id: Date.now(), text: '-2 XP', type: 'fail' }
+      ];
+      setFloatingTexts(prev => [...prev, ...newFloatings]);
+
       setTimeout(() => {
+        setFloatingTexts(prev => prev.filter(f => !newFloatings.find(n => n.id === f.id)));
         setSelectedOption(null);
         setFeedback(null);
       }, 2000);
@@ -79,6 +96,14 @@ export default function DialogueUI() {
 
   return (
     <>
+    {/* FLOATING TEXTS */}
+    <div className="fixed inset-0 pointer-events-none z-[100] flex flex-col items-center justify-center gap-2">
+      {floatingTexts.map(f => (
+        <div key={f.id} className={`text-5xl font-black drop-shadow-xl ${f.type === 'bonus' ? 'text-green-400 animate-float-up' : 'text-red-500 animate-drop-fade'}`}>
+          {f.text}
+        </div>
+      ))}
+    </div>
     {/* INTERACTION PROMPT */}
     {nearbyNPCId && !isOpen && (
       <div className="fixed bottom-24 left-1/2 transform -translate-x-1/2 z-[80] pointer-events-none">
