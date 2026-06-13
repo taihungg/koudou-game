@@ -57,6 +57,7 @@ export default function LearningCardUI() {
       setFeedback(activeEntity.exercise.feedbackSuccess);
       if (!isCompleted) {
         addXP(10);
+        useGameStore.getState().addBiodiversity(5); // +5 ODD 15
         markExerciseCompleted(activeEntity.id);
       }
       setTimeout(() => {
@@ -151,7 +152,7 @@ export default function LearningCardUI() {
                 />
                 
                 {/* Overlay Text on the card */}
-                <div className="absolute inset-0 z-20 font-bold" style={{ fontFamily: 'var(--font-architects)' }}>
+                <div className="absolute inset-0 z-20 font-bold font-story">
                   
                   {/* Box 1: French Name (First Red Box) */}
                   <div className="absolute left-[10%] right-[10%] h-[12%] flex items-center justify-center px-4" style={{ top: '54%' }}>

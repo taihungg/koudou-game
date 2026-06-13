@@ -74,7 +74,7 @@ export default function BotanicalBookUI() {
                   <div className="flex-1 min-w-0">
                     {isUnlocked ? (
                       <>
-                        <h4 className="text-lg font-bold text-amber-950 truncate" style={{ fontFamily: 'var(--font-architects)' }}>
+                        <h4 className="text-lg font-bold text-amber-950 truncate font-story">
                           {flower.frenchName}
                         </h4>
                         <p className="text-xs italic text-amber-800 truncate border-b border-amber-900/10 pb-1 mb-1">
@@ -86,7 +86,7 @@ export default function BotanicalBookUI() {
                       </>
                     ) : (
                       <div className="flex flex-col justify-center h-full">
-                        <h4 className="text-lg font-bold text-gray-600" style={{ fontFamily: 'var(--font-architects)' }}>
+                        <h4 className="text-lg font-bold text-gray-600 font-story">
                           ???
                         </h4>
                         <p className="text-xs text-gray-500 italic mt-1">
