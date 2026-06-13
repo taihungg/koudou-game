@@ -24,6 +24,14 @@ const LearningGLTF = ({ item }: { item: LearningItem }) => {
     setNearbyEntity(item.entityData);
   };
 
+  useEffect(() => {
+    return () => {
+      if (useLearningStore.getState().nearbyEntity?.id === item.entityData.id) {
+        useLearningStore.getState().setNearbyEntity(null);
+      }
+    };
+  }, [item.entityData.id]);
+
   const handleExit = () => {
     setNearbyEntity(null);
   };
@@ -77,6 +85,14 @@ const LearningFBX = ({ item }: { item: LearningItem }) => {
   const handleEnter = () => {
     setNearbyEntity(item.entityData);
   };
+
+  useEffect(() => {
+    return () => {
+      if (useLearningStore.getState().nearbyEntity?.id === item.entityData.id) {
+        useLearningStore.getState().setNearbyEntity(null);
+      }
+    };
+  }, [item.entityData.id]);
 
   const handleExit = () => {
     setNearbyEntity(null);

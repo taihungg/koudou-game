@@ -84,6 +84,14 @@ function InteractableNPC({ modelUrl, position, rotation, npcId }: NPCProps & { n
     setNearbyNPCId(null);
   };
 
+  React.useEffect(() => {
+    return () => {
+      if (useDialogueStore.getState().nearbyNPCId === npcId) {
+        useDialogueStore.getState().setNearbyNPCId(null);
+      }
+    };
+  }, [npcId]);
+
   return (
     <group position={position} rotation={rotation}>
       {/* Fake glowing aura */}

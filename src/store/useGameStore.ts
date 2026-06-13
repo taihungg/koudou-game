@@ -9,6 +9,7 @@ interface GameState {
   currentChapter: number;
   isBotanicalBookOpen: boolean;
   hasSeenVillageIntro: boolean;
+  hasSeenForestIntro: boolean;
   
   setInteracting: (isInteracting: boolean) => void;
   addXP: (amount: number) => void;
@@ -18,6 +19,7 @@ interface GameState {
   setChapter: (chapter: number) => void;
   setBotanicalBookOpen: (isOpen: boolean) => void;
   setHasSeenVillageIntro: (seen: boolean) => void;
+  setHasSeenForestIntro: (seen: boolean) => void;
 }
 
 export const useGameStore = create<GameState>((set) => ({
@@ -29,6 +31,7 @@ export const useGameStore = create<GameState>((set) => ({
   currentChapter: 1,
   isBotanicalBookOpen: false,
   hasSeenVillageIntro: false,
+  hasSeenForestIntro: false,
 
   setInteracting: (isInteracting) => set({ isInteracting }),
   addXP: (amount) => set((state) => ({ xp_langage: state.xp_langage + amount })),
@@ -38,4 +41,5 @@ export const useGameStore = create<GameState>((set) => ({
   setChapter: (chapter) => set({ currentChapter: chapter }),
   setBotanicalBookOpen: (isOpen) => set({ isBotanicalBookOpen: isOpen }),
   setHasSeenVillageIntro: (seen) => set({ hasSeenVillageIntro: seen }),
+  setHasSeenForestIntro: (seen) => set({ hasSeenForestIntro: seen }),
 }));
