@@ -6,10 +6,18 @@ import { RigidBody, CylinderCollider } from "@react-three/rapier";
 import { useGLTF } from "@react-three/drei";
 import { GAME_ASSETS } from "@/constants/assets";
 import { hashCoordinates, mulberry32 } from "@/utils/random";
+import learningData from "@/data/learningEntities.json";
+import { LearningEntity } from "./LearningEntity";
 
 const CHUNK_SIZE = 40;
 const RENDER_DISTANCE = 2; // Render 2 chunks in each direction (5x5 chunks total)
 const ITEMS_PER_CHUNK = 100; // Density of items per chunk
+
+// Prepare learning entities
+const LEARNING_FLOWERS = learningData.flowers.map(f => ({ ...f, category: 'flower', sensorRadius: 0.5 }));
+const LEARNING_ANIMALS = learningData.animals.map(a => ({ ...a, category: 'animal', sensorRadius: 2.0 }));
+// Tạm thời bỏ các động vật (LEARNING_ANIMALS) khỏi mảng spawn
+const LEARNING_ENTITIES = [...LEARNING_FLOWERS];
 
 // Categorize assets dynamically
 const BIG_TREES = [
@@ -69,13 +77,13 @@ const ForestItem = React.memo(({ item }: { item: any }) => {
 
   // Foliage and bushes don't have physics colliders to save performance
   return (
-    <primitive 
-      object={clonedScene} 
-      position={item.position} 
-      rotation={item.rotation} 
-      scale={item.scale} 
-      castShadow 
-      receiveShadow 
+    <primitive
+      object={clonedScene}
+      position={item.position}
+      rotation={item.rotation}
+      scale={item.scale}
+      castShadow
+      receiveShadow
     />
   );
 });
@@ -103,8 +111,16 @@ const ForestChunk = React.memo(({ chunkX, chunkZ }: { chunkX: number; chunkZ: nu
       let categoryArray;
       let type;
       let scaleRange = [0.8, 1.3];
+      let entityData = null;
 
-      if (randType < 0.2) {
+      if (randType < 0.05) {
+        // 5% chance to spawn a learning entity
+        const entity = LEARNING_ENTITIES[Math.floor(rng() * LEARNING_ENTITIES.length)];
+        categoryArray = [entity.modelPath]; // We just need something here so it passes the length check
+        type = "learning";
+        scaleRange = [1.0, 1.2]; // Standardize size
+        entityData = entity;
+      } else if (randType < 0.25) {
         categoryArray = BIG_TREES;
         type = "tree";
         scaleRange = [1.0, 1.8];
@@ -130,11 +146,14 @@ const ForestChunk = React.memo(({ chunkX, chunkZ }: { chunkX: number; chunkZ: nu
 
       generatedItems.push({
         id: `${chunkX}_${chunkZ}_${i}`,
-        path,
+        path: entityData ? entityData.modelPath : path,
         position: [x, 0, z] as [number, number, number],
         rotation,
         scale,
-        type
+        type,
+        entityData,
+        sensorRadius: entityData ? entityData.sensorRadius : 0,
+        category: entityData ? entityData.category : undefined
       });
     }
 
@@ -143,9 +162,12 @@ const ForestChunk = React.memo(({ chunkX, chunkZ }: { chunkX: number; chunkZ: nu
 
   return (
     <group>
-      {items.map((item) => (
-        <ForestItem key={item.id} item={item} />
-      ))}
+      {items.map((item) => {
+        if (item.type === "learning" && item.entityData) {
+          return <LearningEntity key={item.id} item={item as any} />;
+        }
+        return <ForestItem key={item.id} item={item} />;
+      })}
     </group>
   );
 });

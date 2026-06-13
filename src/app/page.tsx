@@ -6,6 +6,7 @@ import { KeyboardControls } from "@react-three/drei";
 import Environment from "@/components/game/Environment";
 import Player from "@/components/game/Player";
 import HUD from "@/components/ui/HUD";
+import LearningCardUI from "@/components/ui/LearningCardUI";
 import { OrthographicCamera } from "@react-three/drei";
 import * as THREE from "three";
 import { useEffect } from "react";
@@ -39,6 +40,7 @@ export default function Home() {
   return (
     <main className="w-screen h-screen overflow-hidden relative bg-sky-100">
       <HUD />
+      <LearningCardUI />
 
       <KeyboardControls map={keyboardMap}>
         <Canvas shadows={{ type: THREE.PCFShadowMap }}>

@@ -12,7 +12,7 @@ export default function HUD() {
         <div className="flex flex-col gap-3 text-sm font-semibold text-gray-800">
           <div className="flex items-center justify-between gap-6">
             <span className="bg-blue-100 text-blue-800 px-3 py-1.5 rounded-lg border border-blue-200">
-              XP Langage (FR)
+              XP Langage (FR) - Niveau A2
             </span>
             <span className="text-lg">{xp_langage}</span>
           </div>

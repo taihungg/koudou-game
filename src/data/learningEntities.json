@@ -1,0 +1,100 @@
+{
+  "flowers": [
+    {
+      "id": "flower_07",
+      "modelPath": "/models/flowers/Flower_n_07.glb",
+      "cardType": "/assets/card/SilverCard.png",
+      "frenchName": "Fleur de Trésor",
+      "scientificName": "Gazania rigens",
+      "type": "Plante",
+      "status": "Préoccupation mineure (LC)",
+      "description": "Petite fleur basse aux pétales jaune vif ou orange avec un cœur sombre. Feuilles vert argenté, très résistantes à la sécheresse. Pousse en touffes denses, hauteur max 30 cm.",
+      "leftPanel": {
+        "Habitat": "Zones ouvertes, bords de sentiers, sols sableux et bien ensoleillés. Originaire d'Afrique du Sud, se trouve aussi dans les savanes et lisières de forêt.",
+        "Usages": "Ornemental, Indicateur solaire (les fleurs se ferment la nuit et les jours nuageux), Attire les pollinisateurs"
+      },
+      "rightPanel": {
+        "Danger ?": "⚠ Non comestible. Pas d'usage médicinal connu.",
+        "Densité": "●●●○○ — Assez commun",
+        "Tip de Feuille": "\"Cette fleur se ferme la nuit ! Si elle est ouverte, le soleil est là. C'est un bon signe.\""
+      },
+      "exercise": null
+    },
+    {
+      "id": "flower_03_27",
+      "modelPath": "/models/flowers/Flowers_n03_27.glb",
+      "cardType": "/assets/card/GoldenCard.png",
+      "frenchName": "Liane du Roi",
+      "scientificName": "Thunbergia erecta",
+      "type": "Plante",
+      "status": "Préoccupation mineure (LC)",
+      "description": "Arbuste grimpant aux fleurs en trompette violet foncé avec un cœur jaune. Feuilles ovales vert foncé, tiges fines rougeâtres. Peut atteindre 3 mètres de hauteur. Fleurit toute l'année.",
+      "leftPanel": {
+        "Habitat": "Lisières de forêt tropicale, zones semi-ombragées. Originaire d'Afrique de l'Ouest et Centrale : Cameroun, Gabon, République du Congo, jusqu'en Tanzanie.",
+        "Usages": "Médicinal (usage traditionnel), Anti-inflammatoire, Sédatif naturel (aide contre le stress et l'insomnie), Attire les pollinisateurs",
+        "Détail médicinal": "Les feuilles sont utilisées en cataplasme contre les maux de tête. Utilisée en médecine traditionnelle africaine contre les troubles du sommeil, les infections et les problèmes digestifs."
+      },
+      "rightPanel": {
+        "Danger ?": "⚠ Non comestible directement. Usage médicinal uniquement — ne pas ingérer les feuilles crues.",
+        "Densité": "●●○○○ — Peu commun, lisières de forêt",
+        "Tip de Feuille": "\"Les fleurs sentent légèrement le miel. Si la gorge de la fleur est jaune, c'est bien elle !\""
+      },
+      "exercise": {
+        "question": "D'après la fiche espèce, comment reconnaît-on la Liane du Roi dans la forêt ?",
+        "options": [
+          "Ses grandes feuilles rouges et ses baies noires qui poussent au sol.",
+          "Son tronc épais et ses fleurs blanches qui s'ouvrent la nuit.",
+          "Ses fleurs en trompette violet foncé avec un cœur jaune, sur des tiges grimpantes.",
+          "Ses feuilles parfumées utilisées comme épice dans la cuisine locale."
+        ],
+        "correctAnswer": 2,
+        "feedbackSuccess": "Exact ! Tu as bien identifié la Liane du Roi grâce à ses fleurs violettes à cœur jaune. La plante est ajoutée à ton sac ! 🎒",
+        "feedbackFail": "Pas tout à fait. Relis la description sur la fiche. La Liane du Roi a des fleurs violet foncé en forme de trompette avec un cœur jaune — pas blanches ni rouges. Réessaie la prochaine fois que tu la trouveras dans la forêt."
+      }
+    }
+  ],
+  "animals": [
+    {
+      "id": "animal_butterfly",
+      "modelPath": "/models/wild/SCharacter_Butterfly.fbx",
+      "cardType": "/assets/card/SilverCard.png",
+      "frenchName": "Grand Machaon Bleu",
+      "scientificName": "Papilio zalmoxis",
+      "type": "Insecte / Papillon",
+      "status": "Non évalué · Habitat menacé",
+      "description": "L'un des plus grands papillons d'Afrique : envergure jusqu'à 15 cm. Ailes bleues irisées avec des veines noires. Corps jaune vif. La couleur bleue vient d'un pigment fluorescent — pas d'un simple reflet de lumière. Les femelles sont légèrement plus petites et moins colorées que les mâles.",
+      "leftPanel": {
+        "Habitat": "Forêts tropicales humides d'Afrique centrale et occidentale : Cameroun, République centrafricaine, Gabon, République démocratique du Congo, Nigeria.",
+        "Comportement": "Les mâles volent souvent près des ruisseaux et des zones humides. Les femelles restent en hauteur dans la canopée et sont rarement observées. Se nourrit de nectar de fleurs.",
+        "Rôle écologique": "Pollinisateur important des espèces florales de la canopée. Indicateur de la santé de la forêt : sa présence signale un écosystème intact."
+      },
+      "rightPanel": {
+        "⚠ Règle d'observation": "Ne jamais attraper. Observer de loin et noter dans le carnet (Fiche Faune). Thunbergia erecta est l'une de ses plantes hôtes préférées.",
+        "Rareté": "●●○○○ — Peu commun · Habitat menacé par la déforestation",
+        "Tip de Feuille": "\"Ne l'attrape pas ! Observe-le de loin et note sa couleur dans ton carnet.\""
+      },
+      "exercise": null
+    },
+    {
+      "id": "animal_deer",
+      "modelPath": "/models/wild/deer_1.fbx",
+      "cardType": "/assets/card/DiamondCard.png",
+      "frenchName": "Céphalophe d'Ogilby",
+      "scientificName": "Cephalophus ogilbyi",
+      "type": "Mammifère / Antilope",
+      "status": "Préoccupation mineure (LC)",
+      "description": "Petite antilope forestière (50–70 cm au garrot, 15–20 kg). Pelage brun rougeâtre, comportement extrêmement discret et furtif. Petites cornes droites. Actif principalement à l'aube et au crépuscule.",
+      "leftPanel": {
+        "Habitat": "Forêts primaires tropicales humides, sous-bois dense. Présent au Cameroun, Gabon, Nigeria, République démocratique du Congo et sur l'île de Bioko.",
+        "Alimentation": "Fruits tombés, graines et fleurs. Souvent observé sous les grands arbres, ramassant les fruits laissés par les singes. Joue un rôle essentiel dans la dispersion des graines de la forêt.",
+        "Rôle écologique": "Disperseur de graines clé pour la régénération de la forêt. Sa présence indique un sous-bois forestier intact et non perturbé."
+      },
+      "rightPanel": {
+        "⚠ Règle d'observation": "Rester immobile et silencieux. Ne jamais chasser — espèce protégée dans la zone du jeu. Observer uniquement.",
+        "Rareté": "●●○○○ — Difficile à observer · Très discret",
+        "Tip de Feuille": "\"Chut ! Reste immobile. Si tu vois des fruits à moitié mangés par terre, il est peut-être tout près.\""
+      },
+      "exercise": null
+    }
+  ]
+}
