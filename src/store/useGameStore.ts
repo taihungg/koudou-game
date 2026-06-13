@@ -54,9 +54,7 @@ export const useGameStore = create<GameState>()(
         indice_biodiversite: state.indice_biodiversite,
         lien_confiance: state.lien_confiance,
         inventory: state.inventory,
-        currentChapter: state.currentChapter,
-        hasSeenVillageIntro: state.hasSeenVillageIntro,
-        hasSeenForestIntro: state.hasSeenForestIntro
+        currentChapter: state.currentChapter
       }),
     }
   )

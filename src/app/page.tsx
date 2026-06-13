@@ -34,7 +34,10 @@ export default function MainMenu() {
         
         <Link 
           href="/forest" 
-          onClick={() => setChapter(1)}
+          onClick={() => {
+            setChapter(1);
+            useGameStore.getState().setHasSeenForestIntro(false);
+          }}
           className="group relative flex items-center justify-center p-6 bg-amber-900/80 hover:bg-amber-700/90 border-4 border-amber-600 hover:border-amber-400 rounded-xl shadow-[0_0_20px_rgba(0,0,0,0.5)] transition-all duration-300 transform hover:scale-105 overflow-hidden"
         >
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-amber-400/10 to-transparent -translate-x-[100%] group-hover:translate-x-[100%] transition-transform duration-700"></div>
@@ -45,7 +48,10 @@ export default function MainMenu() {
 
         <Link 
           href="/village"
-          onClick={() => setChapter(2)}
+          onClick={() => {
+            setChapter(2);
+            useGameStore.getState().setHasSeenVillageIntro(false);
+          }}
           className="group relative flex items-center justify-center p-6 bg-emerald-900/80 hover:bg-emerald-700/90 border-4 border-emerald-600 hover:border-emerald-400 rounded-xl shadow-[0_0_20px_rgba(0,0,0,0.5)] transition-all duration-300 transform hover:scale-105 overflow-hidden"
         >
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-emerald-400/10 to-transparent -translate-x-[100%] group-hover:translate-x-[100%] transition-transform duration-700"></div>
