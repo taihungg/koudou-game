@@ -137,7 +137,7 @@ export default function Player() {
       ccd={true}
     >
       <CapsuleCollider args={[0.5, 0.4]} />
-      <group position={[0, 0.9, 0]}>
+      <group position={[0, -0.9, 0]}>
         <AnimatedCharacter
           key={currentCharacterUrl}
           modelUrl={currentCharacterUrl}

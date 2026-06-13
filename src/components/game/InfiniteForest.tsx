@@ -2,7 +2,7 @@
 
 import React, { useMemo, useRef, useState } from "react";
 import { useFrame } from "@react-three/fiber";
-import { RigidBody } from "@react-three/rapier";
+import { RigidBody, CylinderCollider } from "@react-three/rapier";
 import { useGLTF } from "@react-three/drei";
 import { GAME_ASSETS } from "@/constants/assets";
 import { hashCoordinates, mulberry32 } from "@/utils/random";
@@ -44,10 +44,25 @@ const ForestItem = React.memo(({ item }: { item: any }) => {
   const { scene } = useGLTF(item.path) as any;
   const clonedScene = useMemo(() => scene.clone(), [scene]);
 
-  if (item.type === "tree" || item.type === "rock") {
+  if (item.type === "tree") {
+    return (
+      <RigidBody type="fixed" position={item.position} rotation={item.rotation} colliders={false}>
+        {/* Optimize tree collision: Only collide with the trunk, ignore leaves. Args: [halfHeight, radius] */}
+        <CylinderCollider args={[2.0, 0.4 * item.scale]} position={[0, 2.0, 0]} />
+        <group scale={item.scale}>
+          <primitive object={clonedScene} castShadow receiveShadow />
+        </group>
+      </RigidBody>
+    );
+  }
+
+  if (item.type === "rock") {
     return (
       <RigidBody type="fixed" position={item.position} rotation={item.rotation} colliders="hull">
-        <primitive object={clonedScene} scale={item.scale} castShadow receiveShadow />
+        {/* Wrap primitive in scaled group so Rapier generates the correct hull size */}
+        <group scale={item.scale}>
+          <primitive object={clonedScene} castShadow receiveShadow />
+        </group>
       </RigidBody>
     );
   }
