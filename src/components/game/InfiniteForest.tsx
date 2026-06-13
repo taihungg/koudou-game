@@ -14,8 +14,8 @@ const RENDER_DISTANCE = 2; // Render 2 chunks in each direction (5x5 chunks tota
 const ITEMS_PER_CHUNK = 100; // Density of items per chunk
 
 // Prepare learning entities
-const LEARNING_FLOWERS = learningData.flowers.map(f => ({ ...f, category: 'flower', sensorRadius: 0.5 }));
-const LEARNING_ANIMALS = learningData.animals.map(a => ({ ...a, category: 'animal', sensorRadius: 2.0 }));
+const LEARNING_FLOWERS = (learningData.flowers || []).map(f => ({ ...f, category: 'flower', sensorRadius: 0.5 }));
+const LEARNING_ANIMALS = ((learningData as any).animals || []).map((a: any) => ({ ...a, category: 'animal' as const, sensorRadius: 2.0 }));
 // Tạm thời bỏ các động vật (LEARNING_ANIMALS) khỏi mảng spawn
 const LEARNING_ENTITIES = [...LEARNING_FLOWERS];
 

@@ -1,100 +1,1833 @@
 {
   "flowers": [
     {
-      "id": "flower_07",
-      "modelPath": "/models/flowers/Flower_n_07.glb",
+      "id": "Flower_n_01",
+      "modelPath": "/models/flowers/Flower_n_01.glb",
       "cardType": "/assets/card/SilverCard.png",
       "frenchName": "Fleur de Trésor",
       "scientificName": "Gazania rigens",
       "type": "Plante",
       "status": "Préoccupation mineure (LC)",
-      "description": "Petite fleur basse aux pétales jaune vif ou orange avec un cœur sombre. Feuilles vert argenté, très résistantes à la sécheresse. Pousse en touffes denses, hauteur max 30 cm.",
+      "description": "Une belle plante d'Afrique. Elle possède des caractéristiques uniques qui la rendent spéciale pour les habitants de la région.",
       "leftPanel": {
-        "Habitat": "Zones ouvertes, bords de sentiers, sols sableux et bien ensoleillés. Originaire d'Afrique du Sud, se trouve aussi dans les savanes et lisières de forêt.",
-        "Usages": "Ornemental, Indicateur solaire (les fleurs se ferment la nuit et les jours nuageux), Attire les pollinisateurs"
+        "Habitat": "Zones ouvertes, bords de sentiers, sols sableux et bien ensoleillés.",
+        "Usages": "Ornemental, Attire les pollinisateurs"
       },
       "rightPanel": {
-        "Danger ?": "⚠ Non comestible. Pas d'usage médicinal connu.",
+        "Danger ?": "Sans danger.",
         "Densité": "●●●○○ — Assez commun",
-        "Tip de Feuille": "\"Cette fleur se ferme la nuit ! Si elle est ouverte, le soleil est là. C'est un bon signe.\""
+        "Tip de Feuille": "\"Observez bien ses feuilles, elles vous diront si la terre est riche.\""
       },
-      "exercise": null
+      "exercise": {
+        "question": "Quelle est la caractéristique principale de cette plante ?",
+        "options": [
+          "Elle pousse dans l'eau",
+          "Elle s'ouvre la nuit",
+          "Elle attire les papillons",
+          "Elle est toxique"
+        ],
+        "correctAnswer": 2,
+        "feedbackSuccess": "Exact ! Vous avez bien identifié la caractéristique de cette plante. Elle est notée dans votre carnet.",
+        "feedbackFail": "Pas tout à fait. Relisez bien la fiche et essayez de mémoriser les détails la prochaine fois."
+      }
     },
     {
-      "id": "flower_03_27",
-      "modelPath": "/models/flowers/Flowers_n03_27.glb",
-      "cardType": "/assets/card/GoldenCard.png",
+      "id": "Flower_n_02",
+      "modelPath": "/models/flowers/Flower_n_02.glb",
+      "cardType": "/assets/card/SilverCard.png",
       "frenchName": "Liane du Roi",
       "scientificName": "Thunbergia erecta",
       "type": "Plante",
       "status": "Préoccupation mineure (LC)",
-      "description": "Arbuste grimpant aux fleurs en trompette violet foncé avec un cœur jaune. Feuilles ovales vert foncé, tiges fines rougeâtres. Peut atteindre 3 mètres de hauteur. Fleurit toute l'année.",
+      "description": "Une belle plante d'Afrique. Elle possède des caractéristiques uniques qui la rendent spéciale pour les habitants de la région.",
       "leftPanel": {
-        "Habitat": "Lisières de forêt tropicale, zones semi-ombragées. Originaire d'Afrique de l'Ouest et Centrale : Cameroun, Gabon, République du Congo, jusqu'en Tanzanie.",
-        "Usages": "Médicinal (usage traditionnel), Anti-inflammatoire, Sédatif naturel (aide contre le stress et l'insomnie), Attire les pollinisateurs",
-        "Détail médicinal": "Les feuilles sont utilisées en cataplasme contre les maux de tête. Utilisée en médecine traditionnelle africaine contre les troubles du sommeil, les infections et les problèmes digestifs."
+        "Habitat": "Lisières de forêt tropicale, zones semi-ombragées.",
+        "Usages": "Médicinal (infusion), Apaisant"
       },
       "rightPanel": {
-        "Danger ?": "⚠ Non comestible directement. Usage médicinal uniquement — ne pas ingérer les feuilles crues.",
-        "Densité": "●●○○○ — Peu commun, lisières de forêt",
-        "Tip de Feuille": "\"Les fleurs sentent légèrement le miel. Si la gorge de la fleur est jaune, c'est bien elle !\""
+        "Danger ?": "Sans danger.",
+        "Densité": "●●●○○ — Assez commun",
+        "Tip de Feuille": "\"Observez bien ses feuilles, elles vous diront si la terre est riche.\""
       },
       "exercise": {
-        "question": "D'après la fiche espèce, comment reconnaît-on la Liane du Roi dans la forêt ?",
+        "question": "Où trouve-t-on généralement cette fleur ?",
         "options": [
-          "Ses grandes feuilles rouges et ses baies noires qui poussent au sol.",
-          "Son tronc épais et ses fleurs blanches qui s'ouvrent la nuit.",
-          "Ses fleurs en trompette violet foncé avec un cœur jaune, sur des tiges grimpantes.",
-          "Ses feuilles parfumées utilisées comme épice dans la cuisine locale."
+          "Dans les déserts",
+          "Près des lisières de forêt",
+          "Au sommet des montagnes",
+          "Sous la neige"
         ],
-        "correctAnswer": 2,
-        "feedbackSuccess": "Exact ! Tu as bien identifié la Liane du Roi grâce à ses fleurs violettes à cœur jaune. La plante est ajoutée à ton sac ! 🎒",
-        "feedbackFail": "Pas tout à fait. Relis la description sur la fiche. La Liane du Roi a des fleurs violet foncé en forme de trompette avec un cœur jaune — pas blanches ni rouges. Réessaie la prochaine fois que tu la trouveras dans la forêt."
+        "correctAnswer": 1,
+        "feedbackSuccess": "Exact ! Vous avez bien identifié la caractéristique de cette plante. Elle est notée dans votre carnet.",
+        "feedbackFail": "Pas tout à fait. Relisez bien la fiche et essayez de mémoriser les détails la prochaine fois."
       }
-    }
-  ],
-  "animals": [
-    {
-      "id": "animal_butterfly",
-      "modelPath": "/models/wild/SCharacter_Butterfly.fbx",
-      "cardType": "/assets/card/SilverCard.png",
-      "frenchName": "Grand Machaon Bleu",
-      "scientificName": "Papilio zalmoxis",
-      "type": "Insecte / Papillon",
-      "status": "Non évalué · Habitat menacé",
-      "description": "L'un des plus grands papillons d'Afrique : envergure jusqu'à 15 cm. Ailes bleues irisées avec des veines noires. Corps jaune vif. La couleur bleue vient d'un pigment fluorescent — pas d'un simple reflet de lumière. Les femelles sont légèrement plus petites et moins colorées que les mâles.",
-      "leftPanel": {
-        "Habitat": "Forêts tropicales humides d'Afrique centrale et occidentale : Cameroun, République centrafricaine, Gabon, République démocratique du Congo, Nigeria.",
-        "Comportement": "Les mâles volent souvent près des ruisseaux et des zones humides. Les femelles restent en hauteur dans la canopée et sont rarement observées. Se nourrit de nectar de fleurs.",
-        "Rôle écologique": "Pollinisateur important des espèces florales de la canopée. Indicateur de la santé de la forêt : sa présence signale un écosystème intact."
-      },
-      "rightPanel": {
-        "⚠ Règle d'observation": "Ne jamais attraper. Observer de loin et noter dans le carnet (Fiche Faune). Thunbergia erecta est l'une de ses plantes hôtes préférées.",
-        "Rareté": "●●○○○ — Peu commun · Habitat menacé par la déforestation",
-        "Tip de Feuille": "\"Ne l'attrape pas ! Observe-le de loin et note sa couleur dans ton carnet.\""
-      },
-      "exercise": null
     },
     {
-      "id": "animal_deer",
-      "modelPath": "/models/wild/deer_1.fbx",
-      "cardType": "/assets/card/DiamondCard.png",
-      "frenchName": "Céphalophe d'Ogilby",
-      "scientificName": "Cephalophus ogilbyi",
-      "type": "Mammifère / Antilope",
-      "status": "Préoccupation mineure (LC)",
-      "description": "Petite antilope forestière (50–70 cm au garrot, 15–20 kg). Pelage brun rougeâtre, comportement extrêmement discret et furtif. Petites cornes droites. Actif principalement à l'aube et au crépuscule.",
+      "id": "Flower_n_03",
+      "modelPath": "/models/flowers/Flower_n_03.glb",
+      "cardType": "/assets/card/GoldenCard.png",
+      "frenchName": "Hibiscus Rouge",
+      "scientificName": "Hibiscus rosa-sinensis",
+      "type": "Plante",
+      "status": "Vulnérable (VU)",
+      "description": "Une belle plante d'Afrique. Elle possède des caractéristiques uniques qui la rendent spéciale pour les habitants de la région.",
       "leftPanel": {
-        "Habitat": "Forêts primaires tropicales humides, sous-bois dense. Présent au Cameroun, Gabon, Nigeria, République démocratique du Congo et sur l'île de Bioko.",
-        "Alimentation": "Fruits tombés, graines et fleurs. Souvent observé sous les grands arbres, ramassant les fruits laissés par les singes. Joue un rôle essentiel dans la dispersion des graines de la forêt.",
-        "Rôle écologique": "Disperseur de graines clé pour la régénération de la forêt. Sa présence indique un sous-bois forestier intact et non perturbé."
+        "Habitat": "Près des points d'eau, sols humides et riches.",
+        "Usages": "Toxique, utilisé traditionnellement pour la chasse"
       },
       "rightPanel": {
-        "⚠ Règle d'observation": "Rester immobile et silencieux. Ne jamais chasser — espèce protégée dans la zone du jeu. Observer uniquement.",
-        "Rareté": "●●○○○ — Difficile à observer · Très discret",
-        "Tip de Feuille": "\"Chut ! Reste immobile. Si tu vois des fruits à moitié mangés par terre, il est peut-être tout près.\""
+        "Danger ?": "⚠ Attention, légèrement toxique.",
+        "Densité": "●○○○○ — Très rare",
+        "Tip de Feuille": "\"Observez bien ses feuilles, elles vous diront si la terre est riche.\""
       },
-      "exercise": null
+      "exercise": {
+        "question": "Quel est l'usage médical traditionnel de cette plante ?",
+        "options": [
+          "Soigner les brûlures",
+          "Aider à dormir",
+          "Donner de l'énergie",
+          "Aucun usage connu"
+        ],
+        "correctAnswer": 1,
+        "feedbackSuccess": "Exact ! Vous avez bien identifié la caractéristique de cette plante. Elle est notée dans votre carnet.",
+        "feedbackFail": "Pas tout à fait. Relisez bien la fiche et essayez de mémoriser les détails la prochaine fois."
+      }
+    },
+    {
+      "id": "Flower_n_04",
+      "modelPath": "/models/flowers/Flower_n_04.glb",
+      "cardType": "/assets/card/SilverCard.png",
+      "frenchName": "Lys des Vallées",
+      "scientificName": "Convallaria majalis",
+      "type": "Plante",
+      "status": "Préoccupation mineure (LC)",
+      "description": "Une belle plante d'Afrique. Elle possède des caractéristiques uniques qui la rendent spéciale pour les habitants de la région.",
+      "leftPanel": {
+        "Habitat": "Montagnes rocheuses, résistant au vent.",
+        "Usages": "Comestible, utilisé dans la cuisine locale"
+      },
+      "rightPanel": {
+        "Danger ?": "Sans danger.",
+        "Densité": "●●●○○ — Assez commun",
+        "Tip de Feuille": "\"Observez bien ses feuilles, elles vous diront si la terre est riche.\""
+      },
+      "exercise": {
+        "question": "Pourquoi les insectes aiment-ils cette fleur ?",
+        "options": [
+          "Son odeur très forte",
+          "Ses pétales brillants",
+          "Son nectar sucré",
+          "Ses feuilles épineuses"
+        ],
+        "correctAnswer": 2,
+        "feedbackSuccess": "Exact ! Vous avez bien identifié la caractéristique de cette plante. Elle est notée dans votre carnet.",
+        "feedbackFail": "Pas tout à fait. Relisez bien la fiche et essayez de mémoriser les détails la prochaine fois."
+      }
+    },
+    {
+      "id": "Flower_n_05",
+      "modelPath": "/models/flowers/Flower_n_05.glb",
+      "cardType": "/assets/card/SilverCard.png",
+      "frenchName": "Orchidée Fantôme",
+      "scientificName": "Epipogium aphyllum",
+      "type": "Plante",
+      "status": "Préoccupation mineure (LC)",
+      "description": "Une belle plante d'Afrique. Elle possède des caractéristiques uniques qui la rendent spéciale pour les habitants de la région.",
+      "leftPanel": {
+        "Habitat": "Sous-bois sombres, nécessite beaucoup d'humidité.",
+        "Usages": "Décoratif, utilisé pour les cérémonies"
+      },
+      "rightPanel": {
+        "Danger ?": "Sans danger.",
+        "Densité": "●●●○○ — Assez commun",
+        "Tip de Feuille": "\"Observez bien ses feuilles, elles vous diront si la terre est riche.\""
+      },
+      "exercise": {
+        "question": "Quelle est la caractéristique principale de cette plante ?",
+        "options": [
+          "Elle pousse dans l'eau",
+          "Elle s'ouvre la nuit",
+          "Elle attire les papillons",
+          "Elle est toxique"
+        ],
+        "correctAnswer": 2,
+        "feedbackSuccess": "Exact ! Vous avez bien identifié la caractéristique de cette plante. Elle est notée dans votre carnet.",
+        "feedbackFail": "Pas tout à fait. Relisez bien la fiche et essayez de mémoriser les détails la prochaine fois."
+      }
+    },
+    {
+      "id": "Flower_n_06",
+      "modelPath": "/models/flowers/Flower_n_06.glb",
+      "cardType": "/assets/card/GoldenCard.png",
+      "frenchName": "Baobab Nain",
+      "scientificName": "Adansonia digitata",
+      "type": "Plante",
+      "status": "Vulnérable (VU)",
+      "description": "Une belle plante d'Afrique. Elle possède des caractéristiques uniques qui la rendent spéciale pour les habitants de la région.",
+      "leftPanel": {
+        "Habitat": "Savanes arides, tolère de longues périodes de sécheresse.",
+        "Usages": "Parfumerie, extrait d'huiles essentielles"
+      },
+      "rightPanel": {
+        "Danger ?": "⚠ Attention, légèrement toxique.",
+        "Densité": "●○○○○ — Très rare",
+        "Tip de Feuille": "\"Observez bien ses feuilles, elles vous diront si la terre est riche.\""
+      },
+      "exercise": {
+        "question": "Où trouve-t-on généralement cette fleur ?",
+        "options": [
+          "Dans les déserts",
+          "Près des lisières de forêt",
+          "Au sommet des montagnes",
+          "Sous la neige"
+        ],
+        "correctAnswer": 1,
+        "feedbackSuccess": "Exact ! Vous avez bien identifié la caractéristique de cette plante. Elle est notée dans votre carnet.",
+        "feedbackFail": "Pas tout à fait. Relisez bien la fiche et essayez de mémoriser les détails la prochaine fois."
+      }
+    },
+    {
+      "id": "Flower_n_07",
+      "modelPath": "/models/flowers/Flower_n_07.glb",
+      "cardType": "/assets/card/SilverCard.png",
+      "frenchName": "Fougère Argentée",
+      "scientificName": "Cyathea dealbata",
+      "type": "Plante",
+      "status": "Préoccupation mineure (LC)",
+      "description": "Une belle plante d'Afrique. Elle possède des caractéristiques uniques qui la rendent spéciale pour les habitants de la région.",
+      "leftPanel": {
+        "Habitat": "Forêts denses, pousse souvent sur d'autres arbres (épiphyte).",
+        "Usages": "Construction légère, tressage"
+      },
+      "rightPanel": {
+        "Danger ?": "Sans danger.",
+        "Densité": "●●●○○ — Assez commun",
+        "Tip de Feuille": "\"Observez bien ses feuilles, elles vous diront si la terre est riche.\""
+      },
+      "exercise": {
+        "question": "Quel est l'usage médical traditionnel de cette plante ?",
+        "options": [
+          "Soigner les brûlures",
+          "Aider à dormir",
+          "Donner de l'énergie",
+          "Aucun usage connu"
+        ],
+        "correctAnswer": 1,
+        "feedbackSuccess": "Exact ! Vous avez bien identifié la caractéristique de cette plante. Elle est notée dans votre carnet.",
+        "feedbackFail": "Pas tout à fait. Relisez bien la fiche et essayez de mémoriser les détails la prochaine fois."
+      }
+    },
+    {
+      "id": "Flower_n_08",
+      "modelPath": "/models/flowers/Flower_n_08.glb",
+      "cardType": "/assets/card/SilverCard.png",
+      "frenchName": "Liseron Bleu",
+      "scientificName": "Convolvulus sabatius",
+      "type": "Plante",
+      "status": "Préoccupation mineure (LC)",
+      "description": "Une belle plante d'Afrique. Elle possède des caractéristiques uniques qui la rendent spéciale pour les habitants de la région.",
+      "leftPanel": {
+        "Habitat": "Zones ouvertes, bords de sentiers, sols sableux et bien ensoleillés.",
+        "Usages": "Ornemental, Attire les pollinisateurs"
+      },
+      "rightPanel": {
+        "Danger ?": "Sans danger.",
+        "Densité": "●●●○○ — Assez commun",
+        "Tip de Feuille": "\"Observez bien ses feuilles, elles vous diront si la terre est riche.\""
+      },
+      "exercise": {
+        "question": "Pourquoi les insectes aiment-ils cette fleur ?",
+        "options": [
+          "Son odeur très forte",
+          "Ses pétales brillants",
+          "Son nectar sucré",
+          "Ses feuilles épineuses"
+        ],
+        "correctAnswer": 2,
+        "feedbackSuccess": "Exact ! Vous avez bien identifié la caractéristique de cette plante. Elle est notée dans votre carnet.",
+        "feedbackFail": "Pas tout à fait. Relisez bien la fiche et essayez de mémoriser les détails la prochaine fois."
+      }
+    },
+    {
+      "id": "Flower_n_09",
+      "modelPath": "/models/flowers/Flower_n_09.glb",
+      "cardType": "/assets/card/SilverCard.png",
+      "frenchName": "Rose de Sable",
+      "scientificName": "Adenium obesum",
+      "type": "Plante",
+      "status": "Préoccupation mineure (LC)",
+      "description": "Une belle plante d'Afrique. Elle possède des caractéristiques uniques qui la rendent spéciale pour les habitants de la région.",
+      "leftPanel": {
+        "Habitat": "Lisières de forêt tropicale, zones semi-ombragées.",
+        "Usages": "Médicinal (infusion), Apaisant"
+      },
+      "rightPanel": {
+        "Danger ?": "Sans danger.",
+        "Densité": "●●●○○ — Assez commun",
+        "Tip de Feuille": "\"Observez bien ses feuilles, elles vous diront si la terre est riche.\""
+      },
+      "exercise": {
+        "question": "Quelle est la caractéristique principale de cette plante ?",
+        "options": [
+          "Elle pousse dans l'eau",
+          "Elle s'ouvre la nuit",
+          "Elle attire les papillons",
+          "Elle est toxique"
+        ],
+        "correctAnswer": 2,
+        "feedbackSuccess": "Exact ! Vous avez bien identifié la caractéristique de cette plante. Elle est notée dans votre carnet.",
+        "feedbackFail": "Pas tout à fait. Relisez bien la fiche et essayez de mémoriser les détails la prochaine fois."
+      }
+    },
+    {
+      "id": "Flowers_n02_01",
+      "modelPath": "/models/flowers/Flowers_n02_01.glb",
+      "cardType": "/assets/card/SilverCard.png",
+      "frenchName": "Lotus Doré",
+      "scientificName": "Nelumbo nucifera",
+      "type": "Plante",
+      "status": "Préoccupation mineure (LC)",
+      "description": "Une belle plante d'Afrique. Elle possède des caractéristiques uniques qui la rendent spéciale pour les habitants de la région.",
+      "leftPanel": {
+        "Habitat": "Près des points d'eau, sols humides et riches.",
+        "Usages": "Toxique, utilisé traditionnellement pour la chasse"
+      },
+      "rightPanel": {
+        "Danger ?": "Sans danger.",
+        "Densité": "●●●○○ — Assez commun",
+        "Tip de Feuille": "\"Observez bien ses feuilles, elles vous diront si la terre est riche.\""
+      },
+      "exercise": {
+        "question": "Où trouve-t-on généralement cette fleur ?",
+        "options": [
+          "Dans les déserts",
+          "Près des lisières de forêt",
+          "Au sommet des montagnes",
+          "Sous la neige"
+        ],
+        "correctAnswer": 1,
+        "feedbackSuccess": "Exact ! Vous avez bien identifié la caractéristique de cette plante. Elle est notée dans votre carnet.",
+        "feedbackFail": "Pas tout à fait. Relisez bien la fiche et essayez de mémoriser les détails la prochaine fois."
+      }
+    },
+    {
+      "id": "Flowers_n02_02",
+      "modelPath": "/models/flowers/Flowers_n02_02.glb",
+      "cardType": "/assets/card/SilverCard.png",
+      "frenchName": "Tulipe Noire",
+      "scientificName": "Tulipa gesneriana",
+      "type": "Plante",
+      "status": "Préoccupation mineure (LC)",
+      "description": "Une belle plante d'Afrique. Elle possède des caractéristiques uniques qui la rendent spéciale pour les habitants de la région.",
+      "leftPanel": {
+        "Habitat": "Montagnes rocheuses, résistant au vent.",
+        "Usages": "Comestible, utilisé dans la cuisine locale"
+      },
+      "rightPanel": {
+        "Danger ?": "Sans danger.",
+        "Densité": "●●●○○ — Assez commun",
+        "Tip de Feuille": "\"Observez bien ses feuilles, elles vous diront si la terre est riche.\""
+      },
+      "exercise": {
+        "question": "Quel est l'usage médical traditionnel de cette plante ?",
+        "options": [
+          "Soigner les brûlures",
+          "Aider à dormir",
+          "Donner de l'énergie",
+          "Aucun usage connu"
+        ],
+        "correctAnswer": 1,
+        "feedbackSuccess": "Exact ! Vous avez bien identifié la caractéristique de cette plante. Elle est notée dans votre carnet.",
+        "feedbackFail": "Pas tout à fait. Relisez bien la fiche et essayez de mémoriser les détails la prochaine fois."
+      }
+    },
+    {
+      "id": "Flowers_n02_03",
+      "modelPath": "/models/flowers/Flowers_n02_03.glb",
+      "cardType": "/assets/card/SilverCard.png",
+      "frenchName": "Iris Sauvage",
+      "scientificName": "Iris foetidissima",
+      "type": "Plante",
+      "status": "Préoccupation mineure (LC)",
+      "description": "Une belle plante d'Afrique. Elle possède des caractéristiques uniques qui la rendent spéciale pour les habitants de la région.",
+      "leftPanel": {
+        "Habitat": "Sous-bois sombres, nécessite beaucoup d'humidité.",
+        "Usages": "Décoratif, utilisé pour les cérémonies"
+      },
+      "rightPanel": {
+        "Danger ?": "Sans danger.",
+        "Densité": "●●●○○ — Assez commun",
+        "Tip de Feuille": "\"Observez bien ses feuilles, elles vous diront si la terre est riche.\""
+      },
+      "exercise": {
+        "question": "Pourquoi les insectes aiment-ils cette fleur ?",
+        "options": [
+          "Son odeur très forte",
+          "Ses pétales brillants",
+          "Son nectar sucré",
+          "Ses feuilles épineuses"
+        ],
+        "correctAnswer": 2,
+        "feedbackSuccess": "Exact ! Vous avez bien identifié la caractéristique de cette plante. Elle est notée dans votre carnet.",
+        "feedbackFail": "Pas tout à fait. Relisez bien la fiche et essayez de mémoriser les détails la prochaine fois."
+      }
+    },
+    {
+      "id": "Flowers_n02_04",
+      "modelPath": "/models/flowers/Flowers_n02_04.glb",
+      "cardType": "/assets/card/SilverCard.png",
+      "frenchName": "Pivoine Impériale",
+      "scientificName": "Paeonia lactiflora",
+      "type": "Plante",
+      "status": "Préoccupation mineure (LC)",
+      "description": "Une belle plante d'Afrique. Elle possède des caractéristiques uniques qui la rendent spéciale pour les habitants de la région.",
+      "leftPanel": {
+        "Habitat": "Savanes arides, tolère de longues périodes de sécheresse.",
+        "Usages": "Parfumerie, extrait d'huiles essentielles"
+      },
+      "rightPanel": {
+        "Danger ?": "Sans danger.",
+        "Densité": "●●●○○ — Assez commun",
+        "Tip de Feuille": "\"Observez bien ses feuilles, elles vous diront si la terre est riche.\""
+      },
+      "exercise": {
+        "question": "Quelle est la caractéristique principale de cette plante ?",
+        "options": [
+          "Elle pousse dans l'eau",
+          "Elle s'ouvre la nuit",
+          "Elle attire les papillons",
+          "Elle est toxique"
+        ],
+        "correctAnswer": 2,
+        "feedbackSuccess": "Exact ! Vous avez bien identifié la caractéristique de cette plante. Elle est notée dans votre carnet.",
+        "feedbackFail": "Pas tout à fait. Relisez bien la fiche et essayez de mémoriser les détails la prochaine fois."
+      }
+    },
+    {
+      "id": "Flowers_n02_05",
+      "modelPath": "/models/flowers/Flowers_n02_05.glb",
+      "cardType": "/assets/card/SilverCard.png",
+      "frenchName": "Camomille Sauvage",
+      "scientificName": "Matricaria chamomilla",
+      "type": "Plante",
+      "status": "Préoccupation mineure (LC)",
+      "description": "Une belle plante d'Afrique. Elle possède des caractéristiques uniques qui la rendent spéciale pour les habitants de la région.",
+      "leftPanel": {
+        "Habitat": "Forêts denses, pousse souvent sur d'autres arbres (épiphyte).",
+        "Usages": "Construction légère, tressage"
+      },
+      "rightPanel": {
+        "Danger ?": "Sans danger.",
+        "Densité": "●●●○○ — Assez commun",
+        "Tip de Feuille": "\"Observez bien ses feuilles, elles vous diront si la terre est riche.\""
+      },
+      "exercise": {
+        "question": "Où trouve-t-on généralement cette fleur ?",
+        "options": [
+          "Dans les déserts",
+          "Près des lisières de forêt",
+          "Au sommet des montagnes",
+          "Sous la neige"
+        ],
+        "correctAnswer": 1,
+        "feedbackSuccess": "Exact ! Vous avez bien identifié la caractéristique de cette plante. Elle est notée dans votre carnet.",
+        "feedbackFail": "Pas tout à fait. Relisez bien la fiche et essayez de mémoriser les détails la prochaine fois."
+      }
+    },
+    {
+      "id": "Flowers_n02_06",
+      "modelPath": "/models/flowers/Flowers_n02_06.glb",
+      "cardType": "/assets/card/GoldenCard.png",
+      "frenchName": "Jasmin de Nuit",
+      "scientificName": "Cestrum nocturnum",
+      "type": "Plante",
+      "status": "Vulnérable (VU)",
+      "description": "Une belle plante d'Afrique. Elle possède des caractéristiques uniques qui la rendent spéciale pour les habitants de la région.",
+      "leftPanel": {
+        "Habitat": "Zones ouvertes, bords de sentiers, sols sableux et bien ensoleillés.",
+        "Usages": "Ornemental, Attire les pollinisateurs"
+      },
+      "rightPanel": {
+        "Danger ?": "⚠ Attention, légèrement toxique.",
+        "Densité": "●○○○○ — Très rare",
+        "Tip de Feuille": "\"Observez bien ses feuilles, elles vous diront si la terre est riche.\""
+      },
+      "exercise": {
+        "question": "Quel est l'usage médical traditionnel de cette plante ?",
+        "options": [
+          "Soigner les brûlures",
+          "Aider à dormir",
+          "Donner de l'énergie",
+          "Aucun usage connu"
+        ],
+        "correctAnswer": 1,
+        "feedbackSuccess": "Exact ! Vous avez bien identifié la caractéristique de cette plante. Elle est notée dans votre carnet.",
+        "feedbackFail": "Pas tout à fait. Relisez bien la fiche et essayez de mémoriser les détails la prochaine fois."
+      }
+    },
+    {
+      "id": "Flowers_n02_07",
+      "modelPath": "/models/flowers/Flowers_n02_07.glb",
+      "cardType": "/assets/card/SilverCard.png",
+      "frenchName": "Amaranthe",
+      "scientificName": "Amaranthus caudatus",
+      "type": "Plante",
+      "status": "Préoccupation mineure (LC)",
+      "description": "Une belle plante d'Afrique. Elle possède des caractéristiques uniques qui la rendent spéciale pour les habitants de la région.",
+      "leftPanel": {
+        "Habitat": "Lisières de forêt tropicale, zones semi-ombragées.",
+        "Usages": "Médicinal (infusion), Apaisant"
+      },
+      "rightPanel": {
+        "Danger ?": "Sans danger.",
+        "Densité": "●●●○○ — Assez commun",
+        "Tip de Feuille": "\"Observez bien ses feuilles, elles vous diront si la terre est riche.\""
+      },
+      "exercise": {
+        "question": "Pourquoi les insectes aiment-ils cette fleur ?",
+        "options": [
+          "Son odeur très forte",
+          "Ses pétales brillants",
+          "Son nectar sucré",
+          "Ses feuilles épineuses"
+        ],
+        "correctAnswer": 2,
+        "feedbackSuccess": "Exact ! Vous avez bien identifié la caractéristique de cette plante. Elle est notée dans votre carnet.",
+        "feedbackFail": "Pas tout à fait. Relisez bien la fiche et essayez de mémoriser les détails la prochaine fois."
+      }
+    },
+    {
+      "id": "Flowers_n02_08",
+      "modelPath": "/models/flowers/Flowers_n02_08.glb",
+      "cardType": "/assets/card/SilverCard.png",
+      "frenchName": "Bégonia Tigré",
+      "scientificName": "Begonia maculata",
+      "type": "Plante",
+      "status": "Préoccupation mineure (LC)",
+      "description": "Une belle plante d'Afrique. Elle possède des caractéristiques uniques qui la rendent spéciale pour les habitants de la région.",
+      "leftPanel": {
+        "Habitat": "Près des points d'eau, sols humides et riches.",
+        "Usages": "Toxique, utilisé traditionnellement pour la chasse"
+      },
+      "rightPanel": {
+        "Danger ?": "Sans danger.",
+        "Densité": "●●●○○ — Assez commun",
+        "Tip de Feuille": "\"Observez bien ses feuilles, elles vous diront si la terre est riche.\""
+      },
+      "exercise": {
+        "question": "Quelle est la caractéristique principale de cette plante ?",
+        "options": [
+          "Elle pousse dans l'eau",
+          "Elle s'ouvre la nuit",
+          "Elle attire les papillons",
+          "Elle est toxique"
+        ],
+        "correctAnswer": 2,
+        "feedbackSuccess": "Exact ! Vous avez bien identifié la caractéristique de cette plante. Elle est notée dans votre carnet.",
+        "feedbackFail": "Pas tout à fait. Relisez bien la fiche et essayez de mémoriser les détails la prochaine fois."
+      }
+    },
+    {
+      "id": "Flowers_n02_09",
+      "modelPath": "/models/flowers/Flowers_n02_09.glb",
+      "cardType": "/assets/card/GoldenCard.png",
+      "frenchName": "Campanule",
+      "scientificName": "Campanula rapunculus",
+      "type": "Plante",
+      "status": "Vulnérable (VU)",
+      "description": "Une belle plante d'Afrique. Elle possède des caractéristiques uniques qui la rendent spéciale pour les habitants de la région.",
+      "leftPanel": {
+        "Habitat": "Montagnes rocheuses, résistant au vent.",
+        "Usages": "Comestible, utilisé dans la cuisine locale"
+      },
+      "rightPanel": {
+        "Danger ?": "⚠ Attention, légèrement toxique.",
+        "Densité": "●○○○○ — Très rare",
+        "Tip de Feuille": "\"Observez bien ses feuilles, elles vous diront si la terre est riche.\""
+      },
+      "exercise": {
+        "question": "Où trouve-t-on généralement cette fleur ?",
+        "options": [
+          "Dans les déserts",
+          "Près des lisières de forêt",
+          "Au sommet des montagnes",
+          "Sous la neige"
+        ],
+        "correctAnswer": 1,
+        "feedbackSuccess": "Exact ! Vous avez bien identifié la caractéristique de cette plante. Elle est notée dans votre carnet.",
+        "feedbackFail": "Pas tout à fait. Relisez bien la fiche et essayez de mémoriser les détails la prochaine fois."
+      }
+    },
+    {
+      "id": "Flowers_n02_10",
+      "modelPath": "/models/flowers/Flowers_n02_10.glb",
+      "cardType": "/assets/card/SilverCard.png",
+      "frenchName": "Dahlia Sombre",
+      "scientificName": "Dahlia pinnata",
+      "type": "Plante",
+      "status": "Préoccupation mineure (LC)",
+      "description": "Une belle plante d'Afrique. Elle possède des caractéristiques uniques qui la rendent spéciale pour les habitants de la région.",
+      "leftPanel": {
+        "Habitat": "Sous-bois sombres, nécessite beaucoup d'humidité.",
+        "Usages": "Décoratif, utilisé pour les cérémonies"
+      },
+      "rightPanel": {
+        "Danger ?": "Sans danger.",
+        "Densité": "●●●○○ — Assez commun",
+        "Tip de Feuille": "\"Observez bien ses feuilles, elles vous diront si la terre est riche.\""
+      },
+      "exercise": {
+        "question": "Quel est l'usage médical traditionnel de cette plante ?",
+        "options": [
+          "Soigner les brûlures",
+          "Aider à dormir",
+          "Donner de l'énergie",
+          "Aucun usage connu"
+        ],
+        "correctAnswer": 1,
+        "feedbackSuccess": "Exact ! Vous avez bien identifié la caractéristique de cette plante. Elle est notée dans votre carnet.",
+        "feedbackFail": "Pas tout à fait. Relisez bien la fiche et essayez de mémoriser les détails la prochaine fois."
+      }
+    },
+    {
+      "id": "Flowers_n02_11",
+      "modelPath": "/models/flowers/Flowers_n02_11.glb",
+      "cardType": "/assets/card/SilverCard.png",
+      "frenchName": "Eucalyptus Fleuri",
+      "scientificName": "Eucalyptus ficifolia",
+      "type": "Plante",
+      "status": "Préoccupation mineure (LC)",
+      "description": "Une belle plante d'Afrique. Elle possède des caractéristiques uniques qui la rendent spéciale pour les habitants de la région.",
+      "leftPanel": {
+        "Habitat": "Savanes arides, tolère de longues périodes de sécheresse.",
+        "Usages": "Parfumerie, extrait d'huiles essentielles"
+      },
+      "rightPanel": {
+        "Danger ?": "Sans danger.",
+        "Densité": "●●●○○ — Assez commun",
+        "Tip de Feuille": "\"Observez bien ses feuilles, elles vous diront si la terre est riche.\""
+      },
+      "exercise": {
+        "question": "Pourquoi les insectes aiment-ils cette fleur ?",
+        "options": [
+          "Son odeur très forte",
+          "Ses pétales brillants",
+          "Son nectar sucré",
+          "Ses feuilles épineuses"
+        ],
+        "correctAnswer": 2,
+        "feedbackSuccess": "Exact ! Vous avez bien identifié la caractéristique de cette plante. Elle est notée dans votre carnet.",
+        "feedbackFail": "Pas tout à fait. Relisez bien la fiche et essayez de mémoriser les détails la prochaine fois."
+      }
+    },
+    {
+      "id": "Flowers_n02_12",
+      "modelPath": "/models/flowers/Flowers_n02_12.glb",
+      "cardType": "/assets/card/SilverCard.png",
+      "frenchName": "Fuchsia",
+      "scientificName": "Fuchsia magellanica",
+      "type": "Plante",
+      "status": "Préoccupation mineure (LC)",
+      "description": "Une belle plante d'Afrique. Elle possède des caractéristiques uniques qui la rendent spéciale pour les habitants de la région.",
+      "leftPanel": {
+        "Habitat": "Forêts denses, pousse souvent sur d'autres arbres (épiphyte).",
+        "Usages": "Construction légère, tressage"
+      },
+      "rightPanel": {
+        "Danger ?": "Sans danger.",
+        "Densité": "●●●○○ — Assez commun",
+        "Tip de Feuille": "\"Observez bien ses feuilles, elles vous diront si la terre est riche.\""
+      },
+      "exercise": {
+        "question": "Quelle est la caractéristique principale de cette plante ?",
+        "options": [
+          "Elle pousse dans l'eau",
+          "Elle s'ouvre la nuit",
+          "Elle attire les papillons",
+          "Elle est toxique"
+        ],
+        "correctAnswer": 2,
+        "feedbackSuccess": "Exact ! Vous avez bien identifié la caractéristique de cette plante. Elle est notée dans votre carnet.",
+        "feedbackFail": "Pas tout à fait. Relisez bien la fiche et essayez de mémoriser les détails la prochaine fois."
+      }
+    },
+    {
+      "id": "Flowers_n02_13",
+      "modelPath": "/models/flowers/Flowers_n02_13.glb",
+      "cardType": "/assets/card/SilverCard.png",
+      "frenchName": "Géranium des Bois",
+      "scientificName": "Geranium sylvaticum",
+      "type": "Plante",
+      "status": "Préoccupation mineure (LC)",
+      "description": "Une belle plante d'Afrique. Elle possède des caractéristiques uniques qui la rendent spéciale pour les habitants de la région.",
+      "leftPanel": {
+        "Habitat": "Zones ouvertes, bords de sentiers, sols sableux et bien ensoleillés.",
+        "Usages": "Ornemental, Attire les pollinisateurs"
+      },
+      "rightPanel": {
+        "Danger ?": "Sans danger.",
+        "Densité": "●●●○○ — Assez commun",
+        "Tip de Feuille": "\"Observez bien ses feuilles, elles vous diront si la terre est riche.\""
+      },
+      "exercise": {
+        "question": "Où trouve-t-on généralement cette fleur ?",
+        "options": [
+          "Dans les déserts",
+          "Près des lisières de forêt",
+          "Au sommet des montagnes",
+          "Sous la neige"
+        ],
+        "correctAnswer": 1,
+        "feedbackSuccess": "Exact ! Vous avez bien identifié la caractéristique de cette plante. Elle est notée dans votre carnet.",
+        "feedbackFail": "Pas tout à fait. Relisez bien la fiche et essayez de mémoriser les détails la prochaine fois."
+      }
+    },
+    {
+      "id": "Flowers_n02_14",
+      "modelPath": "/models/flowers/Flowers_n02_14.glb",
+      "cardType": "/assets/card/GoldenCard.png",
+      "frenchName": "Hortensia Magique",
+      "scientificName": "Hydrangea macrophylla",
+      "type": "Plante",
+      "status": "Vulnérable (VU)",
+      "description": "Une belle plante d'Afrique. Elle possède des caractéristiques uniques qui la rendent spéciale pour les habitants de la région.",
+      "leftPanel": {
+        "Habitat": "Lisières de forêt tropicale, zones semi-ombragées.",
+        "Usages": "Médicinal (infusion), Apaisant"
+      },
+      "rightPanel": {
+        "Danger ?": "⚠ Attention, légèrement toxique.",
+        "Densité": "●○○○○ — Très rare",
+        "Tip de Feuille": "\"Observez bien ses feuilles, elles vous diront si la terre est riche.\""
+      },
+      "exercise": {
+        "question": "Quel est l'usage médical traditionnel de cette plante ?",
+        "options": [
+          "Soigner les brûlures",
+          "Aider à dormir",
+          "Donner de l'énergie",
+          "Aucun usage connu"
+        ],
+        "correctAnswer": 1,
+        "feedbackSuccess": "Exact ! Vous avez bien identifié la caractéristique de cette plante. Elle est notée dans votre carnet.",
+        "feedbackFail": "Pas tout à fait. Relisez bien la fiche et essayez de mémoriser les détails la prochaine fois."
+      }
+    },
+    {
+      "id": "Flowers_n02_15",
+      "modelPath": "/models/flowers/Flowers_n02_15.glb",
+      "cardType": "/assets/card/SilverCard.png",
+      "frenchName": "Impatiens",
+      "scientificName": "Impatiens walleriana",
+      "type": "Plante",
+      "status": "Préoccupation mineure (LC)",
+      "description": "Une belle plante d'Afrique. Elle possède des caractéristiques uniques qui la rendent spéciale pour les habitants de la région.",
+      "leftPanel": {
+        "Habitat": "Près des points d'eau, sols humides et riches.",
+        "Usages": "Toxique, utilisé traditionnellement pour la chasse"
+      },
+      "rightPanel": {
+        "Danger ?": "Sans danger.",
+        "Densité": "●●●○○ — Assez commun",
+        "Tip de Feuille": "\"Observez bien ses feuilles, elles vous diront si la terre est riche.\""
+      },
+      "exercise": {
+        "question": "Pourquoi les insectes aiment-ils cette fleur ?",
+        "options": [
+          "Son odeur très forte",
+          "Ses pétales brillants",
+          "Son nectar sucré",
+          "Ses feuilles épineuses"
+        ],
+        "correctAnswer": 2,
+        "feedbackSuccess": "Exact ! Vous avez bien identifié la caractéristique de cette plante. Elle est notée dans votre carnet.",
+        "feedbackFail": "Pas tout à fait. Relisez bien la fiche et essayez de mémoriser les détails la prochaine fois."
+      }
+    },
+    {
+      "id": "Flowers_n02_16",
+      "modelPath": "/models/flowers/Flowers_n02_16.glb",
+      "cardType": "/assets/card/SilverCard.png",
+      "frenchName": "Jonquille des Prés",
+      "scientificName": "Narcissus pseudonarcissus",
+      "type": "Plante",
+      "status": "Préoccupation mineure (LC)",
+      "description": "Une belle plante d'Afrique. Elle possède des caractéristiques uniques qui la rendent spéciale pour les habitants de la région.",
+      "leftPanel": {
+        "Habitat": "Montagnes rocheuses, résistant au vent.",
+        "Usages": "Comestible, utilisé dans la cuisine locale"
+      },
+      "rightPanel": {
+        "Danger ?": "Sans danger.",
+        "Densité": "●●●○○ — Assez commun",
+        "Tip de Feuille": "\"Observez bien ses feuilles, elles vous diront si la terre est riche.\""
+      },
+      "exercise": {
+        "question": "Quelle est la caractéristique principale de cette plante ?",
+        "options": [
+          "Elle pousse dans l'eau",
+          "Elle s'ouvre la nuit",
+          "Elle attire les papillons",
+          "Elle est toxique"
+        ],
+        "correctAnswer": 2,
+        "feedbackSuccess": "Exact ! Vous avez bien identifié la caractéristique de cette plante. Elle est notée dans votre carnet.",
+        "feedbackFail": "Pas tout à fait. Relisez bien la fiche et essayez de mémoriser les détails la prochaine fois."
+      }
+    },
+    {
+      "id": "Flowers_n02_17",
+      "modelPath": "/models/flowers/Flowers_n02_17.glb",
+      "cardType": "/assets/card/SilverCard.png",
+      "frenchName": "Kalanchoe",
+      "scientificName": "Kalanchoe blossfeldiana",
+      "type": "Plante",
+      "status": "Préoccupation mineure (LC)",
+      "description": "Une belle plante d'Afrique. Elle possède des caractéristiques uniques qui la rendent spéciale pour les habitants de la région.",
+      "leftPanel": {
+        "Habitat": "Sous-bois sombres, nécessite beaucoup d'humidité.",
+        "Usages": "Décoratif, utilisé pour les cérémonies"
+      },
+      "rightPanel": {
+        "Danger ?": "Sans danger.",
+        "Densité": "●●●○○ — Assez commun",
+        "Tip de Feuille": "\"Observez bien ses feuilles, elles vous diront si la terre est riche.\""
+      },
+      "exercise": {
+        "question": "Où trouve-t-on généralement cette fleur ?",
+        "options": [
+          "Dans les déserts",
+          "Près des lisières de forêt",
+          "Au sommet des montagnes",
+          "Sous la neige"
+        ],
+        "correctAnswer": 1,
+        "feedbackSuccess": "Exact ! Vous avez bien identifié la caractéristique de cette plante. Elle est notée dans votre carnet.",
+        "feedbackFail": "Pas tout à fait. Relisez bien la fiche et essayez de mémoriser les détails la prochaine fois."
+      }
+    },
+    {
+      "id": "Flowers_n02_18",
+      "modelPath": "/models/flowers/Flowers_n02_18.glb",
+      "cardType": "/assets/card/SilverCard.png",
+      "frenchName": "Lavande Douce",
+      "scientificName": "Lavandula angustifolia",
+      "type": "Plante",
+      "status": "Préoccupation mineure (LC)",
+      "description": "Une belle plante d'Afrique. Elle possède des caractéristiques uniques qui la rendent spéciale pour les habitants de la région.",
+      "leftPanel": {
+        "Habitat": "Savanes arides, tolère de longues périodes de sécheresse.",
+        "Usages": "Parfumerie, extrait d'huiles essentielles"
+      },
+      "rightPanel": {
+        "Danger ?": "Sans danger.",
+        "Densité": "●●●○○ — Assez commun",
+        "Tip de Feuille": "\"Observez bien ses feuilles, elles vous diront si la terre est riche.\""
+      },
+      "exercise": {
+        "question": "Quel est l'usage médical traditionnel de cette plante ?",
+        "options": [
+          "Soigner les brûlures",
+          "Aider à dormir",
+          "Donner de l'énergie",
+          "Aucun usage connu"
+        ],
+        "correctAnswer": 1,
+        "feedbackSuccess": "Exact ! Vous avez bien identifié la caractéristique de cette plante. Elle est notée dans votre carnet.",
+        "feedbackFail": "Pas tout à fait. Relisez bien la fiche et essayez de mémoriser les détails la prochaine fois."
+      }
+    },
+    {
+      "id": "Flowers_n02_19",
+      "modelPath": "/models/flowers/Flowers_n02_19.glb",
+      "cardType": "/assets/card/SilverCard.png",
+      "frenchName": "Marguerite Géante",
+      "scientificName": "Leucanthemum vulgare",
+      "type": "Plante",
+      "status": "Préoccupation mineure (LC)",
+      "description": "Une belle plante d'Afrique. Elle possède des caractéristiques uniques qui la rendent spéciale pour les habitants de la région.",
+      "leftPanel": {
+        "Habitat": "Forêts denses, pousse souvent sur d'autres arbres (épiphyte).",
+        "Usages": "Construction légère, tressage"
+      },
+      "rightPanel": {
+        "Danger ?": "Sans danger.",
+        "Densité": "●●●○○ — Assez commun",
+        "Tip de Feuille": "\"Observez bien ses feuilles, elles vous diront si la terre est riche.\""
+      },
+      "exercise": {
+        "question": "Pourquoi les insectes aiment-ils cette fleur ?",
+        "options": [
+          "Son odeur très forte",
+          "Ses pétales brillants",
+          "Son nectar sucré",
+          "Ses feuilles épineuses"
+        ],
+        "correctAnswer": 2,
+        "feedbackSuccess": "Exact ! Vous avez bien identifié la caractéristique de cette plante. Elle est notée dans votre carnet.",
+        "feedbackFail": "Pas tout à fait. Relisez bien la fiche et essayez de mémoriser les détails la prochaine fois."
+      }
+    },
+    {
+      "id": "Flowers_n02_20",
+      "modelPath": "/models/flowers/Flowers_n02_20.glb",
+      "cardType": "/assets/card/GoldenCard.png",
+      "frenchName": "Nénuphar Blanc",
+      "scientificName": "Nymphaea alba",
+      "type": "Plante",
+      "status": "Vulnérable (VU)",
+      "description": "Une belle plante d'Afrique. Elle possède des caractéristiques uniques qui la rendent spéciale pour les habitants de la région.",
+      "leftPanel": {
+        "Habitat": "Zones ouvertes, bords de sentiers, sols sableux et bien ensoleillés.",
+        "Usages": "Ornemental, Attire les pollinisateurs"
+      },
+      "rightPanel": {
+        "Danger ?": "⚠ Attention, légèrement toxique.",
+        "Densité": "●○○○○ — Très rare",
+        "Tip de Feuille": "\"Observez bien ses feuilles, elles vous diront si la terre est riche.\""
+      },
+      "exercise": {
+        "question": "Quelle est la caractéristique principale de cette plante ?",
+        "options": [
+          "Elle pousse dans l'eau",
+          "Elle s'ouvre la nuit",
+          "Elle attire les papillons",
+          "Elle est toxique"
+        ],
+        "correctAnswer": 2,
+        "feedbackSuccess": "Exact ! Vous avez bien identifié la caractéristique de cette plante. Elle est notée dans votre carnet.",
+        "feedbackFail": "Pas tout à fait. Relisez bien la fiche et essayez de mémoriser les détails la prochaine fois."
+      }
+    },
+    {
+      "id": "Flowers_n02_21",
+      "modelPath": "/models/flowers/Flowers_n02_21.glb",
+      "cardType": "/assets/card/GoldenCard.png",
+      "frenchName": "Oeillet de Poète",
+      "scientificName": "Dianthus barbatus",
+      "type": "Plante",
+      "status": "Vulnérable (VU)",
+      "description": "Une belle plante d'Afrique. Elle possède des caractéristiques uniques qui la rendent spéciale pour les habitants de la région.",
+      "leftPanel": {
+        "Habitat": "Lisières de forêt tropicale, zones semi-ombragées.",
+        "Usages": "Médicinal (infusion), Apaisant"
+      },
+      "rightPanel": {
+        "Danger ?": "⚠ Attention, légèrement toxique.",
+        "Densité": "●○○○○ — Très rare",
+        "Tip de Feuille": "\"Observez bien ses feuilles, elles vous diront si la terre est riche.\""
+      },
+      "exercise": {
+        "question": "Où trouve-t-on généralement cette fleur ?",
+        "options": [
+          "Dans les déserts",
+          "Près des lisières de forêt",
+          "Au sommet des montagnes",
+          "Sous la neige"
+        ],
+        "correctAnswer": 1,
+        "feedbackSuccess": "Exact ! Vous avez bien identifié la caractéristique de cette plante. Elle est notée dans votre carnet.",
+        "feedbackFail": "Pas tout à fait. Relisez bien la fiche et essayez de mémoriser les détails la prochaine fois."
+      }
+    },
+    {
+      "id": "Flowers_n02_22",
+      "modelPath": "/models/flowers/Flowers_n02_22.glb",
+      "cardType": "/assets/card/SilverCard.png",
+      "frenchName": "Pétunia",
+      "scientificName": "Petunia integrifolia",
+      "type": "Plante",
+      "status": "Préoccupation mineure (LC)",
+      "description": "Une belle plante d'Afrique. Elle possède des caractéristiques uniques qui la rendent spéciale pour les habitants de la région.",
+      "leftPanel": {
+        "Habitat": "Près des points d'eau, sols humides et riches.",
+        "Usages": "Toxique, utilisé traditionnellement pour la chasse"
+      },
+      "rightPanel": {
+        "Danger ?": "Sans danger.",
+        "Densité": "●●●○○ — Assez commun",
+        "Tip de Feuille": "\"Observez bien ses feuilles, elles vous diront si la terre est riche.\""
+      },
+      "exercise": {
+        "question": "Quel est l'usage médical traditionnel de cette plante ?",
+        "options": [
+          "Soigner les brûlures",
+          "Aider à dormir",
+          "Donner de l'énergie",
+          "Aucun usage connu"
+        ],
+        "correctAnswer": 1,
+        "feedbackSuccess": "Exact ! Vous avez bien identifié la caractéristique de cette plante. Elle est notée dans votre carnet.",
+        "feedbackFail": "Pas tout à fait. Relisez bien la fiche et essayez de mémoriser les détails la prochaine fois."
+      }
+    },
+    {
+      "id": "Flowers_n02_23",
+      "modelPath": "/models/flowers/Flowers_n02_23.glb",
+      "cardType": "/assets/card/GoldenCard.png",
+      "frenchName": "Quatre-heures",
+      "scientificName": "Mirabilis jalapa",
+      "type": "Plante",
+      "status": "Vulnérable (VU)",
+      "description": "Une belle plante d'Afrique. Elle possède des caractéristiques uniques qui la rendent spéciale pour les habitants de la région.",
+      "leftPanel": {
+        "Habitat": "Montagnes rocheuses, résistant au vent.",
+        "Usages": "Comestible, utilisé dans la cuisine locale"
+      },
+      "rightPanel": {
+        "Danger ?": "⚠ Attention, légèrement toxique.",
+        "Densité": "●○○○○ — Très rare",
+        "Tip de Feuille": "\"Observez bien ses feuilles, elles vous diront si la terre est riche.\""
+      },
+      "exercise": {
+        "question": "Pourquoi les insectes aiment-ils cette fleur ?",
+        "options": [
+          "Son odeur très forte",
+          "Ses pétales brillants",
+          "Son nectar sucré",
+          "Ses feuilles épineuses"
+        ],
+        "correctAnswer": 2,
+        "feedbackSuccess": "Exact ! Vous avez bien identifié la caractéristique de cette plante. Elle est notée dans votre carnet.",
+        "feedbackFail": "Pas tout à fait. Relisez bien la fiche et essayez de mémoriser les détails la prochaine fois."
+      }
+    },
+    {
+      "id": "Flowers_n03_02",
+      "modelPath": "/models/flowers/Flowers_n03_02.glb",
+      "cardType": "/assets/card/SilverCard.png",
+      "frenchName": "Renoncule",
+      "scientificName": "Ranunculus asiaticus",
+      "type": "Plante",
+      "status": "Préoccupation mineure (LC)",
+      "description": "Une belle plante d'Afrique. Elle possède des caractéristiques uniques qui la rendent spéciale pour les habitants de la région.",
+      "leftPanel": {
+        "Habitat": "Sous-bois sombres, nécessite beaucoup d'humidité.",
+        "Usages": "Décoratif, utilisé pour les cérémonies"
+      },
+      "rightPanel": {
+        "Danger ?": "Sans danger.",
+        "Densité": "●●●○○ — Assez commun",
+        "Tip de Feuille": "\"Observez bien ses feuilles, elles vous diront si la terre est riche.\""
+      },
+      "exercise": {
+        "question": "Quelle est la caractéristique principale de cette plante ?",
+        "options": [
+          "Elle pousse dans l'eau",
+          "Elle s'ouvre la nuit",
+          "Elle attire les papillons",
+          "Elle est toxique"
+        ],
+        "correctAnswer": 2,
+        "feedbackSuccess": "Exact ! Vous avez bien identifié la caractéristique de cette plante. Elle est notée dans votre carnet.",
+        "feedbackFail": "Pas tout à fait. Relisez bien la fiche et essayez de mémoriser les détails la prochaine fois."
+      }
+    },
+    {
+      "id": "Flowers_n03_03",
+      "modelPath": "/models/flowers/Flowers_n03_03.glb",
+      "cardType": "/assets/card/SilverCard.png",
+      "frenchName": "Soleil de Minuit",
+      "scientificName": "Helianthus annuus",
+      "type": "Plante",
+      "status": "Préoccupation mineure (LC)",
+      "description": "Une belle plante d'Afrique. Elle possède des caractéristiques uniques qui la rendent spéciale pour les habitants de la région.",
+      "leftPanel": {
+        "Habitat": "Savanes arides, tolère de longues périodes de sécheresse.",
+        "Usages": "Parfumerie, extrait d'huiles essentielles"
+      },
+      "rightPanel": {
+        "Danger ?": "Sans danger.",
+        "Densité": "●●●○○ — Assez commun",
+        "Tip de Feuille": "\"Observez bien ses feuilles, elles vous diront si la terre est riche.\""
+      },
+      "exercise": {
+        "question": "Où trouve-t-on généralement cette fleur ?",
+        "options": [
+          "Dans les déserts",
+          "Près des lisières de forêt",
+          "Au sommet des montagnes",
+          "Sous la neige"
+        ],
+        "correctAnswer": 1,
+        "feedbackSuccess": "Exact ! Vous avez bien identifié la caractéristique de cette plante. Elle est notée dans votre carnet.",
+        "feedbackFail": "Pas tout à fait. Relisez bien la fiche et essayez de mémoriser les détails la prochaine fois."
+      }
+    },
+    {
+      "id": "Flowers_n03_04",
+      "modelPath": "/models/flowers/Flowers_n03_04.glb",
+      "cardType": "/assets/card/SilverCard.png",
+      "frenchName": "Tournesol Nain",
+      "scientificName": "Viola odorata",
+      "type": "Plante",
+      "status": "Préoccupation mineure (LC)",
+      "description": "Une belle plante d'Afrique. Elle possède des caractéristiques uniques qui la rendent spéciale pour les habitants de la région.",
+      "leftPanel": {
+        "Habitat": "Forêts denses, pousse souvent sur d'autres arbres (épiphyte).",
+        "Usages": "Construction légère, tressage"
+      },
+      "rightPanel": {
+        "Danger ?": "Sans danger.",
+        "Densité": "●●●○○ — Assez commun",
+        "Tip de Feuille": "\"Observez bien ses feuilles, elles vous diront si la terre est riche.\""
+      },
+      "exercise": {
+        "question": "Quel est l'usage médical traditionnel de cette plante ?",
+        "options": [
+          "Soigner les brûlures",
+          "Aider à dormir",
+          "Donner de l'énergie",
+          "Aucun usage connu"
+        ],
+        "correctAnswer": 1,
+        "feedbackSuccess": "Exact ! Vous avez bien identifié la caractéristique de cette plante. Elle est notée dans votre carnet.",
+        "feedbackFail": "Pas tout à fait. Relisez bien la fiche et essayez de mémoriser les détails la prochaine fois."
+      }
+    },
+    {
+      "id": "Flowers_n03_05",
+      "modelPath": "/models/flowers/Flowers_n03_05.glb",
+      "cardType": "/assets/card/GoldenCard.png",
+      "frenchName": "Violette Céleste",
+      "scientificName": "Zinnia elegans",
+      "type": "Plante",
+      "status": "Vulnérable (VU)",
+      "description": "Une belle plante d'Afrique. Elle possède des caractéristiques uniques qui la rendent spéciale pour les habitants de la région.",
+      "leftPanel": {
+        "Habitat": "Zones ouvertes, bords de sentiers, sols sableux et bien ensoleillés.",
+        "Usages": "Ornemental, Attire les pollinisateurs"
+      },
+      "rightPanel": {
+        "Danger ?": "⚠ Attention, légèrement toxique.",
+        "Densité": "●○○○○ — Très rare",
+        "Tip de Feuille": "\"Observez bien ses feuilles, elles vous diront si la terre est riche.\""
+      },
+      "exercise": {
+        "question": "Pourquoi les insectes aiment-ils cette fleur ?",
+        "options": [
+          "Son odeur très forte",
+          "Ses pétales brillants",
+          "Son nectar sucré",
+          "Ses feuilles épineuses"
+        ],
+        "correctAnswer": 2,
+        "feedbackSuccess": "Exact ! Vous avez bien identifié la caractéristique de cette plante. Elle est notée dans votre carnet.",
+        "feedbackFail": "Pas tout à fait. Relisez bien la fiche et essayez de mémoriser les détails la prochaine fois."
+      }
+    },
+    {
+      "id": "Flowers_n03_06",
+      "modelPath": "/models/flowers/Flowers_n03_06.glb",
+      "cardType": "/assets/card/SilverCard.png",
+      "frenchName": "Zinnia",
+      "scientificName": "Hippeastrum",
+      "type": "Plante",
+      "status": "Préoccupation mineure (LC)",
+      "description": "Une belle plante d'Afrique. Elle possède des caractéristiques uniques qui la rendent spéciale pour les habitants de la région.",
+      "leftPanel": {
+        "Habitat": "Lisières de forêt tropicale, zones semi-ombragées.",
+        "Usages": "Médicinal (infusion), Apaisant"
+      },
+      "rightPanel": {
+        "Danger ?": "Sans danger.",
+        "Densité": "●●●○○ — Assez commun",
+        "Tip de Feuille": "\"Observez bien ses feuilles, elles vous diront si la terre est riche.\""
+      },
+      "exercise": {
+        "question": "Quelle est la caractéristique principale de cette plante ?",
+        "options": [
+          "Elle pousse dans l'eau",
+          "Elle s'ouvre la nuit",
+          "Elle attire les papillons",
+          "Elle est toxique"
+        ],
+        "correctAnswer": 2,
+        "feedbackSuccess": "Exact ! Vous avez bien identifié la caractéristique de cette plante. Elle est notée dans votre carnet.",
+        "feedbackFail": "Pas tout à fait. Relisez bien la fiche et essayez de mémoriser les détails la prochaine fois."
+      }
+    },
+    {
+      "id": "Flowers_n03_07",
+      "modelPath": "/models/flowers/Flowers_n03_07.glb",
+      "cardType": "/assets/card/GoldenCard.png",
+      "frenchName": "Amaryllis",
+      "scientificName": "Bougainvillea glabra",
+      "type": "Plante",
+      "status": "Vulnérable (VU)",
+      "description": "Une belle plante d'Afrique. Elle possède des caractéristiques uniques qui la rendent spéciale pour les habitants de la région.",
+      "leftPanel": {
+        "Habitat": "Près des points d'eau, sols humides et riches.",
+        "Usages": "Toxique, utilisé traditionnellement pour la chasse"
+      },
+      "rightPanel": {
+        "Danger ?": "⚠ Attention, légèrement toxique.",
+        "Densité": "●○○○○ — Très rare",
+        "Tip de Feuille": "\"Observez bien ses feuilles, elles vous diront si la terre est riche.\""
+      },
+      "exercise": {
+        "question": "Où trouve-t-on généralement cette fleur ?",
+        "options": [
+          "Dans les déserts",
+          "Près des lisières de forêt",
+          "Au sommet des montagnes",
+          "Sous la neige"
+        ],
+        "correctAnswer": 1,
+        "feedbackSuccess": "Exact ! Vous avez bien identifié la caractéristique de cette plante. Elle est notée dans votre carnet.",
+        "feedbackFail": "Pas tout à fait. Relisez bien la fiche et essayez de mémoriser les détails la prochaine fois."
+      }
+    },
+    {
+      "id": "Flowers_n03_08",
+      "modelPath": "/models/flowers/Flowers_n03_08.glb",
+      "cardType": "/assets/card/SilverCard.png",
+      "frenchName": "Bougainvillier",
+      "scientificName": "Chrysanthemum indicum",
+      "type": "Plante",
+      "status": "Préoccupation mineure (LC)",
+      "description": "Une belle plante d'Afrique. Elle possède des caractéristiques uniques qui la rendent spéciale pour les habitants de la région.",
+      "leftPanel": {
+        "Habitat": "Montagnes rocheuses, résistant au vent.",
+        "Usages": "Comestible, utilisé dans la cuisine locale"
+      },
+      "rightPanel": {
+        "Danger ?": "Sans danger.",
+        "Densité": "●●●○○ — Assez commun",
+        "Tip de Feuille": "\"Observez bien ses feuilles, elles vous diront si la terre est riche.\""
+      },
+      "exercise": {
+        "question": "Quel est l'usage médical traditionnel de cette plante ?",
+        "options": [
+          "Soigner les brûlures",
+          "Aider à dormir",
+          "Donner de l'énergie",
+          "Aucun usage connu"
+        ],
+        "correctAnswer": 1,
+        "feedbackSuccess": "Exact ! Vous avez bien identifié la caractéristique de cette plante. Elle est notée dans votre carnet.",
+        "feedbackFail": "Pas tout à fait. Relisez bien la fiche et essayez de mémoriser les détails la prochaine fois."
+      }
+    },
+    {
+      "id": "Flowers_n03_09",
+      "modelPath": "/models/flowers/Flowers_n03_09.glb",
+      "cardType": "/assets/card/GoldenCard.png",
+      "frenchName": "Chrysanthème",
+      "scientificName": "Schlumbergera truncata",
+      "type": "Plante",
+      "status": "Vulnérable (VU)",
+      "description": "Une belle plante d'Afrique. Elle possède des caractéristiques uniques qui la rendent spéciale pour les habitants de la région.",
+      "leftPanel": {
+        "Habitat": "Sous-bois sombres, nécessite beaucoup d'humidité.",
+        "Usages": "Décoratif, utilisé pour les cérémonies"
+      },
+      "rightPanel": {
+        "Danger ?": "⚠ Attention, légèrement toxique.",
+        "Densité": "●○○○○ — Très rare",
+        "Tip de Feuille": "\"Observez bien ses feuilles, elles vous diront si la terre est riche.\""
+      },
+      "exercise": {
+        "question": "Pourquoi les insectes aiment-ils cette fleur ?",
+        "options": [
+          "Son odeur très forte",
+          "Ses pétales brillants",
+          "Son nectar sucré",
+          "Ses feuilles épineuses"
+        ],
+        "correctAnswer": 2,
+        "feedbackSuccess": "Exact ! Vous avez bien identifié la caractéristique de cette plante. Elle est notée dans votre carnet.",
+        "feedbackFail": "Pas tout à fait. Relisez bien la fiche et essayez de mémoriser les détails la prochaine fois."
+      }
+    },
+    {
+      "id": "Flowers_n03_10",
+      "modelPath": "/models/flowers/Flowers_n03_10.glb",
+      "cardType": "/assets/card/GoldenCard.png",
+      "frenchName": "Cactus Fleuri",
+      "scientificName": "Euphorbia pulcherrima",
+      "type": "Plante",
+      "status": "Vulnérable (VU)",
+      "description": "Une belle plante d'Afrique. Elle possède des caractéristiques uniques qui la rendent spéciale pour les habitants de la région.",
+      "leftPanel": {
+        "Habitat": "Savanes arides, tolère de longues périodes de sécheresse.",
+        "Usages": "Parfumerie, extrait d'huiles essentielles"
+      },
+      "rightPanel": {
+        "Danger ?": "⚠ Attention, légèrement toxique.",
+        "Densité": "●○○○○ — Très rare",
+        "Tip de Feuille": "\"Observez bien ses feuilles, elles vous diront si la terre est riche.\""
+      },
+      "exercise": {
+        "question": "Quelle est la caractéristique principale de cette plante ?",
+        "options": [
+          "Elle pousse dans l'eau",
+          "Elle s'ouvre la nuit",
+          "Elle attire les papillons",
+          "Elle est toxique"
+        ],
+        "correctAnswer": 2,
+        "feedbackSuccess": "Exact ! Vous avez bien identifié la caractéristique de cette plante. Elle est notée dans votre carnet.",
+        "feedbackFail": "Pas tout à fait. Relisez bien la fiche et essayez de mémoriser les détails la prochaine fois."
+      }
+    },
+    {
+      "id": "Flowers_n03_11",
+      "modelPath": "/models/flowers/Flowers_n03_11.glb",
+      "cardType": "/assets/card/SilverCard.png",
+      "frenchName": "Étoile de Noël",
+      "scientificName": "Passiflora incarnata",
+      "type": "Plante",
+      "status": "Préoccupation mineure (LC)",
+      "description": "Une belle plante d'Afrique. Elle possède des caractéristiques uniques qui la rendent spéciale pour les habitants de la région.",
+      "leftPanel": {
+        "Habitat": "Forêts denses, pousse souvent sur d'autres arbres (épiphyte).",
+        "Usages": "Construction légère, tressage"
+      },
+      "rightPanel": {
+        "Danger ?": "Sans danger.",
+        "Densité": "●●●○○ — Assez commun",
+        "Tip de Feuille": "\"Observez bien ses feuilles, elles vous diront si la terre est riche.\""
+      },
+      "exercise": {
+        "question": "Où trouve-t-on généralement cette fleur ?",
+        "options": [
+          "Dans les déserts",
+          "Près des lisières de forêt",
+          "Au sommet des montagnes",
+          "Sous la neige"
+        ],
+        "correctAnswer": 1,
+        "feedbackSuccess": "Exact ! Vous avez bien identifié la caractéristique de cette plante. Elle est notée dans votre carnet.",
+        "feedbackFail": "Pas tout à fait. Relisez bien la fiche et essayez de mémoriser les détails la prochaine fois."
+      }
+    },
+    {
+      "id": "Flowers_n03_12",
+      "modelPath": "/models/flowers/Flowers_n03_12.glb",
+      "cardType": "/assets/card/SilverCard.png",
+      "frenchName": "Fleur de Passion",
+      "scientificName": "Gladiolus hortulanus",
+      "type": "Plante",
+      "status": "Préoccupation mineure (LC)",
+      "description": "Une belle plante d'Afrique. Elle possède des caractéristiques uniques qui la rendent spéciale pour les habitants de la région.",
+      "leftPanel": {
+        "Habitat": "Zones ouvertes, bords de sentiers, sols sableux et bien ensoleillés.",
+        "Usages": "Ornemental, Attire les pollinisateurs"
+      },
+      "rightPanel": {
+        "Danger ?": "Sans danger.",
+        "Densité": "●●●○○ — Assez commun",
+        "Tip de Feuille": "\"Observez bien ses feuilles, elles vous diront si la terre est riche.\""
+      },
+      "exercise": {
+        "question": "Quel est l'usage médical traditionnel de cette plante ?",
+        "options": [
+          "Soigner les brûlures",
+          "Aider à dormir",
+          "Donner de l'énergie",
+          "Aucun usage connu"
+        ],
+        "correctAnswer": 1,
+        "feedbackSuccess": "Exact ! Vous avez bien identifié la caractéristique de cette plante. Elle est notée dans votre carnet.",
+        "feedbackFail": "Pas tout à fait. Relisez bien la fiche et essayez de mémoriser les détails la prochaine fois."
+      }
+    },
+    {
+      "id": "Flowers_n03_13",
+      "modelPath": "/models/flowers/Flowers_n03_13.glb",
+      "cardType": "/assets/card/SilverCard.png",
+      "frenchName": "Glaïeul",
+      "scientificName": "Heliotropium arborescens",
+      "type": "Plante",
+      "status": "Préoccupation mineure (LC)",
+      "description": "Une belle plante d'Afrique. Elle possède des caractéristiques uniques qui la rendent spéciale pour les habitants de la région.",
+      "leftPanel": {
+        "Habitat": "Lisières de forêt tropicale, zones semi-ombragées.",
+        "Usages": "Médicinal (infusion), Apaisant"
+      },
+      "rightPanel": {
+        "Danger ?": "Sans danger.",
+        "Densité": "●●●○○ — Assez commun",
+        "Tip de Feuille": "\"Observez bien ses feuilles, elles vous diront si la terre est riche.\""
+      },
+      "exercise": {
+        "question": "Pourquoi les insectes aiment-ils cette fleur ?",
+        "options": [
+          "Son odeur très forte",
+          "Ses pétales brillants",
+          "Son nectar sucré",
+          "Ses feuilles épineuses"
+        ],
+        "correctAnswer": 2,
+        "feedbackSuccess": "Exact ! Vous avez bien identifié la caractéristique de cette plante. Elle est notée dans votre carnet.",
+        "feedbackFail": "Pas tout à fait. Relisez bien la fiche et essayez de mémoriser les détails la prochaine fois."
+      }
+    },
+    {
+      "id": "Flowers_n03_14",
+      "modelPath": "/models/flowers/Flowers_n03_14.glb",
+      "cardType": "/assets/card/SilverCard.png",
+      "frenchName": "Héliotrope",
+      "scientificName": "Buddleja davidii",
+      "type": "Plante",
+      "status": "Préoccupation mineure (LC)",
+      "description": "Une belle plante d'Afrique. Elle possède des caractéristiques uniques qui la rendent spéciale pour les habitants de la région.",
+      "leftPanel": {
+        "Habitat": "Près des points d'eau, sols humides et riches.",
+        "Usages": "Toxique, utilisé traditionnellement pour la chasse"
+      },
+      "rightPanel": {
+        "Danger ?": "Sans danger.",
+        "Densité": "●●●○○ — Assez commun",
+        "Tip de Feuille": "\"Observez bien ses feuilles, elles vous diront si la terre est riche.\""
+      },
+      "exercise": {
+        "question": "Quelle est la caractéristique principale de cette plante ?",
+        "options": [
+          "Elle pousse dans l'eau",
+          "Elle s'ouvre la nuit",
+          "Elle attire les papillons",
+          "Elle est toxique"
+        ],
+        "correctAnswer": 2,
+        "feedbackSuccess": "Exact ! Vous avez bien identifié la caractéristique de cette plante. Elle est notée dans votre carnet.",
+        "feedbackFail": "Pas tout à fait. Relisez bien la fiche et essayez de mémoriser les détails la prochaine fois."
+      }
+    },
+    {
+      "id": "Flowers_n03_15",
+      "modelPath": "/models/flowers/Flowers_n03_15.glb",
+      "cardType": "/assets/card/SilverCard.png",
+      "frenchName": "Lilas d'Été",
+      "scientificName": "Magnolia grandiflora",
+      "type": "Plante",
+      "status": "Préoccupation mineure (LC)",
+      "description": "Une belle plante d'Afrique. Elle possède des caractéristiques uniques qui la rendent spéciale pour les habitants de la région.",
+      "leftPanel": {
+        "Habitat": "Montagnes rocheuses, résistant au vent.",
+        "Usages": "Comestible, utilisé dans la cuisine locale"
+      },
+      "rightPanel": {
+        "Danger ?": "Sans danger.",
+        "Densité": "●●●○○ — Assez commun",
+        "Tip de Feuille": "\"Observez bien ses feuilles, elles vous diront si la terre est riche.\""
+      },
+      "exercise": {
+        "question": "Où trouve-t-on généralement cette fleur ?",
+        "options": [
+          "Dans les déserts",
+          "Près des lisières de forêt",
+          "Au sommet des montagnes",
+          "Sous la neige"
+        ],
+        "correctAnswer": 1,
+        "feedbackSuccess": "Exact ! Vous avez bien identifié la caractéristique de cette plante. Elle est notée dans votre carnet.",
+        "feedbackFail": "Pas tout à fait. Relisez bien la fiche et essayez de mémoriser les détails la prochaine fois."
+      }
+    },
+    {
+      "id": "Flowers_n03_16",
+      "modelPath": "/models/flowers/Flowers_n03_16.glb",
+      "cardType": "/assets/card/GoldenCard.png",
+      "frenchName": "Magnolia",
+      "scientificName": "Narcissus poeticus",
+      "type": "Plante",
+      "status": "Vulnérable (VU)",
+      "description": "Une belle plante d'Afrique. Elle possède des caractéristiques uniques qui la rendent spéciale pour les habitants de la région.",
+      "leftPanel": {
+        "Habitat": "Sous-bois sombres, nécessite beaucoup d'humidité.",
+        "Usages": "Décoratif, utilisé pour les cérémonies"
+      },
+      "rightPanel": {
+        "Danger ?": "⚠ Attention, légèrement toxique.",
+        "Densité": "●○○○○ — Très rare",
+        "Tip de Feuille": "\"Observez bien ses feuilles, elles vous diront si la terre est riche.\""
+      },
+      "exercise": {
+        "question": "Quel est l'usage médical traditionnel de cette plante ?",
+        "options": [
+          "Soigner les brûlures",
+          "Aider à dormir",
+          "Donner de l'énergie",
+          "Aucun usage connu"
+        ],
+        "correctAnswer": 1,
+        "feedbackSuccess": "Exact ! Vous avez bien identifié la caractéristique de cette plante. Elle est notée dans votre carnet.",
+        "feedbackFail": "Pas tout à fait. Relisez bien la fiche et essayez de mémoriser les détails la prochaine fois."
+      }
+    },
+    {
+      "id": "Flowers_n03_17",
+      "modelPath": "/models/flowers/Flowers_n03_17.glb",
+      "cardType": "/assets/card/SilverCard.png",
+      "frenchName": "Narcisse",
+      "scientificName": "Choisya ternata",
+      "type": "Plante",
+      "status": "Préoccupation mineure (LC)",
+      "description": "Une belle plante d'Afrique. Elle possède des caractéristiques uniques qui la rendent spéciale pour les habitants de la région.",
+      "leftPanel": {
+        "Habitat": "Savanes arides, tolère de longues périodes de sécheresse.",
+        "Usages": "Parfumerie, extrait d'huiles essentielles"
+      },
+      "rightPanel": {
+        "Danger ?": "Sans danger.",
+        "Densité": "●●●○○ — Assez commun",
+        "Tip de Feuille": "\"Observez bien ses feuilles, elles vous diront si la terre est riche.\""
+      },
+      "exercise": {
+        "question": "Pourquoi les insectes aiment-ils cette fleur ?",
+        "options": [
+          "Son odeur très forte",
+          "Ses pétales brillants",
+          "Son nectar sucré",
+          "Ses feuilles épineuses"
+        ],
+        "correctAnswer": 2,
+        "feedbackSuccess": "Exact ! Vous avez bien identifié la caractéristique de cette plante. Elle est notée dans votre carnet.",
+        "feedbackFail": "Pas tout à fait. Relisez bien la fiche et essayez de mémoriser les détails la prochaine fois."
+      }
+    },
+    {
+      "id": "Flowers_n03_18",
+      "modelPath": "/models/flowers/Flowers_n03_18.glb",
+      "cardType": "/assets/card/GoldenCard.png",
+      "frenchName": "Oranger du Mexique",
+      "scientificName": "Passiflora edulis",
+      "type": "Plante",
+      "status": "Vulnérable (VU)",
+      "description": "Une belle plante d'Afrique. Elle possède des caractéristiques uniques qui la rendent spéciale pour les habitants de la région.",
+      "leftPanel": {
+        "Habitat": "Forêts denses, pousse souvent sur d'autres arbres (épiphyte).",
+        "Usages": "Construction légère, tressage"
+      },
+      "rightPanel": {
+        "Danger ?": "⚠ Attention, légèrement toxique.",
+        "Densité": "●○○○○ — Très rare",
+        "Tip de Feuille": "\"Observez bien ses feuilles, elles vous diront si la terre est riche.\""
+      },
+      "exercise": {
+        "question": "Quelle est la caractéristique principale de cette plante ?",
+        "options": [
+          "Elle pousse dans l'eau",
+          "Elle s'ouvre la nuit",
+          "Elle attire les papillons",
+          "Elle est toxique"
+        ],
+        "correctAnswer": 2,
+        "feedbackSuccess": "Exact ! Vous avez bien identifié la caractéristique de cette plante. Elle est notée dans votre carnet.",
+        "feedbackFail": "Pas tout à fait. Relisez bien la fiche et essayez de mémoriser les détails la prochaine fois."
+      }
+    },
+    {
+      "id": "Flowers_n03_19",
+      "modelPath": "/models/flowers/Flowers_n03_19.glb",
+      "cardType": "/assets/card/GoldenCard.png",
+      "frenchName": "Passiflore",
+      "scientificName": "Plumeria rubra",
+      "type": "Plante",
+      "status": "Vulnérable (VU)",
+      "description": "Une belle plante d'Afrique. Elle possède des caractéristiques uniques qui la rendent spéciale pour les habitants de la région.",
+      "leftPanel": {
+        "Habitat": "Zones ouvertes, bords de sentiers, sols sableux et bien ensoleillés.",
+        "Usages": "Ornemental, Attire les pollinisateurs"
+      },
+      "rightPanel": {
+        "Danger ?": "⚠ Attention, légèrement toxique.",
+        "Densité": "●○○○○ — Très rare",
+        "Tip de Feuille": "\"Observez bien ses feuilles, elles vous diront si la terre est riche.\""
+      },
+      "exercise": {
+        "question": "Où trouve-t-on généralement cette fleur ?",
+        "options": [
+          "Dans les déserts",
+          "Près des lisières de forêt",
+          "Au sommet des montagnes",
+          "Sous la neige"
+        ],
+        "correctAnswer": 1,
+        "feedbackSuccess": "Exact ! Vous avez bien identifié la caractéristique de cette plante. Elle est notée dans votre carnet.",
+        "feedbackFail": "Pas tout à fait. Relisez bien la fiche et essayez de mémoriser les détails la prochaine fois."
+      }
+    },
+    {
+      "id": "Flowers_n03_20",
+      "modelPath": "/models/flowers/Flowers_n03_20.glb",
+      "cardType": "/assets/card/SilverCard.png",
+      "frenchName": "Plumeria",
+      "scientificName": "Rhododendron ponticum",
+      "type": "Plante",
+      "status": "Préoccupation mineure (LC)",
+      "description": "Une belle plante d'Afrique. Elle possède des caractéristiques uniques qui la rendent spéciale pour les habitants de la région.",
+      "leftPanel": {
+        "Habitat": "Lisières de forêt tropicale, zones semi-ombragées.",
+        "Usages": "Médicinal (infusion), Apaisant"
+      },
+      "rightPanel": {
+        "Danger ?": "Sans danger.",
+        "Densité": "●●●○○ — Assez commun",
+        "Tip de Feuille": "\"Observez bien ses feuilles, elles vous diront si la terre est riche.\""
+      },
+      "exercise": {
+        "question": "Quel est l'usage médical traditionnel de cette plante ?",
+        "options": [
+          "Soigner les brûlures",
+          "Aider à dormir",
+          "Donner de l'énergie",
+          "Aucun usage connu"
+        ],
+        "correctAnswer": 1,
+        "feedbackSuccess": "Exact ! Vous avez bien identifié la caractéristique de cette plante. Elle est notée dans votre carnet.",
+        "feedbackFail": "Pas tout à fait. Relisez bien la fiche et essayez de mémoriser les détails la prochaine fois."
+      }
+    },
+    {
+      "id": "Flowers_n03_21",
+      "modelPath": "/models/flowers/Flowers_n03_21.glb",
+      "cardType": "/assets/card/SilverCard.png",
+      "frenchName": "Rhododendron",
+      "scientificName": "Strelitzia reginae",
+      "type": "Plante",
+      "status": "Préoccupation mineure (LC)",
+      "description": "Une belle plante d'Afrique. Elle possède des caractéristiques uniques qui la rendent spéciale pour les habitants de la région.",
+      "leftPanel": {
+        "Habitat": "Près des points d'eau, sols humides et riches.",
+        "Usages": "Toxique, utilisé traditionnellement pour la chasse"
+      },
+      "rightPanel": {
+        "Danger ?": "Sans danger.",
+        "Densité": "●●●○○ — Assez commun",
+        "Tip de Feuille": "\"Observez bien ses feuilles, elles vous diront si la terre est riche.\""
+      },
+      "exercise": {
+        "question": "Pourquoi les insectes aiment-ils cette fleur ?",
+        "options": [
+          "Son odeur très forte",
+          "Ses pétales brillants",
+          "Son nectar sucré",
+          "Ses feuilles épineuses"
+        ],
+        "correctAnswer": 2,
+        "feedbackSuccess": "Exact ! Vous avez bien identifié la caractéristique de cette plante. Elle est notée dans votre carnet.",
+        "feedbackFail": "Pas tout à fait. Relisez bien la fiche et essayez de mémoriser les détails la prochaine fois."
+      }
+    },
+    {
+      "id": "Flowers_n03_22",
+      "modelPath": "/models/flowers/Flowers_n03_22.glb",
+      "cardType": "/assets/card/SilverCard.png",
+      "frenchName": "Strelitzia",
+      "scientificName": "Verbena officinalis",
+      "type": "Plante",
+      "status": "Préoccupation mineure (LC)",
+      "description": "Une belle plante d'Afrique. Elle possède des caractéristiques uniques qui la rendent spéciale pour les habitants de la région.",
+      "leftPanel": {
+        "Habitat": "Montagnes rocheuses, résistant au vent.",
+        "Usages": "Comestible, utilisé dans la cuisine locale"
+      },
+      "rightPanel": {
+        "Danger ?": "Sans danger.",
+        "Densité": "●●●○○ — Assez commun",
+        "Tip de Feuille": "\"Observez bien ses feuilles, elles vous diront si la terre est riche.\""
+      },
+      "exercise": {
+        "question": "Quelle est la caractéristique principale de cette plante ?",
+        "options": [
+          "Elle pousse dans l'eau",
+          "Elle s'ouvre la nuit",
+          "Elle attire les papillons",
+          "Elle est toxique"
+        ],
+        "correctAnswer": 2,
+        "feedbackSuccess": "Exact ! Vous avez bien identifié la caractéristique de cette plante. Elle est notée dans votre carnet.",
+        "feedbackFail": "Pas tout à fait. Relisez bien la fiche et essayez de mémoriser les détails la prochaine fois."
+      }
+    },
+    {
+      "id": "Flowers_n03_23",
+      "modelPath": "/models/flowers/Flowers_n03_23.glb",
+      "cardType": "/assets/card/GoldenCard.png",
+      "frenchName": "Verveine",
+      "scientificName": "Cananga odorata",
+      "type": "Plante",
+      "status": "Vulnérable (VU)",
+      "description": "Une belle plante d'Afrique. Elle possède des caractéristiques uniques qui la rendent spéciale pour les habitants de la région.",
+      "leftPanel": {
+        "Habitat": "Sous-bois sombres, nécessite beaucoup d'humidité.",
+        "Usages": "Décoratif, utilisé pour les cérémonies"
+      },
+      "rightPanel": {
+        "Danger ?": "⚠ Attention, légèrement toxique.",
+        "Densité": "●○○○○ — Très rare",
+        "Tip de Feuille": "\"Observez bien ses feuilles, elles vous diront si la terre est riche.\""
+      },
+      "exercise": {
+        "question": "Où trouve-t-on généralement cette fleur ?",
+        "options": [
+          "Dans les déserts",
+          "Près des lisières de forêt",
+          "Au sommet des montagnes",
+          "Sous la neige"
+        ],
+        "correctAnswer": 1,
+        "feedbackSuccess": "Exact ! Vous avez bien identifié la caractéristique de cette plante. Elle est notée dans votre carnet.",
+        "feedbackFail": "Pas tout à fait. Relisez bien la fiche et essayez de mémoriser les détails la prochaine fois."
+      }
+    },
+    {
+      "id": "Flowers_n03_24",
+      "modelPath": "/models/flowers/Flowers_n03_24.glb",
+      "cardType": "/assets/card/SilverCard.png",
+      "frenchName": "Ylang-Ylang",
+      "scientificName": "Ipomoea alba",
+      "type": "Plante",
+      "status": "Préoccupation mineure (LC)",
+      "description": "Une belle plante d'Afrique. Elle possède des caractéristiques uniques qui la rendent spéciale pour les habitants de la région.",
+      "leftPanel": {
+        "Habitat": "Savanes arides, tolère de longues périodes de sécheresse.",
+        "Usages": "Parfumerie, extrait d'huiles essentielles"
+      },
+      "rightPanel": {
+        "Danger ?": "Sans danger.",
+        "Densité": "●●●○○ — Assez commun",
+        "Tip de Feuille": "\"Observez bien ses feuilles, elles vous diront si la terre est riche.\""
+      },
+      "exercise": {
+        "question": "Quel est l'usage médical traditionnel de cette plante ?",
+        "options": [
+          "Soigner les brûlures",
+          "Aider à dormir",
+          "Donner de l'énergie",
+          "Aucun usage connu"
+        ],
+        "correctAnswer": 1,
+        "feedbackSuccess": "Exact ! Vous avez bien identifié la caractéristique de cette plante. Elle est notée dans votre carnet.",
+        "feedbackFail": "Pas tout à fait. Relisez bien la fiche et essayez de mémoriser les détails la prochaine fois."
+      }
+    },
+    {
+      "id": "Flowers_n03_25",
+      "modelPath": "/models/flowers/Flowers_n03_25.glb",
+      "cardType": "/assets/card/GoldenCard.png",
+      "frenchName": "Fleur de Lune",
+      "scientificName": "Adenium obesum",
+      "type": "Plante",
+      "status": "Vulnérable (VU)",
+      "description": "Une belle plante d'Afrique. Elle possède des caractéristiques uniques qui la rendent spéciale pour les habitants de la région.",
+      "leftPanel": {
+        "Habitat": "Forêts denses, pousse souvent sur d'autres arbres (épiphyte).",
+        "Usages": "Construction légère, tressage"
+      },
+      "rightPanel": {
+        "Danger ?": "⚠ Attention, légèrement toxique.",
+        "Densité": "●○○○○ — Très rare",
+        "Tip de Feuille": "\"Observez bien ses feuilles, elles vous diront si la terre est riche.\""
+      },
+      "exercise": {
+        "question": "Pourquoi les insectes aiment-ils cette fleur ?",
+        "options": [
+          "Son odeur très forte",
+          "Ses pétales brillants",
+          "Son nectar sucré",
+          "Ses feuilles épineuses"
+        ],
+        "correctAnswer": 2,
+        "feedbackSuccess": "Exact ! Vous avez bien identifié la caractéristique de cette plante. Elle est notée dans votre carnet.",
+        "feedbackFail": "Pas tout à fait. Relisez bien la fiche et essayez de mémoriser les détails la prochaine fois."
+      }
+    },
+    {
+      "id": "Flowers_n03_26",
+      "modelPath": "/models/flowers/Flowers_n03_26.glb",
+      "cardType": "/assets/card/GoldenCard.png",
+      "frenchName": "Rose du Désert",
+      "scientificName": "Lilium bulbiferum",
+      "type": "Plante",
+      "status": "Vulnérable (VU)",
+      "description": "Une belle plante d'Afrique. Elle possède des caractéristiques uniques qui la rendent spéciale pour les habitants de la région.",
+      "leftPanel": {
+        "Habitat": "Zones ouvertes, bords de sentiers, sols sableux et bien ensoleillés.",
+        "Usages": "Ornemental, Attire les pollinisateurs"
+      },
+      "rightPanel": {
+        "Danger ?": "⚠ Attention, légèrement toxique.",
+        "Densité": "●○○○○ — Très rare",
+        "Tip de Feuille": "\"Observez bien ses feuilles, elles vous diront si la terre est riche.\""
+      },
+      "exercise": {
+        "question": "Quelle est la caractéristique principale de cette plante ?",
+        "options": [
+          "Elle pousse dans l'eau",
+          "Elle s'ouvre la nuit",
+          "Elle attire les papillons",
+          "Elle est toxique"
+        ],
+        "correctAnswer": 2,
+        "feedbackSuccess": "Exact ! Vous avez bien identifié la caractéristique de cette plante. Elle est notée dans votre carnet.",
+        "feedbackFail": "Pas tout à fait. Relisez bien la fiche et essayez de mémoriser les détails la prochaine fois."
+      }
+    },
+    {
+      "id": "Flowers_n03_27",
+      "modelPath": "/models/flowers/Flowers_n03_27.glb",
+      "cardType": "/assets/card/GoldenCard.png",
+      "frenchName": "Lys de Feu",
+      "scientificName": "Lobularia maritima",
+      "type": "Plante",
+      "status": "Vulnérable (VU)",
+      "description": "Une belle plante d'Afrique. Elle possède des caractéristiques uniques qui la rendent spéciale pour les habitants de la région.",
+      "leftPanel": {
+        "Habitat": "Lisières de forêt tropicale, zones semi-ombragées.",
+        "Usages": "Médicinal (infusion), Apaisant"
+      },
+      "rightPanel": {
+        "Danger ?": "⚠ Attention, légèrement toxique.",
+        "Densité": "●○○○○ — Très rare",
+        "Tip de Feuille": "\"Observez bien ses feuilles, elles vous diront si la terre est riche.\""
+      },
+      "exercise": {
+        "question": "Où trouve-t-on généralement cette fleur ?",
+        "options": [
+          "Dans les déserts",
+          "Près des lisières de forêt",
+          "Au sommet des montagnes",
+          "Sous la neige"
+        ],
+        "correctAnswer": 1,
+        "feedbackSuccess": "Exact ! Vous avez bien identifié la caractéristique de cette plante. Elle est notée dans votre carnet.",
+        "feedbackFail": "Pas tout à fait. Relisez bien la fiche et essayez de mémoriser les détails la prochaine fois."
+      }
+    },
+    {
+      "id": "Flowers_n03_28",
+      "modelPath": "/models/flowers/Flowers_n03_28.glb",
+      "cardType": "/assets/card/SilverCard.png",
+      "frenchName": "Cristal de Neige",
+      "scientificName": "Aster alpinus",
+      "type": "Plante",
+      "status": "Préoccupation mineure (LC)",
+      "description": "Une belle plante d'Afrique. Elle possède des caractéristiques uniques qui la rendent spéciale pour les habitants de la région.",
+      "leftPanel": {
+        "Habitat": "Près des points d'eau, sols humides et riches.",
+        "Usages": "Toxique, utilisé traditionnellement pour la chasse"
+      },
+      "rightPanel": {
+        "Danger ?": "Sans danger.",
+        "Densité": "●●●○○ — Assez commun",
+        "Tip de Feuille": "\"Observez bien ses feuilles, elles vous diront si la terre est riche.\""
+      },
+      "exercise": {
+        "question": "Quel est l'usage médical traditionnel de cette plante ?",
+        "options": [
+          "Soigner les brûlures",
+          "Aider à dormir",
+          "Donner de l'énergie",
+          "Aucun usage connu"
+        ],
+        "correctAnswer": 1,
+        "feedbackSuccess": "Exact ! Vous avez bien identifié la caractéristique de cette plante. Elle est notée dans votre carnet.",
+        "feedbackFail": "Pas tout à fait. Relisez bien la fiche et essayez de mémoriser les détails la prochaine fois."
+      }
     }
   ]
 }

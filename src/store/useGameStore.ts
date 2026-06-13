@@ -7,12 +7,15 @@ interface GameState {
   inventory: string[];
   isInteracting: boolean;
   currentChapter: number;
+  isBotanicalBookOpen: boolean;
+  
   setInteracting: (isInteracting: boolean) => void;
   addXP: (amount: number) => void;
   addBiodiversity: (amount: number) => void;
   addTrust: (amount: number) => void;
   addItem: (item: string) => void;
   setChapter: (chapter: number) => void;
+  setBotanicalBookOpen: (isOpen: boolean) => void;
 }
 
 export const useGameStore = create<GameState>((set) => ({
@@ -22,6 +25,7 @@ export const useGameStore = create<GameState>((set) => ({
   inventory: [],
   isInteracting: false,
   currentChapter: 1,
+  isBotanicalBookOpen: false,
 
   setInteracting: (isInteracting) => set({ isInteracting }),
   addXP: (amount) => set((state) => ({ xp_langage: state.xp_langage + amount })),
@@ -29,4 +33,5 @@ export const useGameStore = create<GameState>((set) => ({
   addTrust: (amount) => set((state) => ({ lien_confiance: state.lien_confiance + amount })),
   addItem: (item) => set((state) => ({ inventory: [...state.inventory, item] })),
   setChapter: (chapter) => set({ currentChapter: chapter }),
+  setBotanicalBookOpen: (isOpen) => set({ isBotanicalBookOpen: isOpen }),
 }));

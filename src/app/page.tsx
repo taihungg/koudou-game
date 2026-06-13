@@ -5,11 +5,13 @@ import { Physics } from "@react-three/rapier";
 import { KeyboardControls } from "@react-three/drei";
 import Environment from "@/components/game/Environment";
 import Player from "@/components/game/Player";
-import HUD from "@/components/ui/HUD";
 import LearningCardUI from "@/components/ui/LearningCardUI";
+import InventoryHUD from "@/components/ui/InventoryHUD";
+import BotanicalBookUI from "@/components/ui/BotanicalBookUI";
 import { OrthographicCamera } from "@react-three/drei";
 import * as THREE from "three";
 import { useEffect } from "react";
+import HUD from "@/components/ui/HUD";
 
 // Tạm thời tắt các cảnh báo deprecation (sắp lỗi thời) từ nội bộ thư viện Three.js
 // vì các thư viện @react-three/fiber và rapier chưa cập nhật kịp với Three.js r169+
@@ -41,6 +43,8 @@ export default function Home() {
     <main className="w-screen h-screen overflow-hidden relative bg-sky-100">
       <HUD />
       <LearningCardUI />
+      <InventoryHUD />
+      <BotanicalBookUI />
 
       <KeyboardControls map={keyboardMap}>
         <Canvas shadows={{ type: THREE.PCFShadowMap }}>
