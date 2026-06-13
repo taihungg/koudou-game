@@ -115,6 +115,9 @@ useGLTF.preload(GAME_ASSETS.MODELS.CHARACTERS.PLAYERS_KNIGHT);
 useGLTF.preload(GAME_ASSETS.MODELS.CHARACTERS.PLAYERS_MAGE);
 useGLTF.preload(GAME_ASSETS.MODELS.CHARACTERS.PLAYERS_RANGER);
 useGLTF.preload(GAME_ASSETS.MODELS.CHARACTERS.PLAYERS_ROGUE_HOODED);
+useGLTF.preload(GAME_ASSETS.MODELS.OBJECTS.FARM_PLOT);
+useGLTF.preload(GAME_ASSETS.MODELS.OBJECTS.LUMBERMILL);
+useGLTF.preload(GAME_ASSETS.MODELS.OBJECTS.WATCHTOWER);
 
 // Village building Component
 function VillageBuilding({ url, position, rotation, scale = 1, colliderArgs = [2, 2, 2] }: any) {
@@ -151,8 +154,10 @@ export default function StaticVillage() {
       [-2,  1], [2,  1],
       [-2,  2], [-1,  2], [0,  2], [1,  2], [2,  2],
       // Add a few more in inner spots
-      [-1, -1], [1, -1], [-1, 1], [1, 1]
-    ]; // 20 spots total
+      [-1, -1], [1, -1], [-1, 1], [1, 1],
+      // Add 2 more houses
+      [0, -1], [0, 1]
+    ]; // 22 spots total
 
     const cellSize = 30; // 30 units between houses
 
@@ -224,6 +229,29 @@ export default function StaticVillage() {
         modelUrl={GAME_ASSETS.MODELS.CHARACTERS.PLAYERS_MAGE}
         position={[10, 0, 3]}
         rotation={[0, Math.PI / 4, 0]}
+      />
+
+      {/* Decorations */}
+      <VillageBuilding 
+        url={GAME_ASSETS.MODELS.OBJECTS.FARM_PLOT} 
+        position={[-15, 0, 15]} 
+        rotation={[0, 0, 0]} 
+        scale={3.0}
+        colliderArgs={[6, 1, 6]}
+      />
+      <VillageBuilding 
+        url={GAME_ASSETS.MODELS.OBJECTS.LUMBERMILL} 
+        position={[-20, 0, -10]} 
+        rotation={[0, Math.PI / 3, 0]} 
+        scale={3.0}
+        colliderArgs={[6, 4, 6]}
+      />
+      <VillageBuilding 
+        url={GAME_ASSETS.MODELS.OBJECTS.WATCHTOWER} 
+        position={[0, 0, -25]} 
+        rotation={[0, 0, 0]} 
+        scale={3.0}
+        colliderArgs={[3, 10, 3]}
       />
 
       {/* Houses */}
