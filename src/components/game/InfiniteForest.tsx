@@ -90,7 +90,7 @@ const ForestItem = React.memo(({ item }: { item: any }) => {
 ForestItem.displayName = "ForestItem";
 
 // A Chunk of the forest
-const ForestChunk = React.memo(({ chunkX, chunkZ }: { chunkX: number; chunkZ: number }) => {
+const ForestChunk = React.memo(({ chunkX, chunkZ, clearRadius = 5 }: { chunkX: number; chunkZ: number, clearRadius?: number }) => {
   const items = useMemo(() => {
     const chunkSeed = hashCoordinates(chunkX, chunkZ, 12345);
     const rng = mulberry32(chunkSeed);
@@ -105,7 +105,7 @@ const ForestChunk = React.memo(({ chunkX, chunkZ }: { chunkX: number; chunkZ: nu
       const z = startZ + (rng() - 0.5) * CHUNK_SIZE;
 
       // Keep center (spawn area) relatively clear
-      if (Math.abs(x) < 5 && Math.abs(z) < 5 && chunkX === 0 && chunkZ === 0) continue;
+      if (Math.abs(x) < clearRadius && Math.abs(z) < clearRadius && chunkX === 0 && chunkZ === 0) continue;
 
       const randType = rng();
       let categoryArray;
@@ -173,7 +173,7 @@ const ForestChunk = React.memo(({ chunkX, chunkZ }: { chunkX: number; chunkZ: nu
 });
 ForestChunk.displayName = "ForestChunk";
 
-export default function InfiniteForest() {
+export default function InfiniteForest({ clearRadius = 5 }: { clearRadius?: number }) {
   const [currentChunk, setCurrentChunk] = useState({ x: 0, z: 0 });
 
   useFrame((state) => {
@@ -213,7 +213,7 @@ export default function InfiniteForest() {
 
       {/* Render Chunks */}
       {chunksToRender.map((chunk) => (
-        <ForestChunk key={`${chunk.x}_${chunk.z}`} chunkX={chunk.x} chunkZ={chunk.z} />
+        <ForestChunk key={`${chunk.x}_${chunk.z}`} chunkX={chunk.x} chunkZ={chunk.z} clearRadius={clearRadius} />
       ))}
     </group>
   );
