@@ -5,8 +5,8 @@ import { useLearningStore } from '@/store/useLearningStore';
 import { useGameStore } from '@/store/useGameStore';
 
 export default function LearningCardUI() {
-  const { activeEntity, completedExercises, markExerciseCompleted } = useLearningStore();
-  const { addXP } = useGameStore();
+  const { activeEntity, nearbyEntity, setActiveEntity, completedExercises, markExerciseCompleted } = useLearningStore();
+  const { addXP, setInteracting } = useGameStore();
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
   const [feedback, setFeedback] = useState<string | null>(null);
   const [isVisible, setIsVisible] = useState(false);
@@ -15,14 +15,36 @@ export default function LearningCardUI() {
   useEffect(() => {
     if (activeEntity) {
       setIsVisible(true);
+      setInteracting(true); // Freeze player when card opens
     } else {
       setIsVisible(false);
       setSelectedOption(null);
       setFeedback(null);
+      setInteracting(false); // Unfreeze player when card closes
     }
-  }, [activeEntity]);
+  }, [activeEntity, setInteracting]);
 
-  if (!activeEntity && !isVisible) return null;
+  // Handle keyboard interaction
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Open card if nearby
+      if (e.code === 'Space' && nearbyEntity && !activeEntity) {
+        setActiveEntity(nearbyEntity);
+      }
+      // Close card
+      if (e.code === 'Escape' && activeEntity) {
+        setActiveEntity(null);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [nearbyEntity, activeEntity, setActiveEntity]);
+
+  const closeCard = () => {
+    setActiveEntity(null);
+  };
+
+  if (!activeEntity && !isVisible && !nearbyEntity) return null;
 
   const handleOptionClick = (index: number) => {
     if (!activeEntity || !activeEntity.exercise) return;
@@ -42,15 +64,38 @@ export default function LearningCardUI() {
   const isCompleted = activeEntity && completedExercises.includes(activeEntity.id);
 
   return (
-    <div 
-      className={`absolute inset-0 pointer-events-none flex items-center justify-center transition-opacity duration-500 z-50 ${
-        isVisible ? 'opacity-100' : 'opacity-0'
-      }`}
-    >
-      {/* Container for the 3 panels */}
-      <div className="flex flex-row items-stretch justify-center gap-6 w-full max-w-7xl px-8 pointer-events-auto">
-        
-        {/* LEFT PANEL - Brown Board */}
+    <>
+      {/* INTERACTION PROMPT */}
+      {nearbyEntity && !activeEntity && (
+        <div className="absolute bottom-24 left-1/2 transform -translate-x-1/2 z-50 pointer-events-none">
+          <div className="bg-amber-950/80 border-2 border-amber-500/50 text-amber-100 px-6 py-3 rounded-full shadow-[0_0_15px_rgba(245,158,11,0.3)] backdrop-blur-sm flex items-center gap-3 animate-bounce font-bold">
+            <kbd className="bg-amber-100 text-amber-950 px-3 py-1 rounded shadow-sm font-mono border-b-2 border-amber-300">ESPACE</kbd>
+            <span>Interagir avec {nearbyEntity.frenchName}</span>
+          </div>
+        </div>
+      )}
+
+      {/* CARD OVERLAY */}
+      <div 
+        className={`absolute inset-0 pointer-events-none flex items-center justify-center transition-opacity duration-500 z-50 ${
+          isVisible ? 'opacity-100' : 'opacity-0'
+        }`}
+      >
+        {/* Dimmed Background */}
+        <div className={`absolute inset-0 bg-black/40 backdrop-blur-sm transition-opacity duration-500 pointer-events-auto ${isVisible ? 'opacity-100' : 'opacity-0'}`} onClick={closeCard}></div>
+
+        {/* Container for the 3 panels */}
+        <div className="flex flex-row items-stretch justify-center gap-6 w-full max-w-7xl px-8 pointer-events-auto relative">
+          
+          {/* CLOSE BUTTON */}
+          <button 
+            onClick={closeCard}
+            className="absolute -top-12 right-8 bg-red-600 hover:bg-red-500 text-white w-10 h-10 rounded-full font-bold shadow-lg transition-transform hover:scale-110 flex items-center justify-center z-50 border-2 border-red-300"
+          >
+            ✕
+          </button>
+          
+          {/* LEFT PANEL - Brown Board */}
         <div className="flex-1 bg-amber-900/90 border-4 border-amber-800 rounded-xl p-6 shadow-2xl text-amber-50 backdrop-blur-md transform transition-transform duration-500 translate-y-0">
           <h3 className="text-2xl font-bold mb-4 border-b border-amber-700 pb-2 text-amber-200">
             Informations
@@ -69,32 +114,53 @@ export default function LearningCardUI() {
         </div>
 
         {/* CENTER PANEL - Main Card */}
-        <div className="w-[350px] flex-shrink-0 flex flex-col items-center justify-center relative transform hover:scale-105 transition-transform duration-300">
+        <div className="w-[350px] flex-shrink-0 relative transform hover:scale-105 transition-transform duration-300 self-center">
+          
+          {/* 2D Image behind the card frame (shows through the transparent window) */}
+          <div className="absolute top-[8%] left-[8%] right-[8%] h-[45%] flex items-center justify-center z-0">
+             {activeEntity?.modelPath && activeEntity.modelPath.includes('/flowers/') ? (
+                <img 
+                  src={`/assets/flowers_2d/${activeEntity.modelPath.split('/').pop()?.replace('.glb', '.png')}`} 
+                  alt={activeEntity?.frenchName} 
+                  className="w-full h-full object-contain drop-shadow-xl scale-125" 
+                />
+              ) : (
+                <div className="text-8xl">{activeEntity?.category === 'animal' ? '🦌' : '🌿'}</div>
+              )}
+          </div>
+
+          {/* Card Frame Image */}
           <img 
             src={activeEntity?.cardType || '/assets/card/SilverCard.png'} 
             alt="Card Background" 
-            className="w-full h-auto drop-shadow-2xl"
+            className="w-full h-auto drop-shadow-2xl relative z-10"
           />
+          
           {/* Overlay Text on the card */}
-          <div className="absolute inset-0 flex flex-col items-center p-8 text-center pt-24 text-gray-800">
-            <div className="text-4xl mb-2">{activeEntity?.category === 'animal' ? '🦌' : '🌿'}</div>
-            <h2 className="text-2xl font-black mb-1 leading-tight tracking-tighter" style={{ fontFamily: 'var(--font-architects)' }}>
-              {activeEntity?.frenchName}
-            </h2>
-            <p className="text-sm font-bold italic text-gray-600 mb-6">
-              {activeEntity?.scientificName}
-            </p>
+          <div className="absolute inset-0 z-20 font-bold" style={{ fontFamily: 'var(--font-architects)' }}>
             
-            <div className="w-full space-y-2 text-sm font-bold text-left px-4">
-              <div className="flex justify-between border-b border-gray-300/50 pb-1">
-                <span>Famille:</span>
-                <span className="text-right text-gray-600">{activeEntity?.type}</span>
+            {/* Box 1: French Name (First Red Box) */}
+            <div className="absolute left-[10%] right-[10%] h-[12%] flex items-center justify-center px-4" style={{ top: '54%' }}>
+              <h2 className="text-2xl font-black text-center text-amber-50 leading-none drop-shadow-md">
+                {activeEntity?.frenchName}
+              </h2>
+            </div>
+            
+            {/* Box 2: Scientific Name, Type & Status (Second Red Box) */}
+            <div className="absolute left-[10%] right-[10%] h-[25%] flex flex-col justify-center px-6 text-amber-50 text-sm" style={{ top: '71%' }}>
+              <p className="italic text-center text-lg drop-shadow-md border-b border-amber-200/30 pb-2 mb-2">
+                {activeEntity?.scientificName}
+              </p>
+              <div className="flex justify-between mb-1">
+                <span className="opacity-90">Famille:</span>
+                <span className="text-right font-black drop-shadow-sm">{activeEntity?.type}</span>
               </div>
-              <div className="flex justify-between border-b border-gray-300/50 pb-1">
-                <span>Statut:</span>
-                <span className="text-right text-gray-600">{activeEntity?.status}</span>
+              <div className="flex justify-between">
+                <span className="opacity-90">Statut:</span>
+                <span className="text-right font-black drop-shadow-sm text-xs mt-1">{activeEntity?.status}</span>
               </div>
             </div>
+
           </div>
         </div>
 
@@ -160,5 +226,6 @@ export default function LearningCardUI() {
         </div>
       </div>
     </div>
+    </>
   );
 }

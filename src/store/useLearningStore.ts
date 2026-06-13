@@ -25,6 +25,8 @@ export interface LearningEntityData {
 interface LearningState {
   activeEntity: LearningEntityData | null;
   setActiveEntity: (entity: LearningEntityData | null) => void;
+  nearbyEntity: LearningEntityData | null;
+  setNearbyEntity: (entity: LearningEntityData | null) => void;
   completedExercises: string[]; // store IDs of completed exercises so we don't grant XP multiple times
   markExerciseCompleted: (id: string) => void;
 }
@@ -32,6 +34,8 @@ interface LearningState {
 export const useLearningStore = create<LearningState>((set) => ({
   activeEntity: null,
   setActiveEntity: (entity) => set({ activeEntity: entity }),
+  nearbyEntity: null,
+  setNearbyEntity: (entity) => set({ nearbyEntity: entity }),
   completedExercises: [],
   markExerciseCompleted: (id) => set((state) => ({ 
     completedExercises: [...state.completedExercises, id] 

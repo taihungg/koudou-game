@@ -18,14 +18,14 @@ interface LearningItem {
 const LearningGLTF = ({ item }: { item: LearningItem }) => {
   const { scene } = useGLTF(item.entityData.modelPath) as any;
   const clonedScene = useMemo(() => scene.clone(), [scene]);
-  const { setActiveEntity } = useLearningStore();
+  const { setNearbyEntity } = useLearningStore();
 
   const handleEnter = () => {
-    setActiveEntity(item.entityData);
+    setNearbyEntity(item.entityData);
   };
 
   const handleExit = () => {
-    setActiveEntity(null);
+    setNearbyEntity(null);
   };
 
   return (
@@ -55,7 +55,7 @@ const LearningFBX = ({ item }: { item: LearningItem }) => {
   const clonedScene = useMemo(() => fbx.clone(), [fbx]);
   const groupRef = useRef<THREE.Group>(null);
   const { actions, names } = useAnimations(fbx.animations, groupRef);
-  const { setActiveEntity } = useLearningStore();
+  const { setNearbyEntity } = useLearningStore();
 
   useEffect(() => {
     // Play idle animation if available
@@ -75,11 +75,11 @@ const LearningFBX = ({ item }: { item: LearningItem }) => {
   }, [clonedScene]);
 
   const handleEnter = () => {
-    setActiveEntity(item.entityData);
+    setNearbyEntity(item.entityData);
   };
 
   const handleExit = () => {
-    setActiveEntity(null);
+    setNearbyEntity(null);
   };
 
   return (
