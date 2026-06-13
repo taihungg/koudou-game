@@ -4,6 +4,7 @@ import { useGLTF, useAnimations } from "@react-three/drei";
 import { GAME_ASSETS } from "@/constants/assets";
 import { SkeletonUtils } from 'three-stdlib';
 import * as THREE from 'three';
+import { useDialogueStore } from "@/store/useDialogueStore";
 
 const NUM_HOUSES = 20;
 
@@ -46,6 +47,62 @@ function NPCCharacter({ modelUrl, position, rotation }: NPCProps) {
         <primitive object={character} />
       </group>
     </RigidBody>
+  );
+}
+
+// Interactable NPC Component
+function InteractableNPC({ modelUrl, position, rotation, npcId }: NPCProps & { npcId: string }) {
+  const { setNearbyNPCId } = useDialogueStore();
+  const characterGltf = useGLTF(modelUrl);
+  const generalAnimations = useGLTF(GAME_ASSETS.MODELS.CHARACTERS.ANIMATIONS_RIG_MEDIUM_GENERAL);
+  
+  const character = useMemo(() => {
+    const clone = SkeletonUtils.clone(characterGltf.scene);
+    clone.traverse((node: any) => {
+      if (node.isMesh) {
+        node.castShadow = true;
+        node.receiveShadow = true;
+      }
+    });
+    return clone;
+  }, [characterGltf.scene]);
+
+  const groupRef = React.useRef<THREE.Group>(null);
+  const { actions } = useAnimations(generalAnimations.animations, groupRef);
+
+  React.useEffect(() => {
+    if (actions && actions["Idle_A"]) {
+      actions["Idle_A"].reset().fadeIn(0.2).play();
+    }
+  }, [actions]);
+
+  const handleEnter = () => {
+    setNearbyNPCId(npcId);
+  };
+
+  const handleExit = () => {
+    setNearbyNPCId(null);
+  };
+
+  return (
+    <group position={position} rotation={rotation}>
+      {/* Fake glowing aura */}
+      <mesh position={[0, 1.0, 0]}>
+        <sphereGeometry args={[4.0, 8, 8]} />
+        <meshBasicMaterial color="#ffeb3b" transparent opacity={0.15} depthWrite={false} blending={THREE.AdditiveBlending} />
+      </mesh>
+
+      <RigidBody type="fixed" colliders={false}>
+        <CylinderCollider args={[0.8, 0.4]} position={[0, 0.8, 0]} />
+        <group ref={groupRef} position={[0, 0, 0]}>
+          <primitive object={character} />
+        </group>
+      </RigidBody>
+      
+      <RigidBody type="fixed" colliders={false} sensor onIntersectionEnter={handleEnter} onIntersectionExit={handleExit}>
+        <CylinderCollider args={[2.0, 5.0]} position={[0, 1.0, 0]} />
+      </RigidBody>
+    </group>
   );
 }
 
@@ -159,6 +216,14 @@ export default function StaticVillage() {
         rotation={[0, -Math.PI / 2, 0]} 
         scale={3.5}
         colliderArgs={[5, 4, 4]}
+      />
+
+      {/* NPC standing next to the Market (Interactable Kofi) */}
+      <InteractableNPC
+        npcId="kofi"
+        modelUrl={GAME_ASSETS.MODELS.CHARACTERS.PLAYERS_MAGE}
+        position={[10, 0, 3]}
+        rotation={[0, Math.PI / 4, 0]}
       />
 
       {/* Houses */}

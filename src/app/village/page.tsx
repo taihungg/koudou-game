@@ -11,6 +11,8 @@ import BotanicalBookUI from "@/components/ui/BotanicalBookUI";
 import { OrthographicCamera } from "@react-three/drei";
 import * as THREE from "three";
 import HUD from "@/components/ui/HUD";
+import StoryIntroUI from "@/components/ui/StoryIntroUI";
+import DialogueUI from "@/components/ui/DialogueUI";
 
 // Tạm thời tắt các cảnh báo deprecation (sắp lỗi thời) từ nội bộ thư viện Three.js
 // vì các thư viện @react-three/fiber và rapier chưa cập nhật kịp với Three.js r169+
@@ -41,7 +43,9 @@ export default function Village() {
   return (
     <main className="w-screen h-screen overflow-hidden relative bg-sky-100">
       <HUD />
+      <StoryIntroUI />
       <LearningCardUI />
+      <DialogueUI />
       <InventoryHUD />
       <BotanicalBookUI />
 
