@@ -118,7 +118,7 @@ const ForestChunk = React.memo(({ chunkX, chunkZ }: { chunkX: number; chunkZ: nu
         const entity = LEARNING_ENTITIES[Math.floor(rng() * LEARNING_ENTITIES.length)];
         categoryArray = [entity.modelPath]; // We just need something here so it passes the length check
         type = "learning";
-        scaleRange = [1.0, 1.2]; // Standardize size
+        scaleRange = [2.0, 2.4]; // Standardize size (Double current size)
         entityData = entity;
       } else if (randType < 0.25) {
         categoryArray = BIG_TREES;

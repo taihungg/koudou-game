@@ -30,6 +30,18 @@ const LearningGLTF = ({ item }: { item: LearningItem }) => {
 
   return (
     <group position={item.position} rotation={item.rotation} scale={item.scale}>
+      {/* Fake glowing aura (optimized, no real light) */}
+      <mesh position={[0, 1.0, 0]}>
+        <sphereGeometry args={[item.sensorRadius * 0.8, 8, 8]} />
+        <meshBasicMaterial color="#ffeb3b" transparent opacity={0.3} depthWrite={false} blending={THREE.AdditiveBlending} />
+      </mesh>
+
+      {/* Bright ring on ground */}
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.05, 0]}>
+        <ringGeometry args={[item.sensorRadius * 0.8, item.sensorRadius, 32]} />
+        <meshBasicMaterial color="#ffaa00" transparent opacity={0.8} depthWrite={false} />
+      </mesh>
+
       <primitive object={clonedScene} castShadow receiveShadow />
       <RigidBody type="fixed" colliders={false} sensor onIntersectionEnter={handleEnter} onIntersectionExit={handleExit}>
         <CylinderCollider args={[2.0, item.sensorRadius]} position={[0, 1.0, 0]} />
