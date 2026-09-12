@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Architects_Daughter } from "next/font/google";
+import BackgroundMusic from "@/components/audio/BackgroundMusic";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -35,6 +36,7 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col" suppressHydrationWarning>
+        <BackgroundMusic />
         {children}
       </body>
     </html>
