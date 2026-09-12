@@ -25,6 +25,9 @@ KOUDOU is a browser 3D "cozy RPG" that teaches French (FLE, A2–B2) around UN S
 Design docs live at the repo root and are the source of truth for game content and level
 intent — `KOUDOU-overview.md` (full game plan), `kou-dou.md` (level/world-composition
 handoff doc), `card.md`, `dialouge.md`. Read them before inventing gameplay or copy.
+`chapter1-world-status.md` is a separate, code-focused status doc for the `/forest`
+zone/vegetation/river system in `src/config/world` — read it before touching that system;
+it tracks what's built, what still falls back to defaults, and known bugs.
 
 ## Stack and conventions
 
