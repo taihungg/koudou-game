@@ -1,13 +1,17 @@
 import type { BiomeId } from './types';
 
 /**
- * Vị trí loài học tác giả đặt tay cho vertical slice P1 (Z0/Z1/Z2) — kou-dou.md
- * §7: "quest targets" thuộc nhóm hand-authored, không phải thứ thuật toán rải
- * ngẫu nhiên như cỏ/bụi. Khác `InfiniteForest` cũ (spawn 5% xác suất mỗi ô
- * chunk, chỉ "ổn định" chừng nào người chơi còn đứng nguyên trong chunk đó):
- * ở đây mỗi entry là MỘT điểm cố định trên bản đồ, tồn tại vĩnh viễn bất kể
- * chunk nào đang render — điều kiện bắt buộc để sau này làm checklist kiểu
- * "3/5 loài đã tìm trong Bosquet médicinal".
+ * Vị trí loài học tác giả đặt tay — kou-dou.md §7: "quest targets" thuộc nhóm
+ * hand-authored, không phải thứ thuật toán rải ngẫu nhiên như cỏ/bụi. Khác
+ * `InfiniteForest` cũ (spawn 5% xác suất mỗi ô chunk, chỉ "ổn định" chừng nào
+ * người chơi còn đứng nguyên trong chunk đó): ở đây mỗi entry là MỘT điểm cố
+ * định trên bản đồ, tồn tại vĩnh viễn bất kể chunk nào đang render — điều kiện
+ * bắt buộc để sau này làm checklist kiểu "3/5 loài đã tìm trong Bosquet
+ * médicinal".
+ *
+ * P1 chỉ phủ Z0/Z1/Z2 (3 zone có palette lúc đó); P3 mở rộng nốt sang 5 zone
+ * còn lại (river/ancient_forest/cave_camp/cabin/human_traces) sau khi palette
+ * của chúng được author.
  *
  * `speciesId` phải khớp đúng field `id` trong learningEntities.json — đó là
  * khoá mà useLearningStore dùng để gate XP lặp lại (`completedExercises`), nên
@@ -16,8 +20,10 @@ import type { BiomeId } from './types';
  *
  * Chọn loài theo `leftPanel.Habitat` trong data (chỉ lặp lại 7 câu mẫu, không
  * phải mô tả sinh học thật) để ít nhất đọc hợp lý với biome: "Zones ouvertes"
- * cho Z0, "Lisières de forêt tropicale" cho Z1, "Sous-bois sombres"/"Forêts
- * denses" cho Z2.
+ * cho Z0/cabane, "Lisières de forêt tropicale" cho Z1, "Sous-bois sombres"/
+ * "Forêts denses" cho Z2/forêt ancienne, "Près des points d'eau" cho rivière,
+ * "Montagnes rocheuses" cho grotte, "Savanes arides" cho traces humaines
+ * (logged — sol exposé après la coupe).
  */
 export interface SpeciesPlacement {
   /** Id riêng của VỊ TRÍ này — dùng làm React key và id sensor, không phải id loài. */
@@ -103,5 +109,108 @@ export const WORLD_SPECIES: SpeciesPlacement[] = [
     speciesId: 'Flowers_n03_02', // Renoncule — "sous-bois sombres"
     position: [75, -155],
     clearance: 3.5,
+  },
+
+  // Rivière — 2 loài trên hai bờ khác nhau, đúng habitat "près des points
+  // d'eau"; đặt cách tim sông 15-20 m nên nằm ngoài RIVER_CLEARANCE_MARGIN của
+  // tán cây (P3, mở rộng WORLD_SPECIES sang các zone chưa có palette ở P1/P2).
+  {
+    id: 'river_species_01',
+    zoneId: 'river',
+    biome: 'riverbank',
+    speciesId: 'Flower_n_03', // "près des points d'eau, sols humides"
+    position: [-35, -18],
+    clearance: 3,
+  },
+  {
+    id: 'river_species_02',
+    zoneId: 'river',
+    biome: 'riverbank',
+    speciesId: 'Flowers_n02_01', // "près des points d'eau, sols humides"
+    position: [-45, 18],
+    clearance: 3,
+  },
+
+  // Forêt ancienne — habitat "forêts denses" / "sous-bois sombres", rải đều
+  // trong hình chữ nhật zone (x[-195,-50] z[45,125]).
+  {
+    id: 'ancient_forest_species_01',
+    zoneId: 'ancient_forest',
+    biome: 'ancient_forest',
+    speciesId: 'Flowers_n02_05', // "forêts denses, épiphyte"
+    position: [-160, 60],
+    clearance: 3.5,
+  },
+  {
+    id: 'ancient_forest_species_02',
+    zoneId: 'ancient_forest',
+    biome: 'ancient_forest',
+    speciesId: 'Flowers_n02_17', // "sous-bois sombres"
+    position: [-90, 100],
+    clearance: 3.5,
+  },
+  {
+    id: 'ancient_forest_species_03',
+    zoneId: 'ancient_forest',
+    biome: 'ancient_forest',
+    speciesId: 'Flowers_n03_09', // "sous-bois sombres"
+    position: [-70, 70],
+    clearance: 3.5,
+  },
+
+  // Grotte et camp — habitat "montagnes rocheuses".
+  {
+    id: 'cave_camp_species_01',
+    zoneId: 'cave_camp',
+    biome: 'rocky',
+    speciesId: 'Flower_n_04', // "montagnes rocheuses, résistant au vent"
+    position: [-145, 155],
+    clearance: 3,
+  },
+  {
+    id: 'cave_camp_species_02',
+    zoneId: 'cave_camp',
+    biome: 'rocky',
+    speciesId: 'Flowers_n02_09', // "montagnes rocheuses, résistant au vent"
+    position: [-170, 185],
+    clearance: 3,
+  },
+
+  // Cabane abandonnée — habitat "zones ouvertes, bords de sentiers", cùng
+  // logique với clairière đã đọc phải "zones ouvertes" ở Z0.
+  {
+    id: 'cabin_species_01',
+    zoneId: 'cabin',
+    biome: 'cabin_clearing',
+    speciesId: 'Flower_n_08', // "zones ouvertes, bords de sentiers"
+    position: [30, 115],
+    clearance: 3,
+  },
+  {
+    id: 'cabin_species_02',
+    zoneId: 'cabin',
+    biome: 'cabin_clearing',
+    speciesId: 'Flowers_n02_13', // "zones ouvertes, bords de sentiers"
+    position: [85, 80],
+    clearance: 3,
+  },
+
+  // Traces humaines — habitat "savanes arides": vùng bị đốn hạ, tán cây thưa
+  // nên đất khô nắng gắt hơn, khớp với loài chịu hạn thay vì loài rừng ẩm.
+  {
+    id: 'human_traces_species_01',
+    zoneId: 'human_traces',
+    biome: 'logged',
+    speciesId: 'Flower_n_06', // "savanes arides, tolère la sécheresse"
+    position: [50, 165],
+    clearance: 3,
+  },
+  {
+    id: 'human_traces_species_02',
+    zoneId: 'human_traces',
+    biome: 'logged',
+    speciesId: 'Flowers_n02_04', // "savanes arides, tolère la sécheresse"
+    position: [150, 185],
+    clearance: 3,
   },
 ];

@@ -48,3 +48,35 @@ export const RIVER_SAMPLES: [number, number][] = RIVER_CURVE
 
 /** Điểm đặt cầu — trùng một control point để không lệch khỏi đường cong thật. */
 export const BRIDGE_POINT: [number, number] = [-20, 6];
+
+/**
+ * Hướng cục bộ của sông tại BRIDGE_POINT, suy từ hai mẫu lân cận trong
+ * RIVER_SAMPLES — dùng để xoay mặt cầu (Bridge.tsx) đúng góc vuông với dòng
+ * chảy, cùng công thức pháp tuyến RiverWalls.tsx đã dùng để xoay tường.
+ */
+function findBridgeIndex(): number {
+  let bestIdx = 0;
+  let bestDist = Infinity;
+  for (let i = 0; i < RIVER_SAMPLES.length; i++) {
+    const [x, z] = RIVER_SAMPLES[i];
+    const d = Math.hypot(x - BRIDGE_POINT[0], z - BRIDGE_POINT[1]);
+    if (d < bestDist) {
+      bestDist = d;
+      bestIdx = i;
+    }
+  }
+  return bestIdx;
+}
+
+const BRIDGE_IDX = findBridgeIndex();
+const [BX0, BZ0] = RIVER_SAMPLES[Math.max(0, BRIDGE_IDX - 1)];
+const [BX1, BZ1] = RIVER_SAMPLES[Math.min(RIVER_SAMPLES.length - 1, BRIDGE_IDX + 1)];
+const BRIDGE_TANGENT_RAW = [BX1 - BX0, BZ1 - BZ0] as const;
+const BRIDGE_TANGENT_LEN = Math.hypot(BRIDGE_TANGENT_RAW[0], BRIDGE_TANGENT_RAW[1]) || 1;
+/** Vector đơn vị dọc hướng chảy tại điểm cầu. */
+export const BRIDGE_TANGENT: [number, number] = [
+  BRIDGE_TANGENT_RAW[0] / BRIDGE_TANGENT_LEN,
+  BRIDGE_TANGENT_RAW[1] / BRIDGE_TANGENT_LEN,
+];
+/** Vector đơn vị vuông góc dòng chảy — hướng băng qua sông, dùng để xếp các tấm cầu. */
+export const BRIDGE_NORMAL: [number, number] = [-BRIDGE_TANGENT[1], BRIDGE_TANGENT[0]];

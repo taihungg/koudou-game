@@ -7,6 +7,7 @@ import { CHUNK_SIZE, RENDER_DISTANCE, TERRAIN_RENDER_DISTANCE, WORLD_HALF } from
 import { ISO_CAMERA_OFFSET } from "@/constants/camera";
 import { ChunkTerrain } from "./TerrainTiles";
 import { ChunkVegetation } from "./ChunkVegetation";
+import Bridge from "./Bridge";
 import Landmarks from "./Landmarks";
 import River from "./River";
 import RiverWalls from "./RiverWalls";
@@ -72,6 +73,7 @@ export default function ZonedForest() {
       <WorldBounds />
       <RiverWalls />
       <River />
+      <Bridge />
       <Landmarks />
       <WorldSpecies />
       {terrainChunks.map((c) => (

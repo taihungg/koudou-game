@@ -192,4 +192,16 @@ export const LANDMARKS: LandmarkConfig[] = [
     rotationY: 1.1,
     clearance: 8,
   },
+  {
+    // Canoë échoué sur la rive — landmark de la zone rivière (P3), positionné
+    // sur le chemin p3 avant le pont pour préfigurer la future quête "aller
+    // chercher de l'eau" (demande initiale du joueur pour cette rivière).
+    id: 'river_canoe',
+    zoneId: 'river',
+    position: [20, -25],
+    modelPath: GAME_ASSETS.MODELS.NATUREKIT.CANOE,
+    scale: 5,
+    rotationY: 2.0,
+    clearance: 6,
+  },
 ];
