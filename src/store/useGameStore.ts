@@ -10,6 +10,8 @@ interface GameState {
   isInteracting: boolean;
   currentChapter: number;
   isBotanicalBookOpen: boolean;
+  /** Carnet de M. Dubois — checklist "X/Y loài đã tìm" theo từng zone (WORLD_SPECIES). */
+  isDuboisNotebookOpen: boolean;
   hasSeenVillageIntro: boolean;
   hasSeenForestIntro: boolean;
   
@@ -20,6 +22,7 @@ interface GameState {
   addItem: (item: string) => void;
   setChapter: (chapter: number) => void;
   setBotanicalBookOpen: (isOpen: boolean) => void;
+  setDuboisNotebookOpen: (isOpen: boolean) => void;
   setHasSeenVillageIntro: (seen: boolean) => void;
   setHasSeenForestIntro: (seen: boolean) => void;
 }
@@ -34,6 +37,7 @@ export const useGameStore = create<GameState>()(
       isInteracting: false,
       currentChapter: 1,
       isBotanicalBookOpen: false,
+      isDuboisNotebookOpen: false,
       hasSeenVillageIntro: false,
       hasSeenForestIntro: false,
 
@@ -44,6 +48,7 @@ export const useGameStore = create<GameState>()(
       addItem: (item) => set((state) => ({ inventory: [...state.inventory, item] })),
       setChapter: (chapter) => set({ currentChapter: chapter }),
       setBotanicalBookOpen: (isOpen) => set({ isBotanicalBookOpen: isOpen }),
+      setDuboisNotebookOpen: (isOpen) => set({ isDuboisNotebookOpen: isOpen }),
       setHasSeenVillageIntro: (seen) => set({ hasSeenVillageIntro: seen }),
       setHasSeenForestIntro: (seen) => set({ hasSeenForestIntro: seen }),
     }),

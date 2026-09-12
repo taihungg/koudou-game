@@ -5,7 +5,7 @@ import { useGameStore } from '@/store/useGameStore';
 import { BookOpen, NotebookText, HeartPulse, BookDashed } from 'lucide-react';
 
 export default function InventoryHUD() {
-  const { setBotanicalBookOpen } = useGameStore();
+  const { setBotanicalBookOpen, setDuboisNotebookOpen } = useGameStore();
   const [hovered, setHovered] = useState<string | null>(null);
 
   const icons = [
@@ -20,7 +20,7 @@ export default function InventoryHUD() {
       id: "dubois",
       name: "Carnet de M. Dubois",
       icon: <NotebookText className="w-8 h-8 text-amber-100" />,
-      onClick: () => alert("Sổ tay của M. Dubois (Chưa khả dụng)"),
+      onClick: () => setDuboisNotebookOpen(true),
       bg: "bg-blue-800"
     },
     {

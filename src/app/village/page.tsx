@@ -8,6 +8,7 @@ import Player from "@/components/game/Player";
 import LearningCardUI from "@/components/ui/LearningCardUI";
 import InventoryHUD from "@/components/ui/InventoryHUD";
 import BotanicalBookUI from "@/components/ui/BotanicalBookUI";
+import DuboisNotebookUI from "@/components/ui/DuboisNotebookUI";
 import { OrthographicCamera } from "@react-three/drei";
 import * as THREE from "three";
 import HUD from "@/components/ui/HUD";
@@ -48,6 +49,7 @@ export default function Village() {
       <DialogueUI />
       <InventoryHUD />
       <BotanicalBookUI />
+      <DuboisNotebookUI />
 
       <KeyboardControls map={keyboardMap}>
         <Canvas shadows={{ type: THREE.PCFShadowMap }}>
