@@ -3,7 +3,6 @@
 import React, { useEffect, useRef } from "react";
 import {
   BIOME_GROUND,
-  LANDMARKS,
   PATHS,
   PATH_GROUND,
   PLAYABLE_HALF,
@@ -13,9 +12,11 @@ import {
   ZONES,
 } from "@/config/world/chapter1";
 import { RIVER_SAMPLES } from "@/config/world/river";
+import { WORLD_SPECIES } from "@/config/world/species";
 import type { BiomeId } from "@/config/world/types";
 import { sampleBiome } from "@/utils/worldSampling";
 import { minimapProbe } from "@/components/game/world/MinimapProbe";
+import { useLearningStore } from "@/store/useLearningStore";
 
 /**
  * Minimap góc dưới phải — tổng quan bản đồ hữu hạn (kou-dou.md) + chấm vị trí
@@ -138,18 +139,6 @@ const StaticMapLayer = React.memo(function StaticMapLayer() {
         fillRule="evenodd"
       />
 
-      {LANDMARKS.map((lm) => (
-        <circle
-          key={lm.id}
-          cx={wx(lm.position[0])}
-          cy={wz(lm.position[1])}
-          r={4}
-          fill="#f5c451"
-          stroke="#5c3a12"
-          strokeWidth={1.5}
-        />
-      ))}
-
       <rect x={0.5} y={0.5} width={VIEW - 1} height={VIEW - 1} fill="none" stroke="#3a2c17" strokeWidth={2} />
     </>
   );
@@ -158,6 +147,7 @@ const StaticMapLayer = React.memo(function StaticMapLayer() {
 export default function Minimap() {
   const dotRef = useRef<HTMLDivElement>(null);
   const labelRef = useRef<HTMLSpanElement>(null);
+  const completedExercises = useLearningStore((s) => s.completedExercises);
 
   useEffect(() => {
     let raf = 0;
@@ -183,11 +173,28 @@ export default function Minimap() {
     return () => cancelAnimationFrame(raf);
   }, []);
 
+  // Chỉ hiển thị chấm vàng cho những cây/loài CHƯA hoàn thành bài tập
+  const activeTargets = React.useMemo(() => {
+    return WORLD_SPECIES.filter((sp) => !completedExercises.includes(sp.speciesId));
+  }, [completedExercises]);
+
   return (
     <div className="absolute bottom-4 right-4 z-10 flex flex-col items-center pointer-events-none">
       <div className="relative h-40 w-40 overflow-hidden rounded-xl border-4 border-amber-800/80 bg-[#fdf6e3] shadow-[0_4px_20px_rgba(0,0,0,0.25)]">
         <svg viewBox={`0 0 ${VIEW} ${VIEW}`} className="h-full w-full">
           <StaticMapLayer />
+          {/* Chấm vàng mục tiêu học tập — tự biến mất khi làm đúng bài tập */}
+          {activeTargets.map((sp) => (
+            <circle
+              key={sp.id}
+              cx={wx(sp.position[0])}
+              cy={wz(sp.position[1])}
+              r={4}
+              fill="#f5c451"
+              stroke="#5c3a12"
+              strokeWidth={1.5}
+            />
+          ))}
         </svg>
 
         <div

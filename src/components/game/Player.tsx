@@ -7,6 +7,8 @@ import { useGameStore } from "@/store/useGameStore";
 import { SkeletonUtils } from 'three-stdlib';
 import { GAME_ASSETS } from "@/constants/assets";
 import { ISO_CAMERA_OFFSET } from "@/constants/camera";
+import { playerRadar, findNearestRadarBySpecies } from "@/components/game/world/CompassRadar";
+import { useLearningStore } from "@/store/useLearningStore";
 
 // -----------------------------------------------------------------------------
 // AnimatedCharacter Component
@@ -80,13 +82,33 @@ function AnimatedCharacter({ modelUrl, animationState, rotationRef }: AnimatedCh
 export default function Player({ spawn = [0, 5, 0] }: { spawn?: [number, number, number] } = {}) {
   const rigidBodyRef = useRef<RapierRigidBody>(null);
   const rotationRef = useRef<number>(0);
+  const orbitAzimuthRef = useRef<number>(Math.PI / 4);
+  const orbitTiltRef = useRef<number>(Math.PI / 6);
   const [, get] = useKeyboardControls();
   const { isInteracting } = useGameStore();
+  const nearbyEntity = useLearningStore((s) => s.nearbyEntity);
 
   const speed = 5;
+  const sprintMultiplier = 1.8;
+  const jumpForce = 6;
+  const DEFAULT_ZOOM = 40;
+  const OBSERVE_ZOOM = 75;
+  const ORBIT_RADIUS = 5;
+  const ORBIT_SPEED = 2; // rad/s
+  const TILT_LIMIT = Math.PI / 2; // ±90° = quét dọc đủ 180°
   const direction = new THREE.Vector3();
   const frontVector = new THREE.Vector3();
   const sideVector = new THREE.Vector3();
+  const raycaster = new THREE.Raycaster();
+  const groundPlane = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
+  const pointerHit = new THREE.Vector3();
+
+  // Mỗi lần đổi sang loài khác thì reset góc quay 360°/độ nghiêng dọc về mặc
+  // định, tránh camera "thừa kế" góc nhìn lệch từ vật thể quan sát trước đó.
+  useEffect(() => {
+    orbitAzimuthRef.current = Math.PI / 4;
+    orbitTiltRef.current = Math.PI / 6;
+  }, [nearbyEntity?.id]);
 
   const [animation, setAnimation] = useState("Idle_A");
 
@@ -99,14 +121,80 @@ export default function Player({ spawn = [0, 5, 0] }: { spawn?: [number, number,
       return;
     }
 
-    const { forward, backward, left, right } = get();
+    const { forward, backward, left, right, sprint, jump, observe } = get();
+    const camera = state.camera as THREE.OrthographicCamera;
+
+    // Giữ F để quan sát: nhân vật đứng yên (chỉ còn trọng lực), camera phóng to
+    // (kính lúp). Nếu đang đứng cạnh một vật phẩm có thể nhặt (nearbyEntity),
+    // trái/phải xoay camera 360° quanh chính vật đó thay vì chiến lược đi bộ.
+    if (observe) {
+      if (animation !== "Idle_A") setAnimation("Idle_A");
+      rigidBodyRef.current.setLinvel(
+        { x: 0, y: rigidBodyRef.current.linvel().y, z: 0 },
+        true
+      );
+
+      const pos = rigidBodyRef.current.translation();
+      playerRadar.x = pos.x;
+      playerRadar.z = pos.z;
+
+      camera.zoom = THREE.MathUtils.lerp(camera.zoom, OBSERVE_ZOOM, 6 * delta);
+      camera.updateProjectionMatrix();
+
+      const target = nearbyEntity
+        ? findNearestRadarBySpecies(nearbyEntity.id, pos.x, pos.z)
+        : null;
+
+      if (target) {
+        // Trái/phải xoay quanh vật (góc phương vị), lên/xuống nghiêng camera
+        // theo chiều dọc — kẹp ±90° để quét đủ 180° từ trên đỉnh xuống gầm vật.
+        if (left) orbitAzimuthRef.current += ORBIT_SPEED * delta;
+        if (right) orbitAzimuthRef.current -= ORBIT_SPEED * delta;
+        if (forward) {
+          orbitTiltRef.current = Math.min(TILT_LIMIT, orbitTiltRef.current + ORBIT_SPEED * delta);
+        }
+        if (backward) {
+          orbitTiltRef.current = Math.max(-TILT_LIMIT, orbitTiltRef.current - ORBIT_SPEED * delta);
+        }
+
+        const cosTilt = Math.cos(orbitTiltRef.current);
+        const sinTilt = Math.sin(orbitTiltRef.current);
+        camera.position.set(
+          target.x + ORBIT_RADIUS * cosTilt * Math.sin(orbitAzimuthRef.current),
+          pos.y + 1 + ORBIT_RADIUS * sinTilt,
+          target.z + ORBIT_RADIUS * cosTilt * Math.cos(orbitAzimuthRef.current),
+        );
+        camera.lookAt(target.x, pos.y + 1, target.z);
+      } else {
+        // Không có vật phẩm cụ thể: chuột trỏ vào đâu trên mặt đất thì camera
+        // phóng to vào đó, vẫn giữ cùng góc isometric cố định của toàn bộ game.
+        raycaster.setFromCamera(state.pointer, camera);
+        const hit = raycaster.ray.intersectPlane(groundPlane, pointerHit);
+        const fx = hit ? pointerHit.x : pos.x;
+        const fy = hit ? pointerHit.y : pos.y;
+        const fz = hit ? pointerHit.z : pos.z;
+
+        camera.position.set(
+          fx + ISO_CAMERA_OFFSET,
+          fy + ISO_CAMERA_OFFSET,
+          fz + ISO_CAMERA_OFFSET,
+        );
+        camera.lookAt(fx, fy, fz);
+      }
+      return;
+    }
+
+    if (Math.abs(camera.zoom - DEFAULT_ZOOM) > 0.01) {
+      camera.zoom = THREE.MathUtils.lerp(camera.zoom, DEFAULT_ZOOM, 6 * delta);
+      camera.updateProjectionMatrix();
+    }
 
     frontVector.set(0, 0, Number(backward) - Number(forward));
     sideVector.set(Number(left) - Number(right), 0, 0);
 
     direction.subVectors(frontVector, sideVector)
       .normalize()
-      .multiplyScalar(speed);
+      .multiplyScalar(sprint ? speed * sprintMultiplier : speed);
 
     const isMoving = direction.length() > 0.1;
     if (isMoving && animation !== "Running_A") setAnimation("Running_A");
@@ -114,8 +202,14 @@ export default function Player({ spawn = [0, 5, 0] }: { spawn?: [number, number,
 
     direction.applyAxisAngle(new THREE.Vector3(0, 1, 0), Math.PI / 4);
 
+    // Vận tốc dọc gần 0 nghĩa là đang đứng yên trên mặt đất (không rơi, không
+    // nhảy dở) — dùng làm điều kiện "grounded" đơn giản, tránh double-jump.
+    const currentVelY = rigidBodyRef.current.linvel().y;
+    const isGrounded = Math.abs(currentVelY) < 0.05;
+    const velY = jump && isGrounded ? jumpForce : currentVelY;
+
     rigidBodyRef.current.setLinvel(
-      { x: direction.x, y: rigidBodyRef.current.linvel().y, z: direction.z },
+      { x: direction.x, y: velY, z: direction.z },
       true
     );
 
@@ -124,6 +218,8 @@ export default function Player({ spawn = [0, 5, 0] }: { spawn?: [number, number,
     }
     // Camera Follow Logic (Isometric view)
     const pos = rigidBodyRef.current.translation();
+    playerRadar.x = pos.x;
+    playerRadar.z = pos.z;
     state.camera.position.set(
       pos.x + ISO_CAMERA_OFFSET,
       pos.y + ISO_CAMERA_OFFSET,
@@ -141,6 +237,7 @@ export default function Player({ spawn = [0, 5, 0] }: { spawn?: [number, number,
       position={spawn}
       enabledRotations={[false, false, false]}
       ccd={true}
+      canSleep={false}
     >
       <CapsuleCollider args={[0.5, 0.4]} />
       <group position={[0, -0.9, 0]}>

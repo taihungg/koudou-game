@@ -4,6 +4,7 @@ import { RigidBody, CylinderCollider } from "@react-three/rapier";
 import { useGLTF, useFBX, useAnimations } from "@react-three/drei";
 import * as THREE from "three";
 import { useLearningStore, LearningEntityData } from "@/store/useLearningStore";
+import { registerRadarEntity, unregisterRadarEntity } from "@/components/game/world/CompassRadar";
 
 export interface LearningItem {
   id: string; // The instance id
@@ -18,10 +19,22 @@ export interface LearningItem {
 const LearningGLTF = ({ item }: { item: LearningItem }) => {
   const { scene } = useGLTF(item.entityData.modelPath) as any;
   const clonedScene = useMemo(() => scene.clone(), [scene]);
-  const { setNearbyEntity } = useLearningStore();
+  const setNearbyEntity = useLearningStore((s) => s.setNearbyEntity);
+  const isCompleted = useLearningStore((s) => s.completedExercises.includes(item.entityData.id));
 
   const handleEnter = () => {
-    setNearbyEntity(item.entityData);
+    if (!isCompleted) {
+      setNearbyEntity(item.entityData);
+    }
+  };
+
+  const handleExit = () => {
+    const state = useLearningStore.getState();
+    // Không xoá nếu tab card đang mở cho thực thể này
+    if (state.activeEntity?.id === item.entityData.id) return;
+    if (state.nearbyEntity?.id === item.entityData.id) {
+      state.setNearbyEntity(null);
+    }
   };
 
   useEffect(() => {
@@ -32,35 +45,42 @@ const LearningGLTF = ({ item }: { item: LearningItem }) => {
     };
   }, [item.entityData.id]);
 
-  const handleExit = () => {
-    setNearbyEntity(null);
-  };
+  useEffect(() => {
+    if (isCompleted) {
+      unregisterRadarEntity(item.id);
+      return;
+    }
+    registerRadarEntity(item.id, item.position[0], item.position[2], item.entityData.id, item.entityData.frenchName);
+    return () => unregisterRadarEntity(item.id);
+  }, [item.id, item.position, item.entityData.id, item.entityData.frenchName, isCompleted]);
 
   return (
     <group position={item.position} rotation={item.rotation}>
-      {/* Chỉ MODEL mới nhận item.scale. Vòng sáng và sensor phải nằm ngoài, vì
-          item.scale giờ là hệ số chuẩn hoá chiều cao (biến thiên ~1,2×–5,8× tuỳ
-          loài); nếu để chung group thì bán kính tương tác cũng lệch theo từng
-          loài. sensorRadius luôn là mét. */}
+      {/* Chỉ MODEL mới nhận item.scale */}
       <group scale={item.scale}>
         <primitive object={clonedScene} castShadow receiveShadow />
       </group>
 
-      {/* Fake glowing aura (optimized, no real light) */}
-      <mesh position={[0, 1.0, 0]}>
-        <sphereGeometry args={[item.sensorRadius * 0.8, 8, 8]} />
-        <meshBasicMaterial color="#ffeb3b" transparent opacity={0.3} depthWrite={false} blending={THREE.AdditiveBlending} />
-      </mesh>
+      {/* Dấu hiệu nhận biết nổi bật và sensor: biến mất hoàn toàn khi ĐÃ HOÀN THÀNH */}
+      {!isCompleted && (
+        <>
+          {/* Fake glowing aura (optimized, no real light) */}
+          <mesh position={[0, 1.0, 0]}>
+            <sphereGeometry args={[item.sensorRadius * 0.8, 8, 8]} />
+            <meshBasicMaterial color="#ffeb3b" transparent opacity={0.3} depthWrite={false} blending={THREE.AdditiveBlending} />
+          </mesh>
 
-      {/* Bright ring on ground */}
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.05, 0]}>
-        <ringGeometry args={[item.sensorRadius * 0.8, item.sensorRadius, 32]} />
-        <meshBasicMaterial color="#ffaa00" transparent opacity={0.8} depthWrite={false} />
-      </mesh>
+          {/* Bright ring on ground */}
+          <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.05, 0]}>
+            <ringGeometry args={[item.sensorRadius * 0.8, item.sensorRadius, 32]} />
+            <meshBasicMaterial color="#ffaa00" transparent opacity={0.8} depthWrite={false} />
+          </mesh>
 
-      <RigidBody type="fixed" colliders={false} sensor onIntersectionEnter={handleEnter} onIntersectionExit={handleExit}>
-        <CylinderCollider args={[2.0, item.sensorRadius]} position={[0, 1.0, 0]} />
-      </RigidBody>
+          <RigidBody type="fixed" colliders={false} sensor onIntersectionEnter={handleEnter} onIntersectionExit={handleExit}>
+            <CylinderCollider args={[2.0, item.sensorRadius]} position={[0, 1.0, 0]} />
+          </RigidBody>
+        </>
+      )}
     </group>
   );
 };
@@ -70,7 +90,8 @@ const LearningFBX = ({ item }: { item: LearningItem }) => {
   const clonedScene = useMemo(() => fbx.clone(), [fbx]);
   const groupRef = useRef<THREE.Group>(null);
   const { actions, names } = useAnimations(fbx.animations, groupRef);
-  const { setNearbyEntity } = useLearningStore();
+  const setNearbyEntity = useLearningStore((s) => s.setNearbyEntity);
+  const isCompleted = useLearningStore((s) => s.completedExercises.includes(item.entityData.id));
 
   useEffect(() => {
     // Play idle animation if available
@@ -90,7 +111,17 @@ const LearningFBX = ({ item }: { item: LearningItem }) => {
   }, [clonedScene]);
 
   const handleEnter = () => {
-    setNearbyEntity(item.entityData);
+    if (!isCompleted) {
+      setNearbyEntity(item.entityData);
+    }
+  };
+
+  const handleExit = () => {
+    const state = useLearningStore.getState();
+    if (state.activeEntity?.id === item.entityData.id) return;
+    if (state.nearbyEntity?.id === item.entityData.id) {
+      state.setNearbyEntity(null);
+    }
   };
 
   useEffect(() => {
@@ -101,9 +132,14 @@ const LearningFBX = ({ item }: { item: LearningItem }) => {
     };
   }, [item.entityData.id]);
 
-  const handleExit = () => {
-    setNearbyEntity(null);
-  };
+  useEffect(() => {
+    if (isCompleted) {
+      unregisterRadarEntity(item.id);
+      return;
+    }
+    registerRadarEntity(item.id, item.position[0], item.position[2], item.entityData.id, item.entityData.frenchName);
+    return () => unregisterRadarEntity(item.id);
+  }, [item.id, item.position, item.entityData.id, item.entityData.frenchName, isCompleted]);
 
   return (
     <group position={item.position} rotation={item.rotation} scale={item.scale}>
@@ -111,9 +147,11 @@ const LearningFBX = ({ item }: { item: LearningItem }) => {
         {/* Scale down FBX because they are usually huge */}
         <primitive object={clonedScene} scale={0.01} />
       </group>
-      <RigidBody type="fixed" colliders={false} sensor onIntersectionEnter={handleEnter} onIntersectionExit={handleExit}>
-        <CylinderCollider args={[5.0, item.sensorRadius]} position={[0, 2.5, 0]} />
-      </RigidBody>
+      {!isCompleted && (
+        <RigidBody type="fixed" colliders={false} sensor onIntersectionEnter={handleEnter} onIntersectionExit={handleExit}>
+          <CylinderCollider args={[5.0, item.sensorRadius]} position={[0, 2.5, 0]} />
+        </RigidBody>
+      )}
     </group>
   );
 };
