@@ -13,6 +13,7 @@ import { OrthographicCamera } from "@react-three/drei";
 import * as THREE from "three";
 import { useEffect } from "react";
 import HUD from "@/components/ui/HUD";
+import Minimap from "@/components/ui/Minimap";
 import { SPAWN } from "@/config/world/chapter1";
 import { ISO_CAMERA_OFFSET } from "@/constants/camera";
 import { WorldDebugPanel } from "@/components/game/world/WorldDebugHUD";
@@ -53,6 +54,7 @@ export default function Home() {
       <LearningCardUI />
       <InventoryHUD />
       <BotanicalBookUI />
+      <Minimap />
       {debug && <WorldDebugPanel />}
 
       <KeyboardControls map={keyboardMap}>

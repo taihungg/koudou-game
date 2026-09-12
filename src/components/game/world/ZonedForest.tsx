@@ -9,6 +9,7 @@ import { ChunkTerrain } from "./TerrainTiles";
 import { ChunkVegetation } from "./ChunkVegetation";
 import Bridge from "./Bridge";
 import Landmarks from "./Landmarks";
+import MinimapProbe from "./MinimapProbe";
 import River from "./River";
 import RiverWalls from "./RiverWalls";
 import WorldBounds from "./WorldBounds";
@@ -76,6 +77,7 @@ export default function ZonedForest() {
       <Bridge />
       <Landmarks />
       <WorldSpecies />
+      <MinimapProbe />
       {terrainChunks.map((c) => (
         <ChunkTerrain key={`${c.x}_${c.z}`} chunkX={c.x} chunkZ={c.z} />
       ))}
