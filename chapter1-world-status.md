@@ -4,9 +4,10 @@ Tài liệu trạng thái để tiếp tục công việc sau khi compact sessio
 tài liệu thiết kế (đó là `kou-dou.md`) — đây là "code hiện đang ở đâu, dùng thế
 nào, còn thiếu gì".
 
-Toàn bộ việc mô tả ở đây nằm trong 3 commit gần nhất:
-`4f1d63f` (hệ thống world), `7998dbd` (tài liệu), `d223b8e` (nhạc nền, không
-liên quan tới world).
+Phần P0-P2 nằm trong 3 commit: `4f1d63f` (hệ thống world), `7998dbd` (tài
+liệu), `d223b8e` (nhạc nền, không liên quan tới world). Phần **P3** (4 biome
+còn thiếu, thực vật/landmark bờ sông, mặt cầu, mở rộng `WORLD_SPECIES`) đang
+nằm trong working tree, CHƯA commit — xem `git status` để biết danh sách file.
 
 ## Route nào dùng hệ thống nào
 
@@ -52,19 +53,20 @@ Camera `/forest/page.tsx`: `zoom={40}`, offset `ISO_CAMERA_OFFSET=20`
 
 | Zone id | Tên | Hình | Biome | Palette đầy đủ? |
 |---|---|---|---|---|
-| `arrival` | Clairière d'arrivée (Z0) | tròn tâm (-160,-165) r35 | `clearing` | ✅ |
-| `early_forest` | Forêt claire (Z1) | chữ nhật x[-190,-40] z[-125,-55] | `light_forest` | ✅ |
-| `medicinal_grove` | Bosquet médicinal (Z2) | tròn tâm (70,-110) r60 | `medicinal_grove` | ✅ |
-| `river` | Rivière | path (đường cong, xem dưới) | `riverbank` | có nước, chưa có thực vật bờ sông riêng |
-| `ancient_forest` | Forêt ancienne | chữ nhật z[45,125] | `ancient_forest` | ❌ lùi về `deep_canopy` |
-| `cave_camp` | Grotte et camp | tròn tâm (-160,165) r33 | `rocky` | ❌ lùi về `deep_canopy` |
-| `cabin` | Cabane abandonnée | tròn tâm (55,100) r52 | `cabin_clearing` | ❌ lùi về `deep_canopy` |
-| `human_traces` | Traces humaines | chữ nhật z[155,196] | `logged` | ❌ lùi về `deep_canopy` |
+| `arrival` | Clairière d'arrivée (Z0) | tròn tâm (-160,-165) r35 | `clearing` | ✅ P1 |
+| `early_forest` | Forêt claire (Z1) | chữ nhật x[-190,-40] z[-125,-55] | `light_forest` | ✅ P1 |
+| `medicinal_grove` | Bosquet médicinal (Z2) | tròn tâm (70,-110) r60 | `medicinal_grove` | ✅ P1 |
+| `river` | Rivière | path (đường cong, xem dưới) | `riverbank` | ✅ P3 (liễu + sậy/lily ven bờ) |
+| `ancient_forest` | Forêt ancienne | chữ nhật z[45,125] | `ancient_forest` | ✅ P3 |
+| `cave_camp` | Grotte et camp | tròn tâm (-160,165) r33 | `rocky` | ✅ P3 |
+| `cabin` | Cabane abandonnée | tròn tâm (55,100) r52 | `cabin_clearing` | ✅ P3 |
+| `human_traces` | Traces humaines | chữ nhật z[155,196] | `logged` | ✅ P3 |
 
 `deep_canopy` là nền mặc định phủ mọi nơi không thuộc zone nào, và cũng dùng
-làm vành biên (qua `beltFactorAt`, xem dưới). `getPalette()` trong
-`src/config/world/biomes.ts` tự lùi về `deep_canopy` cho 4 biome chưa author —
-**đây chính là việc còn lại lớn nhất của P3**.
+làm vành biên (qua `beltFactorAt`, xem dưới). Sau P3, cả 9 `BiomeId` đều có
+palette riêng trong `src/config/world/biomes.ts` — `getPalette()` lùi về
+`deep_canopy` giờ chỉ còn là lưới an toàn cho biome mới thêm sau này mà quên
+author, không còn ai thực sự dùng đường lùi đó nữa.
 
 ## Sông (đã đổi từ thẳng sang uốn lượn, đã vá 2 lỗi)
 
@@ -76,8 +78,16 @@ trực tiếp từ `RIVER_CURVE`, không dùng `RIVER_SAMPLES`.
 - `RIVER_HALF_WIDTH = 9` — nửa bề rộng nước thật (dùng cho tô màu + tường vật lý)
 - `BRIDGE_POINT = [-20, 6]`, `BRIDGE_WIDTH = 14` — điểm + bề rộng khoảng hở
   duy nhất trên tường (`RiverWalls.tsx`, ~120 đoạn collider ngắn nối theo
-  đường cong). **Chưa có mặt cầu vật lý** — chỗ cầu hiện là chỗ lội qua được,
-  không có sàn gỗ để đi trên khô. Đây là việc còn lại của P3.
+  đường cong).
+- **Mặt cầu vật lý (P3)**: `src/components/game/world/Bridge.tsx` — 6 tấm
+  model naturekit (side–center×4–side) xếp dọc theo `BRIDGE_NORMAL` (hướng
+  vuông góc dòng chảy, đo tại chính `BRIDGE_POINT` bằng cùng công thức pháp
+  tuyến `RiverWalls.tsx` đã dùng để xoay tường — hai hằng số `BRIDGE_TANGENT`/
+  `BRIDGE_NORMAL` được export sẵn từ `river.ts`). Thuần trang trí, không thêm
+  collider/độ cao riêng — sàn đã có sẵn từ `WorldBounds`, tường đã chừa đúng
+  khoảng hở. Từng thử 4 tấm (20 m) trước, đầu xa vẫn ngập nước ở khúc cua tại
+  `BRIDGE_POINT` — tăng lên 6 tấm (30 m) để hai đầu luôn chạm đất khô ở cả
+  hai bờ.
 - Lỗi #1 đã vá: điểm cầu từng bị tô màu nâu (lối mòn) đè lên nước bán trong
   suốt → mảng vá lệch màu. Sửa: `water` giờ tính LIÊN TỤC dọc cả đường cong
   (không trừ khoảng hở nữa) — chỉ tường vật lý mới có khoảng hở, không phải
@@ -86,6 +96,21 @@ trực tiếp từ `RIVER_CURVE`, không dùng `RIVER_SAMPLES`.
   xiên khiến trông như che một phần mặt nước. Sửa: thêm `RIVER_CLEARANCE_MARGIN`
   trong `vegetationSampling.ts` — canopy lùi thêm 6m, understory 3m khỏi mép
   nước thật (chỉ ảnh hưởng chỗ RẢI CÂY, không đổi độ rộng nước hiển thị).
+
+**Gotcha khi verify hướng vector bằng mắt dưới camera isometric này**: camera
+`/forest/page.tsx` dùng `position={[20,20,20]}` cố định trong JSX +
+`onUpdate={c => c.lookAt(0,0,0)}` — hướng nhìn được tính MỘT LẦN từ giá trị
+`(20,20,20)` khai báo tĩnh đó, không phải từ vị trí runtime của camera (vốn
+được `Player.tsx` cập nhật mỗi frame bằng `.set()` để bám người chơi). Vì vậy
+trục X và trục Z của thế giới chiếu lên màn hình KHÔNG vuông góc 90° mà lệch
+nhau khoảng 120° (đặc trưng của phối cảnh isometric thật), và một đường chéo
+"nhìn giống nhau" trên ảnh chụp màn hình không đáng tin để kết luận hai vector
+world có cùng hướng hay không — khi cần xác nhận một hướng (ví dụ mặt cầu có
+thật sự băng ngang sông hay không), cách chắc chắn là dựng tạm hai khối màu
+khác nhau dọc theo từng vector nghi ngờ (`meshBasicMaterial color="red"` cho
+hướng A, `"blue"` cho hướng B) rồi chụp ảnh so sánh, thay vì đoán bằng mắt —
+đã dùng cách này để xác nhận `Bridge.tsx` băng đúng theo `BRIDGE_NORMAL`
+(vuông góc dòng chảy) chứ không phải chạy dọc theo `BRIDGE_TANGENT`.
 
 ## Thực vật — cách sinh (đọc trước khi chỉnh mật độ)
 
@@ -116,11 +141,13 @@ trực tiếp từ `RIVER_CURVE`, không dùng `RIVER_SAMPLES`.
 
 ## Landmark + loài học (nền cho checklist sau này)
 
-`src/config/world/chapter1.ts` (`LANDMARKS`, 3 điểm) và
-`src/config/world/species.ts` (`WORLD_SPECIES`, 8 điểm — 1 ở Z0, 2 ở Z1, 5 ở
-Z2). Cả hai đều **đặt tay, id cố định vĩnh viễn**, không tái sinh theo chunk
-như thực vật trang trí — điều kiện bắt buộc để sau này làm checklist kiểu
-"3/5 loài đã tìm trong Bosquet médicinal".
+`src/config/world/chapter1.ts` (`LANDMARKS`, 4 điểm — thêm `river_canoe` ở P3,
+canoë mắc cạn ven sông gần path p3, tiền đề cho nhiệm vụ "đi lấy nước" sau
+này) và `src/config/world/species.ts` (`WORLD_SPECIES`, 19 điểm sau P3 — phủ
+đủ cả 8 zone: 1 Z0, 2 Z1, 5 Z2, 2 river, 3 ancient_forest, 2 cave_camp, 2
+cabin, 2 human_traces). Cả hai đều **đặt tay, id cố định vĩnh viễn**, không
+tái sinh theo chunk như thực vật trang trí — điều kiện bắt buộc để sau này
+làm checklist kiểu "3/5 loài đã tìm trong Bosquet médicinal".
 
 `WorldSpecies.tsx` tái dùng nguyên `LearningEntity.tsx` đã có sẵn (glow ring,
 sensor, thẻ bài, XP) — không viết lại gì. `speciesId` trong mỗi entry phải
@@ -158,14 +185,21 @@ tree lúc tôi commit): `BackgroundMusic.tsx` gọi
 thầm, chỉ thấy lỗi decode trong console. Chưa sửa vì ngoài phạm vi phiên làm
 việc này.
 
-## Việc còn lại (P3 theo plan đã duyệt)
+## P3 — đã hoàn thành
 
-1. Author palette cho 4 biome còn thiếu: `ancient_forest`, `rocky`,
-   `cabin_clearing`, `logged` (hiện lùi về `deep_canopy`, nhìn không khác gì
-   nền mặc định).
-2. Landmark + thực vật bờ sông riêng cho biome `riverbank` (hiện chỉ có nước,
-   chưa có sậy/đá ven bờ).
-3. Mặt cầu vật lý thật tại `BRIDGE_POINT` (hiện chỉ là khoảng hở lội qua được).
-4. Mở rộng `WORLD_SPECIES` sang 5 zone còn lại khi palette của chúng xong.
+1. ✅ Author palette cho 4 biome còn thiếu: `ancient_forest` (liễu già + cây
+   rêu mốc, tán cao 11-15m), `rocky` (thông thưa + đá tảng + `cliff_cave_rock`
+   gợi hang), `cabin_clearing` (bãi cỏ um tùm + thùng/thùng phuy bỏ lại),
+   `logged` (gốc cây khắp nơi + cây mùa thu sống sót thưa thớt).
+2. ✅ Landmark + thực vật bờ sông riêng cho biome `riverbank`: palette liễu rủ
+   (canopy) + sậy/lily (clutter, sát mép nước vì không có margin) + đá phẳng
+   (props); landmark `river_canoe` (canoë mắc cạn, tiền đề nhiệm vụ lấy nước).
+3. ✅ Mặt cầu vật lý thật tại `BRIDGE_POINT` — `Bridge.tsx`, xem mục "Sông"
+   ở trên.
+4. ✅ Mở rộng `WORLD_SPECIES` sang 5 zone còn lại (11 điểm mới, 19 tổng),
+   chọn loài theo `Habitat` khớp biome (xem `species.ts`).
 
-Việc UI checklist ("X/Y loài đã tìm") có thể làm song song, không phụ thuộc P3.
+Việc UI checklist ("X/Y loài đã tìm") vẫn CHƯA làm — dữ liệu (`zoneId` +
+`speciesId` ổn định) đã sẵn sàng từ P2, nhưng UI/UX (hiện ở đâu, theo zone hay
+toàn cục, câu chữ tiếng Pháp) cần quyết định thiết kế riêng trước khi code,
+không phụ thuộc P3.
