@@ -41,10 +41,19 @@ function buildBankSegments(side: 1 | -1): WallSegment[] {
     // hai bên bờ cách tim sông đúng RIVER_HALF_WIDTH.
     const nx = (-dz / length) * side;
     const nz = (dx / length) * side;
-    const midX = (ax + bx) / 2 + nx * RIVER_HALF_WIDTH;
-    const midZ = (az + bz) / 2 + nz * RIVER_HALF_WIDTH;
+    const centerMidX = (ax + bx) / 2;
+    const centerMidZ = (az + bz) / 2;
+    const midX = centerMidX + nx * RIVER_HALF_WIDTH;
+    const midZ = centerMidZ + nz * RIVER_HALF_WIDTH;
 
-    if (Math.hypot(midX - BRIDGE_POINT[0], midZ - BRIDGE_POINT[1]) < BRIDGE_WIDTH / 2) continue;
+    // QUAN TRỌNG: so khoảng cách tới BRIDGE_POINT bằng điểm TRÊN TIM SÔNG
+    // (centerMid), không phải điểm đã đẩy ra bờ (mid) — bờ luôn cách tim đúng
+    // RIVER_HALF_WIDTH=9m nên nếu so bằng "mid" thì khoảng cách tới
+    // BRIDGE_POINT (nằm trên tim sông) không bao giờ nhỏ hơn 9m, tức luôn LỚN
+    // HƠN BRIDGE_WIDTH/2=7m — điều kiện dưới đây không bao giờ đúng, khoảng hở
+    // không bao giờ được tạo ra và tường kín hoàn toàn quanh sông (bug đã gặp:
+    // "không thể sang được sông" dù cầu đã dựng đúng chỗ).
+    if (Math.hypot(centerMidX - BRIDGE_POINT[0], centerMidZ - BRIDGE_POINT[1]) < BRIDGE_WIDTH / 2) continue;
 
     // Cùng quy ước z-forward với Player.tsx (rotationRef = atan2(x, z)).
     segments.push({ x: midX, z: midZ, length, angle: Math.atan2(dx, dz) });

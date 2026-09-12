@@ -2,6 +2,7 @@
 
 import { useMemo } from "react";
 import { useGLTF } from "@react-three/drei";
+import { RigidBody } from "@react-three/rapier";
 import type { GLTF } from "three-stdlib";
 import { GAME_ASSETS } from "@/constants/assets";
 import { getAssetScale } from "@/constants/assetScale";
@@ -10,10 +11,14 @@ import { BRIDGE_NORMAL, BRIDGE_POINT } from "@/config/world/river";
 /**
  * Mặt cầu vật lý thật tại BRIDGE_POINT (P3) — trước đây chỗ cầu chỉ là một
  * khoảng hở lội qua được trên tường nước (RiverWalls.tsx), không có sàn gỗ
- * nào để đi trên khô. Đây thuần tuý là lớp TRANG TRÍ phủ lên nền đất đã bằng
- * phẳng sẵn (WorldBounds cấp sàn, RiverWalls đã chừa khoảng hở đúng bằng
- * BRIDGE_WIDTH) — không thêm collider/độ cao riêng, để không lệch với vật lý
- * đã có.
+ * nào để đi trên khô.
+ *
+ * Mỗi tấm CÓ collider dạng hull (xem BridgeTile bên dưới) — model naturekit có
+ * gốc (y=0) nằm ở ĐÁY, mặt ván đi lại nằm cao hơn hẳn y=0 (khớp bờ dốc của tấm
+ * "side"), trong khi sàn phẳng của WorldBounds cũng ở y=0. Nếu tấm cầu chỉ là
+ * mesh hiển thị không collider, nhân vật vẫn đi trên sàn phẳng y=0 bên dưới,
+ * tức là "chìm" dưới mặt ván — đã gặp bug này, sửa bằng cách thêm hull collider
+ * để nhân vật thật sự đứng/leo dốc lên trên ván.
  *
  * Ghép 6 tấm theo bộ tile naturekit (kiểu Kenney): side–center×4–side, xếp dọc
  * theo BRIDGE_NORMAL (hướng băng qua sông, vuông góc dòng chảy — đo tại chính
@@ -42,9 +47,17 @@ function BridgeTile({ modelPath, position, rotationY }: { modelPath: string; pos
   const scale = getAssetScale(modelPath);
 
   return (
-    <group position={position} rotation={[0, rotationY, 0]} scale={scale}>
-      <primitive object={cloned} castShadow receiveShadow />
-    </group>
+    // Cùng công thức "rock" trong InfiniteForest.tsx: colliders="hull" tự dựng
+    // hình va chạm khớp lưới thật (mặt cầu + dốc lên ở hai đầu tấm "side"), bọc
+    // trong <group scale> để hull ra đúng kích thước. BẮT BUỘC phải có collider
+    // ở đây — trước đây tấm cầu chỉ là mesh hiển thị, sàn vật lý thật vẫn là mặt
+    // đất phẳng bên dưới, nên nhân vật đi lên cầu bị "chìm" dưới mặt ván thay vì
+    // đứng trên nó.
+    <RigidBody type="fixed" position={position} rotation={[0, rotationY, 0]} colliders="hull">
+      <group scale={scale}>
+        <primitive object={cloned} castShadow receiveShadow />
+      </group>
+    </RigidBody>
   );
 }
 
