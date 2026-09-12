@@ -13,6 +13,10 @@ import { OrthographicCamera } from "@react-three/drei";
 import * as THREE from "three";
 import { useEffect } from "react";
 import HUD from "@/components/ui/HUD";
+import { SPAWN } from "@/config/world/chapter1";
+import { ISO_CAMERA_OFFSET } from "@/constants/camera";
+import { WorldDebugPanel } from "@/components/game/world/WorldDebugHUD";
+import { useSearchParams } from "next/navigation";
 
 // Tạm thời tắt các cảnh báo deprecation (sắp lỗi thời) từ nội bộ thư viện Three.js
 // vì các thư viện @react-three/fiber và rapier chưa cập nhật kịp với Three.js r169+
@@ -32,6 +36,8 @@ if (typeof window !== "undefined") {
 }
 
 export default function Home() {
+  const debug = useSearchParams().get("debug") === "1";
+
   const keyboardMap = [
     { name: "forward", keys: ["ArrowUp", "KeyW"] },
     { name: "backward", keys: ["ArrowDown", "KeyS"] },
@@ -47,20 +53,22 @@ export default function Home() {
       <LearningCardUI />
       <InventoryHUD />
       <BotanicalBookUI />
+      {debug && <WorldDebugPanel />}
 
       <KeyboardControls map={keyboardMap}>
         <Canvas shadows={{ type: THREE.PCFShadowMap }}>
           <OrthographicCamera
             makeDefault
-            position={[20, 20, 20]}
+            position={[ISO_CAMERA_OFFSET, ISO_CAMERA_OFFSET, ISO_CAMERA_OFFSET]}
             zoom={40}
-            near={-100}
-            far={100}
+            // Bản đồ giờ rộng 480 m: near/far ±100 cắt mất chunk ở rìa tầm nhìn.
+            near={-1000}
+            far={1000}
             onUpdate={c => c.lookAt(0, 0, 0)}
           />
           <Physics debug={false}>
             <Environment />
-            <Player />
+            <Player spawn={SPAWN} />
           </Physics>
         </Canvas>
       </KeyboardControls>

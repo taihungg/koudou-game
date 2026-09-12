@@ -6,6 +6,7 @@ import * as THREE from "three";
 import { useGameStore } from "@/store/useGameStore";
 import { SkeletonUtils } from 'three-stdlib';
 import { GAME_ASSETS } from "@/constants/assets";
+import { ISO_CAMERA_OFFSET } from "@/constants/camera";
 
 // -----------------------------------------------------------------------------
 // AnimatedCharacter Component
@@ -75,7 +76,8 @@ function AnimatedCharacter({ modelUrl, animationState, rotationRef }: AnimatedCh
 // Player Component
 // Handles physics, keyboard input, and state machine.
 // -----------------------------------------------------------------------------
-export default function Player() {
+/** `spawn` cho phép mỗi màn đặt điểm xuất hiện riêng; mặc định giữ như cũ. */
+export default function Player({ spawn = [0, 5, 0] }: { spawn?: [number, number, number] } = {}) {
   const rigidBodyRef = useRef<RapierRigidBody>(null);
   const rotationRef = useRef<number>(0);
   const [, get] = useKeyboardControls();
@@ -122,7 +124,11 @@ export default function Player() {
     }
     // Camera Follow Logic (Isometric view)
     const pos = rigidBodyRef.current.translation();
-    state.camera.position.set(pos.x + 20, pos.y + 20, pos.z + 20);
+    state.camera.position.set(
+      pos.x + ISO_CAMERA_OFFSET,
+      pos.y + ISO_CAMERA_OFFSET,
+      pos.z + ISO_CAMERA_OFFSET,
+    );
     state.camera.lookAt(pos.x, pos.y, pos.z);
   });
 
@@ -132,7 +138,7 @@ export default function Player() {
       colliders={false}
       mass={1}
       type="dynamic"
-      position={[0, 5, 0]}
+      position={spawn}
       enabledRotations={[false, false, false]}
       ccd={true}
     >

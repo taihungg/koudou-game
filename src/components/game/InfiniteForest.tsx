@@ -5,6 +5,7 @@ import { useFrame } from "@react-three/fiber";
 import { RigidBody, CylinderCollider } from "@react-three/rapier";
 import { useGLTF } from "@react-three/drei";
 import { GAME_ASSETS } from "@/constants/assets";
+import { scaleToHeight, TARGET_HEIGHT } from "@/constants/assetScale";
 import { hashCoordinates, mulberry32 } from "@/utils/random";
 import learningData from "@/data/learningEntities.json";
 import { LearningEntity } from "./LearningEntity";
@@ -14,7 +15,9 @@ const RENDER_DISTANCE = 2; // Render 2 chunks in each direction (5x5 chunks tota
 const ITEMS_PER_CHUNK = 100; // Density of items per chunk
 
 // Prepare learning entities
-const LEARNING_FLOWERS = (learningData.flowers || []).map(f => ({ ...f, category: 'flower', sensorRadius: 0.5 }));
+// sensorRadius tính bằng MÉT (không còn nhân theo scale của model — xem LearningEntity).
+// 1.2 m giữ nguyên tầm tương tác cũ: trước đây 0.5 nằm trong group scale ~2.2.
+const LEARNING_FLOWERS = (learningData.flowers || []).map(f => ({ ...f, category: 'flower', sensorRadius: 1.2 }));
 const LEARNING_ANIMALS = ((learningData as any).animals || []).map((a: any) => ({ ...a, category: 'animal' as const, sensorRadius: 2.0 }));
 // Tạm thời bỏ các động vật (LEARNING_ANIMALS) khỏi mảng spawn
 const LEARNING_ENTITIES = [...LEARNING_FLOWERS];
@@ -118,7 +121,11 @@ const ForestChunk = React.memo(({ chunkX, chunkZ, clearRadius = 5 }: { chunkX: n
         const entity = LEARNING_ENTITIES[Math.floor(rng() * LEARNING_ENTITIES.length)];
         categoryArray = [entity.modelPath]; // We just need something here so it passes the length check
         type = "learning";
-        scaleRange = [2.0, 2.4]; // Standardize size (Double current size)
+        // Chuẩn hoá theo CHIỀU CAO chứ không nhân hệ số cố định: 59 model hoa cao
+        // 0,24–1,18 m, nhân chung 2,0–2,4 cho ra 0,48–2,83 m nên loài thấp chìm
+        // dưới cỏ còn loài cao vượt người chơi. Xem constants/assetScale.ts.
+        const entityScale = scaleToHeight(entity.modelPath, TARGET_HEIGHT.LEARNING_ENTITY);
+        scaleRange = [entityScale, entityScale];
         entityData = entity;
       } else if (randType < 0.25) {
         categoryArray = BIG_TREES;

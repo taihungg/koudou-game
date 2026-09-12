@@ -5,7 +5,7 @@ import { useGLTF, useFBX, useAnimations } from "@react-three/drei";
 import * as THREE from "three";
 import { useLearningStore, LearningEntityData } from "@/store/useLearningStore";
 
-interface LearningItem {
+export interface LearningItem {
   id: string; // The instance id
   entityData: LearningEntityData; // The data from json
   position: [number, number, number];
@@ -37,7 +37,15 @@ const LearningGLTF = ({ item }: { item: LearningItem }) => {
   };
 
   return (
-    <group position={item.position} rotation={item.rotation} scale={item.scale}>
+    <group position={item.position} rotation={item.rotation}>
+      {/* Chỉ MODEL mới nhận item.scale. Vòng sáng và sensor phải nằm ngoài, vì
+          item.scale giờ là hệ số chuẩn hoá chiều cao (biến thiên ~1,2×–5,8× tuỳ
+          loài); nếu để chung group thì bán kính tương tác cũng lệch theo từng
+          loài. sensorRadius luôn là mét. */}
+      <group scale={item.scale}>
+        <primitive object={clonedScene} castShadow receiveShadow />
+      </group>
+
       {/* Fake glowing aura (optimized, no real light) */}
       <mesh position={[0, 1.0, 0]}>
         <sphereGeometry args={[item.sensorRadius * 0.8, 8, 8]} />
@@ -50,7 +58,6 @@ const LearningGLTF = ({ item }: { item: LearningItem }) => {
         <meshBasicMaterial color="#ffaa00" transparent opacity={0.8} depthWrite={false} />
       </mesh>
 
-      <primitive object={clonedScene} castShadow receiveShadow />
       <RigidBody type="fixed" colliders={false} sensor onIntersectionEnter={handleEnter} onIntersectionExit={handleExit}>
         <CylinderCollider args={[2.0, item.sensorRadius]} position={[0, 1.0, 0]} />
       </RigidBody>
