@@ -11,6 +11,8 @@ import { playerRadar, findNearestRadarBySpecies } from "@/components/game/world/
 import { sceneBridge, lensProbe } from "@/components/game/world/ObserveLens";
 import { useLearningStore } from "@/store/useLearningStore";
 
+import { useCinematicStore } from "@/store/useCinematicStore";
+
 // -----------------------------------------------------------------------------
 // AnimatedCharacter Component
 // Handles the 3D model, materials, and animation mixer.
@@ -182,14 +184,37 @@ export default function Player({
   // Here is where you can change the character! (Knight, Rogue, Mage, etc.)
   const currentCharacterUrl = GAME_ASSETS.MODELS.CHARACTERS.PLAYERS_ROGUE;
 
+  const isCinematic = useCinematicStore((s) => s.phase !== "idle");
+
   useFrame((state, delta) => {
     // Cầu nối cho kính lúp (ObserveLensCanvas) — canvas riêng ngoài Canvas
     // chính cần tham chiếu chính THREE.Scene này để render lại từ camera khác.
     sceneBridge.scene = state.scene;
 
-    if (!rigidBodyRef.current || isInteracting) {
+    if (!rigidBodyRef.current) return;
+
+    if (isCinematic) {
       if (animation !== "Idle_A") setAnimation("Idle_A");
       lensProbe.active = false;
+      return;
+    }
+
+    if (isInteracting) {
+      if (animation !== "Idle_A") setAnimation("Idle_A");
+      lensProbe.active = false;
+      rigidBodyRef.current.setLinvel(
+        { x: 0, y: rigidBodyRef.current.linvel().y, z: 0 },
+        true
+      );
+      const pos = rigidBodyRef.current.translation();
+      playerRadar.x = pos.x;
+      playerRadar.z = pos.z;
+      state.camera.position.set(
+        pos.x + ISO_CAMERA_OFFSET,
+        pos.y + ISO_CAMERA_OFFSET,
+        pos.z + ISO_CAMERA_OFFSET,
+      );
+      state.camera.lookAt(pos.x, pos.y, pos.z);
       return;
     }
 

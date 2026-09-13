@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
+import { useThree } from "@react-three/fiber";
 import * as THREE from "three";
 
 /**
@@ -114,9 +115,20 @@ function createSkyTexture(): THREE.Texture {
 /** Đặt bên trong `<Canvas>`. Gắn khai báo qua `attach` để cutscene vẫn đổi/trả
  *  `scene.background` bằng cách cũ mà không cần biết tới component này. */
 export default function SkyBackground() {
-  const texture = useMemo(() => createSkyTexture(), []);
+  const scene = useThree((state) => state.scene);
 
-  useEffect(() => () => texture.dispose(), [texture]);
+  useEffect(() => {
+    if (typeof document === "undefined") return;
+    const texture = createSkyTexture();
+    const prevBg = scene.background;
+    // eslint-disable-next-line react-hooks/immutability
+    scene.background = texture;
 
-  return <primitive attach="background" object={texture} />;
+    return () => {
+      scene.background = prevBg;
+      texture.dispose();
+    };
+  }, [scene]);
+
+  return null;
 }
