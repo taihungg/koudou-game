@@ -20,6 +20,9 @@ import { WORLD_SPECIES } from '@/config/world/species';
 /** Số điểm ngôn ngữ tối thiểu. */
 export const CHAPTER2_MIN_XP = 500;
 
+/** Số lượng loài tối thiểu cần khám phá để mở khoá vào làng (trên tổng số 59 loài). */
+export const CHAPTER2_REQUIRED_SPECIES = 35;
+
 /**
  * Catalogue = danh sách loài ĐẶT TAY trên bản đồ (`WORLD_SPECIES`), không phải
  * 59 bản ghi trong `learningEntities.json`.
@@ -66,12 +69,13 @@ export function chapter2Progress(req: Chapter2Requirements): Chapter2Progress {
   const found = CHAPTER2_SPECIES_IDS.filter((id) =>
     req.completedExercises.includes(id),
   ).length;
-  const speciesDone = found >= CHAPTER2_SPECIES_IDS.length;
+  const target = Math.min(CHAPTER2_REQUIRED_SPECIES, CHAPTER2_SPECIES_IDS.length);
+  const speciesDone = found >= target;
   const xpDone = req.xpLangage >= CHAPTER2_MIN_XP;
 
   return {
     speciesFound: found,
-    speciesTotal: CHAPTER2_SPECIES_IDS.length,
+    speciesTotal: target,
     speciesDone,
     xp: req.xpLangage,
     xpRequired: CHAPTER2_MIN_XP,

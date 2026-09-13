@@ -82,22 +82,22 @@ const LearningGLTF = ({ item }: { item: LearningItem }) => {
       {/* Dấu hiệu nhận biết nổi bật: biến mất khi ĐÃ HOÀN THÀNH (nhưng collider sensor vẫn giữ để người chơi có thể tương tác lại) */}
       {!isCompleted && (
         <>
-          {/* Fake glowing aura (optimized, no real light) */}
-          <mesh ref={auraRef} position={[0, 1.0, 0]}>
-            <sphereGeometry args={[item.sensorRadius * 0.8, 8, 8]} />
+          {/* Fake glowing aura (scaled to plant size) */}
+          <mesh ref={auraRef} position={[0, 0.35, 0]}>
+            <sphereGeometry args={[0.45, 8, 8]} />
             <meshBasicMaterial color="#ffeb3b" transparent opacity={0.3} depthWrite={false} blending={THREE.AdditiveBlending} />
           </mesh>
 
-          {/* Bright ring on ground */}
+          {/* Bright ring on ground (compact, neatly wraps base of plant) */}
           <mesh ref={ringRef} rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.05, 0]}>
-            <ringGeometry args={[item.sensorRadius * 0.8, item.sensorRadius, 32]} />
+            <ringGeometry args={[0.42, 0.62, 32]} />
             <meshBasicMaterial color="#ffaa00" transparent opacity={0.8} depthWrite={false} />
           </mesh>
 
           {/* Cột sáng thẳng đứng — thấy được từ xa, kể cả khi bị cây/bụi rậm che khuất phần thân */}
-          <mesh ref={beamRef} position={[0, 3, 0]}>
-            <coneGeometry args={[0.18, 4, 8, 1, true]} />
-            <meshBasicMaterial color="#fff8d6" transparent opacity={0.35} depthWrite={false} side={THREE.DoubleSide} blending={THREE.AdditiveBlending} />
+          <mesh ref={beamRef} position={[0, 2.2, 0]}>
+            <coneGeometry args={[0.1, 3.2, 8, 1, true]} />
+            <meshBasicMaterial color="#fff8d6" transparent opacity={0.32} depthWrite={false} side={THREE.DoubleSide} blending={THREE.AdditiveBlending} />
           </mesh>
         </>
       )}
