@@ -23,17 +23,11 @@ export default function LearningCardUI() {
   }, [activeEntity, setInteracting]);
 
   const closeCard = React.useCallback(() => {
-    const currentActive = activeEntity;
     setActiveEntity(null);
     setSelectedOption(null);
     setFeedback(null);
     setIsQuizMode(false);
-
-    if (currentActive) {
-      // Giữ nearbyEntity để nếu người chơi vẫn đứng cạnh cây đó thì có thể nhấn Space / E tương tác lại ngay tại chỗ
-      useLearningStore.getState().setNearbyEntity(currentActive);
-    }
-  }, [activeEntity, setActiveEntity]);
+  }, [setActiveEntity]);
 
   const handleReplay = () => {
     setSelectedOption(null);
