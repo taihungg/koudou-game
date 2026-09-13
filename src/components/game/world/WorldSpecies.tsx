@@ -22,7 +22,9 @@ const SPECIES_BY_ID = new Map<string, LearningEntityData>(
   ((learningData.flowers ?? []) as LearningEntityData[]).map((f) => [f.id, f]),
 );
 
-const SENSOR_RADIUS = 1.2;
+// Bán kính tương tác — nới rộng hơn mức "chạm vào mới nhặt được" mặc định để
+// người chơi có thể mở thẻ học/quan sát từ một khoảng cách thoải mái hơn.
+const SENSOR_RADIUS = 2.2;
 
 export default function WorldSpecies() {
   const items = useMemo<LearningItem[]>(() => {

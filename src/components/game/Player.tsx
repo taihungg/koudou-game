@@ -8,6 +8,7 @@ import { SkeletonUtils } from 'three-stdlib';
 import { GAME_ASSETS } from "@/constants/assets";
 import { ISO_CAMERA_OFFSET } from "@/constants/camera";
 import { playerRadar, findNearestRadarBySpecies } from "@/components/game/world/CompassRadar";
+import { sceneBridge, lensProbe } from "@/components/game/world/ObserveLens";
 import { useLearningStore } from "@/store/useLearningStore";
 
 // -----------------------------------------------------------------------------
@@ -95,13 +96,21 @@ export default function Player({ spawn = [0, 5, 0] }: { spawn?: [number, number,
   const OBSERVE_ZOOM = 75;
   const ORBIT_RADIUS = 5;
   const ORBIT_SPEED = 2; // rad/s
-  const TILT_LIMIT = Math.PI / 2; // ±90° = quét dọc đủ 180°
+  const TILT_MIN = 0; // ngang tầm vật
+  const TILT_MAX = Math.PI / 2; // thẳng đỉnh đầu — chỉ cho quét đúng 1/4 vòng (90°) để luôn thấy rõ vật
+  // Hai vector đơn vị "màn hình lên"/"màn hình phải" quy ra toạ độ thế giới —
+  // suy từ ĐÚNG phép quay Math.PI/4 dùng để căn phím WASD với góc nhìn
+  // isometric cố định (xem khối tính `direction` bên dưới). Nhờ camera không
+  // bao giờ đổi góc, quy đổi con trỏ chuột sang điểm thế giới có thể tính
+  // thẳng bằng lượng giác, khỏi cần Raycaster (vốn phụ thuộc `camera.matrixWorld`
+  // được cập nhật trễ một khung hình so với `camera.position.set()` vừa gọi).
+  const SCREEN_UP_X = -Math.SQRT1_2;
+  const SCREEN_UP_Z = -Math.SQRT1_2;
+  const SCREEN_RIGHT_X = Math.SQRT1_2;
+  const SCREEN_RIGHT_Z = -Math.SQRT1_2;
   const direction = new THREE.Vector3();
   const frontVector = new THREE.Vector3();
   const sideVector = new THREE.Vector3();
-  const raycaster = new THREE.Raycaster();
-  const groundPlane = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
-  const pointerHit = new THREE.Vector3();
 
   // Mỗi lần đổi sang loài khác thì reset góc quay 360°/độ nghiêng dọc về mặc
   // định, tránh camera "thừa kế" góc nhìn lệch từ vật thể quan sát trước đó.
@@ -110,14 +119,36 @@ export default function Player({ spawn = [0, 5, 0] }: { spawn?: [number, number,
     orbitTiltRef.current = Math.PI / 6;
   }, [nearbyEntity?.id]);
 
+  // Theo dõi chuột bằng listener DOM thô (window) thay vì `state.pointer` của
+  // R3F: `state.pointer` chỉ cập nhật qua hệ thống sự kiện nội bộ của R3F gắn
+  // trên phần tử wrapper của <Canvas>, và có thể bị các lớp overlay DOM (HUD,
+  // panel...) che khuất/độ trễ tuỳ layout — trong khi window 'pointermove' là
+  // cơ chế trình duyệt cấp thấp, luôn nhận được bất kể phần tử nào đang ở trên.
+  const pointerRef = useRef({ x: 0, y: 0, clientX: 0, clientY: 0 });
+  useEffect(() => {
+    const handlePointerMove = (e: PointerEvent) => {
+      pointerRef.current.clientX = e.clientX;
+      pointerRef.current.clientY = e.clientY;
+      pointerRef.current.x = (e.clientX / window.innerWidth) * 2 - 1;
+      pointerRef.current.y = -(e.clientY / window.innerHeight) * 2 + 1;
+    };
+    window.addEventListener("pointermove", handlePointerMove);
+    return () => window.removeEventListener("pointermove", handlePointerMove);
+  }, []);
+
   const [animation, setAnimation] = useState("Idle_A");
 
   // Here is where you can change the character! (Knight, Rogue, Mage, etc.)
   const currentCharacterUrl = GAME_ASSETS.MODELS.CHARACTERS.PLAYERS_ROGUE;
 
   useFrame((state, delta) => {
+    // Cầu nối cho kính lúp (ObserveLensCanvas) — canvas riêng ngoài Canvas
+    // chính cần tham chiếu chính THREE.Scene này để render lại từ camera khác.
+    sceneBridge.scene = state.scene;
+
     if (!rigidBodyRef.current || isInteracting) {
       if (animation !== "Idle_A") setAnimation("Idle_A");
+      lensProbe.active = false;
       return;
     }
 
@@ -138,23 +169,28 @@ export default function Player({ spawn = [0, 5, 0] }: { spawn?: [number, number,
       playerRadar.x = pos.x;
       playerRadar.z = pos.z;
 
-      camera.zoom = THREE.MathUtils.lerp(camera.zoom, OBSERVE_ZOOM, 6 * delta);
-      camera.updateProjectionMatrix();
-
       const target = nearbyEntity
         ? findNearestRadarBySpecies(nearbyEntity.id, pos.x, pos.z)
         : null;
 
       if (target) {
-        // Trái/phải xoay quanh vật (góc phương vị), lên/xuống nghiêng camera
-        // theo chiều dọc — kẹp ±90° để quét đủ 180° từ trên đỉnh xuống gầm vật.
+        // Đứng cạnh vật phẩm cụ thể: camera chính phóng to toàn màn hình và
+        // xoay quanh vật — xem như đang cầm vật lên ngắm kỹ, không cần kính lúp.
+        lensProbe.active = false;
+        camera.zoom = THREE.MathUtils.lerp(camera.zoom, OBSERVE_ZOOM, 6 * delta);
+        camera.updateProjectionMatrix();
+
+        // Trái/phải xoay quanh vật theo phương ngang (góc phương vị, không giới
+        // hạn). Lên/xuống nghiêng camera theo chiều dọc, kẹp trong 1/4 vòng
+        // (ngang tầm vật → thẳng đỉnh đầu) để luôn nhìn rõ vật, không lật quá
+        // xa ra sau/xuống gầm.
         if (left) orbitAzimuthRef.current += ORBIT_SPEED * delta;
         if (right) orbitAzimuthRef.current -= ORBIT_SPEED * delta;
         if (forward) {
-          orbitTiltRef.current = Math.min(TILT_LIMIT, orbitTiltRef.current + ORBIT_SPEED * delta);
+          orbitTiltRef.current = Math.min(TILT_MAX, orbitTiltRef.current + ORBIT_SPEED * delta);
         }
         if (backward) {
-          orbitTiltRef.current = Math.max(-TILT_LIMIT, orbitTiltRef.current - ORBIT_SPEED * delta);
+          orbitTiltRef.current = Math.max(TILT_MIN, orbitTiltRef.current - ORBIT_SPEED * delta);
         }
 
         const cosTilt = Math.cos(orbitTiltRef.current);
@@ -166,24 +202,39 @@ export default function Player({ spawn = [0, 5, 0] }: { spawn?: [number, number,
         );
         camera.lookAt(target.x, pos.y + 1, target.z);
       } else {
-        // Không có vật phẩm cụ thể: chuột trỏ vào đâu trên mặt đất thì camera
-        // phóng to vào đó, vẫn giữ cùng góc isometric cố định của toàn bộ game.
-        raycaster.setFromCamera(state.pointer, camera);
-        const hit = raycaster.ray.intersectPlane(groundPlane, pointerHit);
-        const fx = hit ? pointerHit.x : pos.x;
-        const fy = hit ? pointerHit.y : pos.y;
-        const fz = hit ? pointerHit.z : pos.z;
-
+        // Không có vật phẩm cụ thể: camera chính KHÔNG đổi (vẫn theo người chơi
+        // bình thường) — chỉ vùng bên trong kính lúp (ObserveLensCanvas, một
+        // canvas nhỏ độc lập) mới phóng to vào đúng nơi chuột đang trỏ.
+        if (Math.abs(camera.zoom - DEFAULT_ZOOM) > 0.01) {
+          camera.zoom = THREE.MathUtils.lerp(camera.zoom, DEFAULT_ZOOM, 6 * delta);
+          camera.updateProjectionMatrix();
+        }
         camera.position.set(
-          fx + ISO_CAMERA_OFFSET,
-          fy + ISO_CAMERA_OFFSET,
-          fz + ISO_CAMERA_OFFSET,
+          pos.x + ISO_CAMERA_OFFSET,
+          pos.y + ISO_CAMERA_OFFSET,
+          pos.z + ISO_CAMERA_OFFSET,
         );
-        camera.lookAt(fx, fy, fz);
+        camera.lookAt(pos.x, pos.y, pos.z);
+
+        // Quy đổi con trỏ chuột (NDC -1..1) sang điểm thế giới: camera trực
+        // giao nên 1 pixel màn hình luôn ứng với đúng (1/zoom) đơn vị thế giới,
+        // theo hai hướng "lên"/"phải" cố định của góc nhìn isometric.
+        const halfWidthWorld = window.innerWidth / 2 / camera.zoom;
+        const halfHeightWorld = window.innerHeight / 2 / camera.zoom;
+        const offsetRight = pointerRef.current.x * halfWidthWorld;
+        const offsetUp = pointerRef.current.y * halfHeightWorld;
+
+        lensProbe.x = pos.x + offsetRight * SCREEN_RIGHT_X + offsetUp * SCREEN_UP_X;
+        lensProbe.y = pos.y;
+        lensProbe.z = pos.z + offsetRight * SCREEN_RIGHT_Z + offsetUp * SCREEN_UP_Z;
+        lensProbe.screenX = pointerRef.current.clientX;
+        lensProbe.screenY = pointerRef.current.clientY;
+        lensProbe.active = true;
       }
       return;
     }
 
+    lensProbe.active = false;
     if (Math.abs(camera.zoom - DEFAULT_ZOOM) > 0.01) {
       camera.zoom = THREE.MathUtils.lerp(camera.zoom, DEFAULT_ZOOM, 6 * delta);
       camera.updateProjectionMatrix();

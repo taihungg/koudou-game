@@ -21,6 +21,26 @@ const LearningGLTF = ({ item }: { item: LearningItem }) => {
   const clonedScene = useMemo(() => scene.clone(), [scene]);
   const setNearbyEntity = useLearningStore((s) => s.setNearbyEntity);
   const isCompleted = useLearningStore((s) => s.completedExercises.includes(item.entityData.id));
+  const auraRef = useRef<THREE.Mesh>(null);
+  const ringRef = useRef<THREE.Mesh>(null);
+  const beamRef = useRef<THREE.Mesh>(null);
+
+  // Nhấp nháy nhẹ (breathing) để dấu hiệu nhận biết nổi bật hơn giữa cây cỏ,
+  // thay vì một vòng sáng tĩnh dễ bị bỏ sót khi nhìn thoáng qua.
+  useFrame((state) => {
+    if (isCompleted) return;
+    const pulse = 0.5 + 0.5 * Math.sin(state.clock.elapsedTime * 2.4);
+    if (auraRef.current) {
+      (auraRef.current.material as THREE.MeshBasicMaterial).opacity = 0.3 + pulse * 0.3;
+      auraRef.current.scale.setScalar(1 + pulse * 0.15);
+    }
+    if (ringRef.current) {
+      (ringRef.current.material as THREE.MeshBasicMaterial).opacity = 0.65 + pulse * 0.35;
+    }
+    if (beamRef.current) {
+      (beamRef.current.material as THREE.MeshBasicMaterial).opacity = 0.25 + pulse * 0.25;
+    }
+  });
 
   const handleEnter = () => {
     if (!isCompleted) {
@@ -65,15 +85,21 @@ const LearningGLTF = ({ item }: { item: LearningItem }) => {
       {!isCompleted && (
         <>
           {/* Fake glowing aura (optimized, no real light) */}
-          <mesh position={[0, 1.0, 0]}>
+          <mesh ref={auraRef} position={[0, 1.0, 0]}>
             <sphereGeometry args={[item.sensorRadius * 0.8, 8, 8]} />
             <meshBasicMaterial color="#ffeb3b" transparent opacity={0.3} depthWrite={false} blending={THREE.AdditiveBlending} />
           </mesh>
 
           {/* Bright ring on ground */}
-          <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.05, 0]}>
+          <mesh ref={ringRef} rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.05, 0]}>
             <ringGeometry args={[item.sensorRadius * 0.8, item.sensorRadius, 32]} />
             <meshBasicMaterial color="#ffaa00" transparent opacity={0.8} depthWrite={false} />
+          </mesh>
+
+          {/* Cột sáng thẳng đứng — thấy được từ xa, kể cả khi bị cây/bụi rậm che khuất phần thân */}
+          <mesh ref={beamRef} position={[0, 3, 0]}>
+            <coneGeometry args={[0.18, 4, 8, 1, true]} />
+            <meshBasicMaterial color="#fff8d6" transparent opacity={0.35} depthWrite={false} side={THREE.DoubleSide} blending={THREE.AdditiveBlending} />
           </mesh>
 
           <RigidBody type="fixed" colliders={false} sensor onIntersectionEnter={handleEnter} onIntersectionExit={handleExit}>

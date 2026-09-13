@@ -20,6 +20,7 @@ import HUD from "@/components/ui/HUD";
 import Minimap from "@/components/ui/Minimap";
 import CompassHUD from "@/components/ui/CompassHUD";
 import ObserveModeUI from "@/components/ui/ObserveModeUI";
+import ObserveLensCanvas from "@/components/ui/ObserveLensCanvas";
 import { SPAWN } from "@/config/world/chapter1";
 import { ISO_CAMERA_OFFSET } from "@/constants/camera";
 import { WorldDebugPanel } from "@/components/game/world/WorldDebugHUD";
@@ -54,9 +55,8 @@ export default function Home() {
     { name: "backward", keys: ["ArrowDown", "KeyS"] },
     { name: "left", keys: ["ArrowLeft", "KeyA"] },
     { name: "right", keys: ["ArrowRight", "KeyD"] },
-    { name: "interact", keys: ["KeyE"] },
-    { name: "sprint", keys: ["ShiftLeft", "ShiftRight"] },
-    { name: "jump", keys: ["ControlLeft", "ControlRight"] },
+    { name: "sprint", keys: ["KeyQ"] },
+    { name: "jump", keys: ["KeyE"] },
     { name: "observe", keys: ["KeyF"] },
   ];
 
@@ -72,6 +72,7 @@ export default function Home() {
           <Minimap />
           <CompassHUD />
           <ObserveModeUI />
+          <ObserveLensCanvas />
         </>
       )}
       <IntroCinematicUI />

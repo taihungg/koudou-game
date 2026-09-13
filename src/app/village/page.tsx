@@ -14,6 +14,9 @@ import * as THREE from "three";
 import HUD from "@/components/ui/HUD";
 import StoryIntroUI from "@/components/ui/StoryIntroUI";
 import DialogueUI from "@/components/ui/DialogueUI";
+import CompassHUD from "@/components/ui/CompassHUD";
+import ObserveModeUI from "@/components/ui/ObserveModeUI";
+import ObserveLensCanvas from "@/components/ui/ObserveLensCanvas";
 
 // Tạm thời tắt các cảnh báo deprecation (sắp lỗi thời) từ nội bộ thư viện Three.js
 // vì các thư viện @react-three/fiber và rapier chưa cập nhật kịp với Three.js r169+
@@ -38,7 +41,9 @@ export default function Village() {
     { name: "backward", keys: ["ArrowDown", "KeyS"] },
     { name: "left", keys: ["ArrowLeft", "KeyA"] },
     { name: "right", keys: ["ArrowRight", "KeyD"] },
-    { name: "interact", keys: ["KeyE"] },
+    { name: "sprint", keys: ["KeyQ"] },
+    { name: "jump", keys: ["KeyE"] },
+    { name: "observe", keys: ["KeyF"] },
   ];
 
   return (
@@ -50,6 +55,9 @@ export default function Village() {
       <InventoryHUD />
       <BotanicalBookUI />
       <DuboisNotebookUI />
+      <CompassHUD />
+      <ObserveModeUI />
+      <ObserveLensCanvas />
 
       <KeyboardControls map={keyboardMap}>
         <Canvas shadows={{ type: THREE.PCFShadowMap }}>

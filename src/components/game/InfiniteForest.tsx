@@ -16,8 +16,9 @@ const ITEMS_PER_CHUNK = 100; // Density of items per chunk
 
 // Prepare learning entities
 // sensorRadius tính bằng MÉT (không còn nhân theo scale của model — xem LearningEntity).
-// 1.2 m giữ nguyên tầm tương tác cũ: trước đây 0.5 nằm trong group scale ~2.2.
-const LEARNING_FLOWERS = (learningData.flowers || []).map(f => ({ ...f, category: 'flower', sensorRadius: 1.2 }));
+// 2.2 m nới rộng hơn mức "chạm vào mới nhặt được" cũ (1.2 m) để người chơi
+// tương tác/quan sát được từ một khoảng cách thoải mái hơn.
+const LEARNING_FLOWERS = (learningData.flowers || []).map(f => ({ ...f, category: 'flower', sensorRadius: 2.2 }));
 const LEARNING_ANIMALS = ((learningData as any).animals || []).map((a: any) => ({ ...a, category: 'animal' as const, sensorRadius: 2.0 }));
 // Tạm thời bỏ các động vật (LEARNING_ANIMALS) khỏi mảng spawn
 const LEARNING_ENTITIES = [...LEARNING_FLOWERS];
