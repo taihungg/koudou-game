@@ -1,25 +1,30 @@
 "use client";
 
+import SkyBackground, { HORIZON, SUN_POSITION } from "./world/SkyBackground";
 import ZonedForest from "./world/ZonedForest";
 
-// Cùng tông với BIOME_GROUND.deep_canopy — chunk ở rìa vùng render (hoặc lọt
-// qua khe hở khi camera bị zoom rộng bất thường) tan dần vào màu nền thay vì
-// lộ ra một mảng ĐEN THUẦN, thứ trước đây đọc như "cây trôi nổi giữa hư không"
-// vì deep_canopy quá tối để phân biệt với clearColor mặc định của Canvas.
-const VOID_COLOR = "#16220f";
+/**
+ * Màu sương. PHẢI bằng màu chân trời của `SkyBackground` — sương là thứ nuốt dần
+ * rừng ở xa, nên lệch màu là lộ ngay một đường viền cứng đúng chỗ rừng chạm
+ * trời. Trước đây cả hai đều là màu nền tối `#16220f` (cùng tông
+ * `BIOME_GROUND.deep_canopy`); nay trời có màu nên mốc chung chuyển sang màu
+ * chân trời.
+ */
+const FOG_COLOR = HORIZON;
 
 export default function Environment() {
   return (
     <>
-      <color attach="background" args={[VOID_COLOR]} />
+      <SkyBackground />
       {/* Sương xa: chunk mới nạp/dỡ tan dần thay vì bật/tắt đột ngột, và che
           luôn viền vuông cứng của vùng render khi nhìn từ xa hoặc zoom rộng. */}
-      <fogExp2 attach="fog" args={[VOID_COLOR, 0.0085]} />
+      <fogExp2 attach="fog" args={[FOG_COLOR, 0.0085]} />
 
-      {/* Lighting */}
+      {/* Lighting — vị trí lấy từ SUN_POSITION để bóng đổ khớp với đĩa mặt trời
+          thật sự nhìn thấy trên nền trời. */}
       <ambientLight intensity={0.6} />
       <directionalLight
-        position={[10, 20, 10]}
+        position={SUN_POSITION}
         intensity={1.5}
         castShadow
         shadow-mapSize={[1024, 1024]}

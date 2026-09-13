@@ -179,8 +179,8 @@ export default function Minimap() {
   }, [completedExercises]);
 
   return (
-    <div className="absolute bottom-4 right-4 z-10 flex flex-col items-center pointer-events-none">
-      <div className="relative h-40 w-40 overflow-hidden rounded-xl border-4 border-amber-800/80 bg-[#fdf6e3] shadow-[0_4px_20px_rgba(0,0,0,0.25)]">
+    <div className="absolute bottom-2 right-2 md:bottom-4 md:right-4 z-10 flex flex-col items-center pointer-events-none">
+      <div className="relative h-28 w-28 md:h-36 md:w-36 lg:h-40 lg:w-40 overflow-hidden rounded-xl border-4 border-amber-800/80 bg-[#fdf6e3] shadow-[0_4px_20px_rgba(0,0,0,0.25)]">
         <svg viewBox={`0 0 ${VIEW} ${VIEW}`} className="h-full w-full">
           <StaticMapLayer />
           {/* Chấm vàng mục tiêu học tập — tự biến mất khi làm đúng bài tập */}

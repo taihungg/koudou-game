@@ -3,10 +3,9 @@
 import React, { useState, useEffect } from "react";
 import { Canvas, useThree } from "@react-three/fiber";
 import { useGLTF, Environment, Bounds } from "@react-three/drei";
-import * as THREE from "three";
 
 const ModelRenderer = ({ modelPath, onRendered }: { modelPath: string; onRendered: (url: string) => void }) => {
-  const { scene } = useGLTF(modelPath) as any;
+  const { scene } = useGLTF(modelPath);
   const { gl, scene: threeScene, camera } = useThree();
   
   useEffect(() => {
@@ -63,7 +62,7 @@ export default function ExportPage() {
         body: JSON.stringify({ filename, image: dataUrl })
       });
       setLogs(prev => [...prev, `Saved ${filename}`]);
-    } catch (e) {
+    } catch {
       setLogs(prev => [...prev, `Failed to save ${filename}`]);
     }
 
@@ -76,50 +75,48 @@ export default function ExportPage() {
   };
 
   return (
-    <div className="p-8 font-sans bg-gray-50 min-h-screen">
-      <h1 className="text-3xl font-bold mb-4">Export 3D Flowers to 2D PNG</h1>
-      <p className="mb-4 text-gray-600">This tool will render all flowers in public/models/flowers and save them as PNGs in public/assets/flowers_2d.</p>
-      
-      {!isExporting && currentIndex === 0 && (
+    <div className="p-8 max-w-6xl mx-auto font-sans">
+      <h1 className="text-2xl font-bold mb-4">Batch Flower Card Generator</h1>
+      <p className="text-gray-600 mb-6">
+        Render models to 2D transparent PNGs for 2D card displays.
+      </p>
+
+      <div className="flex gap-4 items-center mb-6">
         <button 
-          onClick={handleStart}
-          className="bg-blue-600 text-white px-6 py-2 rounded shadow hover:bg-blue-700"
+          onClick={handleStart} 
+          disabled={isExporting || files.length === 0}
+          className="px-6 py-2 bg-indigo-600 text-white rounded-lg font-medium hover:bg-indigo-700 disabled:opacity-50"
         >
-          Start Export ({files.length} files)
+          {isExporting ? `Exporting (${currentIndex + 1}/${files.length})...` : "Start Batch Export"}
         </button>
-      )}
+        <span className="text-sm text-gray-500">
+          Found {files.length} flowers
+        </span>
+      </div>
 
-      {isExporting && (
-        <div className="mb-4">
-          <p className="font-bold text-lg text-blue-600">Processing {currentIndex + 1} of {files.length}...</p>
-          <div className="w-full bg-gray-200 rounded-full h-2.5 mt-2">
-            <div className="bg-blue-600 h-2.5 rounded-full" style={{ width: `${((currentIndex + 1) / files.length) * 100}%` }}></div>
-          </div>
-        </div>
-      )}
-
-        <div style={{ width: 512, height: 512, position: 'absolute', top: -2000, left: -2000 }}>
-          <Canvas 
-            gl={{ preserveDrawingBuffer: true, alpha: true, antialias: true, toneMappingExposure: 1.0 }} 
-            camera={{ position: [4, 3, 4], fov: 40 }}
-          >
-            <ambientLight intensity={0.8} />
-            <directionalLight position={[5, 10, -5]} intensity={1.5} />
-            <directionalLight position={[-5, 5, 5]} intensity={0.5} color="#abcdef" />
-            <Environment preset="city" environmentIntensity={0.6} />
-            <React.Suspense fallback={null}>
-              <ModelRenderer 
-                key={files[currentIndex]} 
-                modelPath={`/models/flowers/${files[currentIndex]}`} 
-                onRendered={handleRendered} 
-              />
-            </React.Suspense>
-          </Canvas>
-        </div>
+      <div className="relative w-96 h-96 border rounded-xl overflow-hidden bg-gradient-to-tr from-gray-200 to-white shadow-inner">
+        <Canvas 
+          gl={{ preserveDrawingBuffer: true, alpha: true }}
+          camera={{ position: [0, 1, 2.5], fov: 45 }}
+        >
+          <ambientLight intensity={1.5} />
+          <directionalLight position={[5, 10, 5]} intensity={2} />
+          <directionalLight position={[-5, 5, -5]} intensity={1} color="#bbf" />
+          <Environment preset="park" />
+          <React.Suspense fallback={null}>
+            <ModelRenderer 
+              key={files[currentIndex]} 
+              modelPath={`/models/flowers/${files[currentIndex]}`} 
+              onRendered={handleRendered} 
+            />
+          </React.Suspense>
+        </Canvas>
+      </div>
 
       <div className="mt-8 grid grid-cols-6 gap-4">
         {Object.entries(images).map(([file, url]) => (
           <div key={file} className="border bg-white p-2 rounded shadow-sm text-center">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={url} alt={file} className="w-full h-auto mb-2 bg-gray-100 rounded" />
             <span className="text-xs text-gray-500 break-words">{file}</span>
           </div>

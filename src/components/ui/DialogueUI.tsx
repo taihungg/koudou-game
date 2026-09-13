@@ -5,6 +5,8 @@ import { useDialogueStore, kofiDialogue } from '@/store/useDialogueStore';
 import { useGameStore } from '@/store/useGameStore';
 import confetti from "canvas-confetti";
 
+let floatingTextId = 0;
+
 export default function DialogueUI() {
   const { isOpen, currentSequence, currentStepIndex, closeDialogue, nextStep, nearbyNPCId, openDialogue } = useDialogueStore();
   const { setInteracting, addXP, addTrust } = useGameStore();
@@ -12,24 +14,28 @@ export default function DialogueUI() {
   const [feedback, setFeedback] = useState<string | null>(null);
   const [floatingTexts, setFloatingTexts] = useState<{id: number, text: string, type: 'bonus' | 'fail'}[]>([]);
 
+  const [prevStepIndex, setPrevStepIndex] = useState(currentStepIndex);
+  const [prevIsOpen, setPrevIsOpen] = useState(isOpen);
+
+  if (currentStepIndex !== prevStepIndex) {
+    setPrevStepIndex(currentStepIndex);
+    setSelectedOption(null);
+    setFeedback(null);
+  }
+
+  if (isOpen !== prevIsOpen) {
+    setPrevIsOpen(isOpen);
+    if (!isOpen) {
+      setSelectedOption(null);
+      setFeedback(null);
+    }
+  }
+
   const step = currentSequence?.[currentStepIndex];
 
   useEffect(() => {
-    if (isOpen) {
-      setInteracting(true);
-    } else {
-      setInteracting(false);
-      setSelectedOption(null);
-      setFeedback(null);
-    }
+    setInteracting(isOpen);
   }, [isOpen, setInteracting]);
-
-  useEffect(() => {
-    if (step) {
-      setSelectedOption(null);
-      setFeedback(null);
-    }
-  }, [step]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -57,8 +63,8 @@ export default function DialogueUI() {
       addTrust(5);
       
       const newFloatings: {id: number, text: string, type: 'bonus' | 'fail'}[] = [
-        { id: Date.now(), text: '+5 XP', type: 'bonus' },
-        { id: Date.now() + 1, text: '+5 ODD 16', type: 'bonus' }
+        { id: ++floatingTextId, text: '+5 XP', type: 'bonus' },
+        { id: ++floatingTextId, text: '+5 ODD 16', type: 'bonus' }
       ];
       setFloatingTexts(prev => [...prev, ...newFloatings]);
 
@@ -82,7 +88,7 @@ export default function DialogueUI() {
       addXP(-2);
       
       const newFloatings: {id: number, text: string, type: 'bonus' | 'fail'}[] = [
-        { id: Date.now(), text: '-2 XP', type: 'fail' }
+        { id: ++floatingTextId, text: '-2 XP', type: 'fail' }
       ];
       setFloatingTexts(prev => [...prev, ...newFloatings]);
 

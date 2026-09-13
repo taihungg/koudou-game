@@ -17,6 +17,7 @@ export type BiomeId =
   | 'rocky'
   | 'cabin_clearing'
   | 'logged'
+  | 'village'
   | 'deep_canopy';
 
 export type ZoneShape =
@@ -74,6 +75,35 @@ export interface VegetationEntry {
 }
 
 export type BiomePalette = Partial<Record<VegetationCategory, VegetationEntry>>;
+
+/**
+ * Một vật thể của ngôi làng (nhà, giếng, rào, đèn, ghế…).
+ *
+ * Khác `LandmarkConfig` ở hai điểm cố ý: tỉ lệ mặc định đi qua CHIỀU CAO MỤC
+ * TIÊU (`targetHeight` → `scaleToHeight`) chứ không phải hệ số thô, vì làng
+ * trộn ba pack khác hệ đơn vị (`objects` ×4, `villages_raw_glb` ×1) mà vẫn phải
+ * đọc được cùng một thước người; và collider là nửa-kích-thước ĐO THEO MODEL,
+ * không suy từ `clearance` — nhà có mặt bằng chữ nhật, bọc bằng hộp vuông theo
+ * clearance sẽ chặn cả lối đi trước cửa.
+ */
+export interface VillageBuildingConfig {
+  id: string;
+  modelPath: string;
+  position: [number, number];
+  /** Chiều cao mục tiêu (m). Ưu tiên cái này; xem `scale` cho ngoại lệ. */
+  targetHeight?: number;
+  /**
+   * Hệ số tuyệt đối, CHỈ dùng cho prop có tỉ lệ dẹt bất thường mà chuẩn hoá
+   * theo chiều cao sẽ kéo dài ra vô lý — ghế băng cao 0,3 m nhưng dài 2,36 m:
+   * ép cao 0,5 m là thành cái ghế dài 3,9 m.
+   */
+  scale?: number;
+  rotationY: number;
+  /** Nửa kích thước collider [hx, hy, hz] tính bằng mét. `null` = đi xuyên được. */
+  collider: [number, number, number] | null;
+  /** Bán kính "breathing room" — thực vật vi mô không sinh vào đây. */
+  clearance: number;
+}
 
 export interface LandmarkConfig {
   id: string;

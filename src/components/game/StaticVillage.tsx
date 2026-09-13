@@ -5,8 +5,7 @@ import { GAME_ASSETS } from "@/constants/assets";
 import { SkeletonUtils } from 'three-stdlib';
 import * as THREE from 'three';
 import { useDialogueStore } from "@/store/useDialogueStore";
-
-const NUM_HOUSES = 20;
+import { mulberry32 } from "@/utils/random";
 
 // Reusable NPC Component
 interface NPCProps {
@@ -21,8 +20,8 @@ function NPCCharacter({ modelUrl, position, rotation }: NPCProps) {
   
   const character = useMemo(() => {
     const clone = SkeletonUtils.clone(characterGltf.scene);
-    clone.traverse((node: any) => {
-      if (node.isMesh) {
+    clone.traverse((node: THREE.Object3D) => {
+      if ((node as THREE.Mesh).isMesh) {
         node.castShadow = true;
         node.receiveShadow = true;
       }
@@ -58,8 +57,8 @@ function InteractableNPC({ modelUrl, position, rotation, npcId }: NPCProps & { n
   
   const character = useMemo(() => {
     const clone = SkeletonUtils.clone(characterGltf.scene);
-    clone.traverse((node: any) => {
-      if (node.isMesh) {
+    clone.traverse((node: THREE.Object3D) => {
+      if ((node as THREE.Mesh).isMesh) {
         node.castShadow = true;
         node.receiveShadow = true;
       }
@@ -128,12 +127,20 @@ useGLTF.preload(GAME_ASSETS.MODELS.OBJECTS.LUMBERMILL);
 useGLTF.preload(GAME_ASSETS.MODELS.OBJECTS.WATCHTOWER);
 
 // Village building Component
-function VillageBuilding({ url, position, rotation, scale = 1, colliderArgs = [2, 2, 2] }: any) {
-  const { scene } = useGLTF(url) as any;
+interface VillageBuildingProps {
+  url: string;
+  position: [number, number, number];
+  rotation: [number, number, number];
+  scale?: number;
+  colliderArgs?: [number, number, number];
+}
+
+function VillageBuilding({ url, position, rotation, scale = 1, colliderArgs = [2, 2, 2] }: VillageBuildingProps) {
+  const { scene } = useGLTF(url);
   const clonedScene = useMemo(() => {
     const clone = scene.clone();
-    clone.traverse((child: any) => {
-      if (child.isMesh) {
+    clone.traverse((child: THREE.Object3D) => {
+      if ((child as THREE.Mesh).isMesh) {
         child.castShadow = true;
         child.receiveShadow = true;
       }
@@ -151,65 +158,66 @@ function VillageBuilding({ url, position, rotation, scale = 1, colliderArgs = [2
   );
 }
 
+const HOUSE_GRID_POSITIONS = [
+  // Grid cells to place houses, skipping center [0,0] and inner cross
+  [-2, -2], [-1, -2], [0, -2], [1, -2], [2, -2],
+  [-2, -1], [2, -1],
+  [-2,  0], [2,  0],
+  [-2,  1], [2,  1],
+  [-2,  2], [-1,  2], [0,  2], [1,  2], [2,  2],
+  // Add a few more in inner spots
+  [-1, -1], [1, -1], [-1, 1], [1, 1],
+  // Add 2 more houses
+  [0, -1], [0, 1]
+];
+
+const CELL_SIZE = 30;
+
+function createVillageHouses() {
+  const rng = mulberry32(42);
+  return HOUSE_GRID_POSITIONS.map((pos, i) => {
+    const x = pos[0] * CELL_SIZE + (rng() * 8 - 4);
+    const z = pos[1] * CELL_SIZE + (rng() * 8 - 4);
+    const rotY = Math.atan2(x, z) + Math.PI + (rng() * 0.4 - 0.2);
+
+    return {
+      id: `house_${i}`,
+      position: [x, 0, z] as [number, number, number],
+      rotation: [0, rotY, 0] as [number, number, number],
+    };
+  });
+}
+
+const VILLAGE_HOUSES = createVillageHouses();
+
+const NPC_MODELS = [
+  GAME_ASSETS.MODELS.CHARACTERS.PLAYERS_BARBARIAN,
+  GAME_ASSETS.MODELS.CHARACTERS.PLAYERS_KNIGHT,
+  GAME_ASSETS.MODELS.CHARACTERS.PLAYERS_MAGE,
+  GAME_ASSETS.MODELS.CHARACTERS.PLAYERS_RANGER,
+  GAME_ASSETS.MODELS.CHARACTERS.PLAYERS_ROGUE_HOODED,
+];
+
+const VILLAGE_NPCS = NPC_MODELS.map((model, i) => {
+  const house = VILLAGE_HOUSES[i * 4]; // Spread them out among the houses
+  const dist = 6;
+  const hx = house.position[0];
+  const hz = house.position[2];
+  const len = Math.sqrt(hx * hx + hz * hz);
+  const nx = hx - (hx / len) * dist;
+  const nz = hz - (hz / len) * dist;
+
+  return {
+    id: `npc_${i}`,
+    modelUrl: model,
+    position: [nx, 0, nz] as [number, number, number],
+    rotation: [0, house.rotation[1], 0] as [number, number, number],
+  };
+});
+
 export default function StaticVillage() {
-  const houses = useMemo(() => {
-    const arr: { id: string, position: [number, number, number], rotation: [number, number, number] }[] = [];
-    const positions = [
-      // Grid cells to place houses, skipping center [0,0] and inner cross
-      [-2, -2], [-1, -2], [0, -2], [1, -2], [2, -2],
-      [-2, -1], [2, -1],
-      [-2,  0], [2,  0],
-      [-2,  1], [2,  1],
-      [-2,  2], [-1,  2], [0,  2], [1,  2], [2,  2],
-      // Add a few more in inner spots
-      [-1, -1], [1, -1], [-1, 1], [1, 1],
-      // Add 2 more houses
-      [0, -1], [0, 1]
-    ]; // 22 spots total
-
-    const cellSize = 30; // 30 units between houses
-
-    positions.forEach((pos, i) => {
-      const x = pos[0] * cellSize + (Math.random() * 8 - 4);
-      const z = pos[1] * cellSize + (Math.random() * 8 - 4);
-      // Houses loosely face the origin (center plaza)
-      const rotY = Math.atan2(x, z) + Math.PI + (Math.random() * 0.4 - 0.2);
-
-      arr.push({
-        id: `house_${i}`,
-        position: [x, 0, z] as [number, number, number],
-        rotation: [0, rotY, 0] as [number, number, number],
-      });
-    });
-    return arr;
-  }, []);
-
-  const npcs = useMemo(() => {
-    const npcModels = [
-      GAME_ASSETS.MODELS.CHARACTERS.PLAYERS_BARBARIAN,
-      GAME_ASSETS.MODELS.CHARACTERS.PLAYERS_KNIGHT,
-      GAME_ASSETS.MODELS.CHARACTERS.PLAYERS_MAGE,
-      GAME_ASSETS.MODELS.CHARACTERS.PLAYERS_RANGER,
-      GAME_ASSETS.MODELS.CHARACTERS.PLAYERS_ROGUE_HOODED,
-    ];
-
-    return npcModels.map((model, i) => {
-      const house = houses[i * 4]; // Spread them out among the houses
-      const dist = 6;
-      const hx = house.position[0];
-      const hz = house.position[2];
-      const len = Math.sqrt(hx*hx + hz*hz);
-      const nx = hx - (hx/len) * dist;
-      const nz = hz - (hz/len) * dist;
-
-      return {
-        id: `npc_${i}`,
-        modelUrl: model,
-        position: [nx, 0, nz] as [number, number, number],
-        rotation: [0, house.rotation[1], 0] as [number, number, number],
-      };
-    });
-  }, [houses]);
+  const houses = VILLAGE_HOUSES;
+  const npcs = VILLAGE_NPCS;
 
   return (
     <group>

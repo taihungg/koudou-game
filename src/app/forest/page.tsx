@@ -7,6 +7,7 @@ import Environment from "@/components/game/Environment";
 import Player from "@/components/game/Player";
 import LearningCardUI from "@/components/ui/LearningCardUI";
 import InventoryHUD from "@/components/ui/InventoryHUD";
+import HelpUI from "@/components/ui/HelpUI";
 import BotanicalBookUI from "@/components/ui/BotanicalBookUI";
 import DuboisNotebookUI from "@/components/ui/DuboisNotebookUI";
 import IntroCinematicUI from "@/components/ui/IntroCinematicUI";
@@ -15,12 +16,17 @@ import { useCinematicStore } from "@/store/useCinematicStore";
 import { gameplayCamera } from "@/utils/gameplayCamera";
 import { OrthographicCamera } from "@react-three/drei";
 import * as THREE from "three";
-import { useEffect } from "react";
+import { Suspense } from "react";
 import HUD from "@/components/ui/HUD";
 import Minimap from "@/components/ui/Minimap";
 import CompassHUD from "@/components/ui/CompassHUD";
 import ObserveModeUI from "@/components/ui/ObserveModeUI";
 import ObserveLensCanvas from "@/components/ui/ObserveLensCanvas";
+import VillagerListeningUI from "@/components/ui/VillagerListeningUI";
+import VillageGateUI from "@/components/ui/VillageGateUI";
+import ChiefDialogueUI from "@/components/ui/ChiefDialogueUI";
+import FireQuestUI from "@/components/ui/FireQuestUI";
+import TutorialUI from "@/components/ui/TutorialUI";
 import { SPAWN } from "@/config/world/chapter1";
 import { ISO_CAMERA_OFFSET } from "@/constants/camera";
 import { WorldDebugPanel } from "@/components/game/world/WorldDebugHUD";
@@ -30,7 +36,7 @@ import { useSearchParams } from "next/navigation";
 // vì các thư viện @react-three/fiber và rapier chưa cập nhật kịp với Three.js r169+
 if (typeof window !== "undefined") {
   const originalWarn = console.warn;
-  console.warn = (...args: any[]) => {
+  console.warn = (...args: unknown[]) => {
     const msg = args[0];
     if (typeof msg === 'string' && (
       msg.includes('THREE.WebGLShadowMap: PCFSoftShadowMap has been deprecated') ||
@@ -43,7 +49,7 @@ if (typeof window !== "undefined") {
   };
 }
 
-export default function Home() {
+function ForestGameContent() {
   const debug = useSearchParams().get("debug") === "1";
   // Trong cutscene, mọi lớp HUD đều tắt: khuôn hình điện ảnh không được dính
   // thanh điểm số hay minimap. Đây là cờ React (đổi vài lần cả màn), không phải
@@ -67,12 +73,18 @@ export default function Home() {
           <HUD />
           <LearningCardUI />
           <InventoryHUD />
+          <HelpUI />
           <BotanicalBookUI />
           <DuboisNotebookUI />
           <Minimap />
           <CompassHUD />
           <ObserveModeUI />
           <ObserveLensCanvas />
+          <VillagerListeningUI />
+          <VillageGateUI />
+          <ChiefDialogueUI />
+          <FireQuestUI />
+          <TutorialUI />
         </>
       )}
       <IntroCinematicUI />
@@ -100,12 +112,20 @@ export default function Home() {
           />
           <Physics debug={false}>
             <Environment />
-            <Player spawn={SPAWN} />
+            <Player spawn={SPAWN} worldId="forest" />
           </Physics>
           {/* Đặt NGOÀI <Physics>: cutscene không có vật thể vật lý nào. */}
           <IntroScene />
         </Canvas>
       </KeyboardControls>
     </main>
+  );
+}
+
+export default function Home() {
+  return (
+    <Suspense fallback={<div className="w-screen h-screen bg-sky-100 flex items-center justify-center font-story text-2xl text-emerald-800">Chargement...</div>}>
+      <ForestGameContent />
+    </Suspense>
   );
 }

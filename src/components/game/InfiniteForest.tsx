@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo, useRef, useState } from "react";
+import React, { useMemo, useState } from "react";
 import { useFrame } from "@react-three/fiber";
 import { RigidBody, CylinderCollider } from "@react-three/rapier";
 import { useGLTF } from "@react-three/drei";
@@ -19,8 +19,7 @@ const ITEMS_PER_CHUNK = 100; // Density of items per chunk
 // 2.2 m nới rộng hơn mức "chạm vào mới nhặt được" cũ (1.2 m) để người chơi
 // tương tác/quan sát được từ một khoảng cách thoải mái hơn.
 const LEARNING_FLOWERS = (learningData.flowers || []).map(f => ({ ...f, category: 'flower', sensorRadius: 2.2 }));
-const LEARNING_ANIMALS = ((learningData as any).animals || []).map((a: any) => ({ ...a, category: 'animal' as const, sensorRadius: 2.0 }));
-// Tạm thời bỏ các động vật (LEARNING_ANIMALS) khỏi mảng spawn
+// Tạm thời bỏ các động vật khỏi mảng spawn
 const LEARNING_ENTITIES = [...LEARNING_FLOWERS];
 
 // Categorize assets dynamically
@@ -51,9 +50,18 @@ const FOLIAGE = [
   useGLTF.preload(url);
 });
 
+interface ForestItemData {
+  id?: string;
+  path: string;
+  position: [number, number, number];
+  rotation: [number, number, number];
+  scale: number;
+  type: string;
+}
+
 // A single item in the forest
-const ForestItem = React.memo(({ item }: { item: any }) => {
-  const { scene } = useGLTF(item.path) as any;
+const ForestItem = React.memo(({ item }: { item: ForestItemData }) => {
+  const { scene } = useGLTF(item.path);
   const clonedScene = useMemo(() => scene.clone(), [scene]);
 
   if (item.type === "tree") {
@@ -166,13 +174,13 @@ const ForestChunk = React.memo(({ chunkX, chunkZ, clearRadius = 5 }: { chunkX: n
     }
 
     return generatedItems;
-  }, [chunkX, chunkZ]);
+  }, [chunkX, chunkZ, clearRadius]);
 
   return (
     <group>
       {items.map((item) => {
         if (item.type === "learning" && item.entityData) {
-          return <LearningEntity key={item.id} item={item as any} />;
+          return <LearningEntity key={item.id} item={item as unknown as Parameters<typeof LearningEntity>[0]['item']} />;
         }
         return <ForestItem key={item.id} item={item} />;
       })}

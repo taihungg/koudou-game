@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useLearningStore } from "@/store/useLearningStore";
 import { entityRadar, playerRadar } from "@/components/game/world/CompassRadar";
+import { isoBearingDeg } from "@/utils/isoBearing";
 
 /**
  * La bàn sinh thái — luôn hiển thị, không cần bật/tắt. Không đi qua Zustand
@@ -51,8 +52,7 @@ export default function CompassHUD() {
 
       if (needleRef.current && labelRef.current && distRef.current) {
         if (found) {
-          const angleDeg =
-            (Math.atan2(nearestDx - nearestDz, -(nearestDx + nearestDz)) * 180) / Math.PI;
+          const angleDeg = isoBearingDeg(nearestDx, nearestDz);
           needleRef.current.style.transform = `rotate(${angleDeg}deg)`;
           labelRef.current.textContent = nearestName;
           distRef.current.textContent = `${Math.round(nearestDist)} m`;
@@ -69,9 +69,9 @@ export default function CompassHUD() {
   }, [completedExercises]);
 
   return (
-    <div className="absolute top-24 right-6 z-10 pointer-events-none flex flex-col items-center gap-2">
+    <div className="absolute top-20 right-4 md:top-24 md:right-6 z-10 pointer-events-none flex flex-col items-center gap-2">
       {/* Vòng hào quang mờ phía sau, nhấp nháy nhẹ để bắt mắt */}
-      <div className="relative h-24 w-24">
+      <div className="relative h-20 w-20 md:h-24 md:w-24">
         <div
           className={`absolute inset-0 rounded-full blur-md transition-colors duration-300 ${
             hasTarget ? "bg-amber-400/40 animate-pulse" : "bg-emerald-400/20"

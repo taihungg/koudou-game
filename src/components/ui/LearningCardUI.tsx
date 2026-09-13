@@ -30,14 +30,8 @@ export default function LearningCardUI() {
     setIsQuizMode(false);
 
     if (currentActive) {
-      const isDone = useLearningStore.getState().completedExercises.includes(currentActive.id);
-      if (isDone) {
-        // Đã học xong: xoá nearbyEntity để dấu hiệu nhận biết nổi bật biến mất hoàn toàn
-        useLearningStore.getState().setNearbyEntity(null);
-      } else {
-        // Chưa học xong hoặc làm sai mà đóng tab: giữ nearbyEntity để người chơi có thể nhấn Space / E tương tác lại ngay tại chỗ
-        useLearningStore.getState().setNearbyEntity(currentActive);
-      }
+      // Giữ nearbyEntity để nếu người chơi vẫn đứng cạnh cây đó thì có thể nhấn Space / E tương tác lại ngay tại chỗ
+      useLearningStore.getState().setNearbyEntity(currentActive);
     }
   }, [activeEntity, setActiveEntity]);
 
@@ -79,12 +73,12 @@ export default function LearningCardUI() {
       });
 
       if (!isCompleted) {
-        addXP(5);
-        useGameStore.getState().addBiodiversity(5); // +5 ODD 15
         markExerciseCompleted(activeEntity.id);
-        newFloatings.push({ id: ++nextFloatingId.current, text: '+5 XP', type: 'bonus' });
-        newFloatings.push({ id: ++nextFloatingId.current, text: '+5 ODD 15', type: 'bonus' });
       }
+      addXP(5);
+      useGameStore.getState().addBiodiversity(5); // +5 ODD 15
+      newFloatings.push({ id: ++nextFloatingId.current, text: '+5 XP', type: 'bonus' });
+      newFloatings.push({ id: ++nextFloatingId.current, text: '+5 ODD 15', type: 'bonus' });
       
       setFloatingTexts(prev => [...prev, ...newFloatings]);
       
@@ -148,7 +142,7 @@ export default function LearningCardUI() {
         }`}
       >
         {/* Dimmed Background */}
-        <div className={`absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity duration-500 pointer-events-auto ${isVisible ? 'opacity-100' : 'opacity-0'}`} onClick={closeCard}></div>
+        <div className={`absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity duration-500 ${isVisible ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`} onClick={closeCard}></div>
 
         {/* 2-PANEL CONTAINER */}
         <div className="flex flex-col md:flex-row items-center md:items-stretch justify-center gap-8 w-full max-w-5xl px-6 pointer-events-auto relative z-10">
@@ -168,6 +162,7 @@ export default function LearningCardUI() {
             {/* 2D Image behind the card frame (shows through the transparent window) */}
             <div className="absolute top-[8%] left-[8%] right-[8%] h-[45%] flex items-center justify-center z-0">
               {activeEntity?.modelPath && activeEntity.modelPath.includes('/flowers/') ? (
+                /* eslint-disable-next-line @next/next/no-img-element */
                 <img 
                   src={`/assets/flowers_2d/${activeEntity.modelPath.split('/').pop()?.replace('.glb', '.png')}`} 
                   alt={activeEntity?.frenchName} 
@@ -181,6 +176,7 @@ export default function LearningCardUI() {
             </div>
 
             {/* Card Frame Image */}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img 
               src={activeEntity?.cardType || '/assets/card/SilverCard.png'} 
               alt="Card Background" 
@@ -255,8 +251,20 @@ export default function LearningCardUI() {
                     </button>
                   )}
                   {activeEntity?.exercise && isCompleted && (
-                    <div className="w-full bg-green-900/60 border-2 border-green-500/60 text-green-200 py-3.5 px-6 rounded-2xl text-center font-bold font-story text-base flex items-center justify-center gap-2 shadow-inner">
-                      <span>✓</span> Déjà documenté dans l&apos;encyclopédie !
+                    <div className="flex flex-col gap-2.5">
+                      <div className="w-full bg-green-900/60 border-2 border-green-500/60 text-green-200 py-3 px-6 rounded-2xl text-center font-bold font-story text-base flex items-center justify-center gap-2 shadow-inner">
+                        <span>✓</span> Déjà documenté dans l&apos;encyclopédie !
+                      </div>
+                      <button 
+                        onClick={() => {
+                          setSelectedOption(null);
+                          setFeedback(null);
+                          setIsQuizMode(true);
+                        }}
+                        className="w-full bg-amber-700/80 hover:bg-amber-600 text-amber-50 font-bold py-2.5 px-4 rounded-xl border border-amber-500 shadow-md transition-all flex items-center justify-center gap-2 font-story text-sm cursor-pointer hover:scale-[1.01]"
+                      >
+                        <span>🔄</span> Refaire l&apos;exercice pour réviser
+                      </button>
                     </div>
                   )}
                   {!activeEntity?.exercise && (

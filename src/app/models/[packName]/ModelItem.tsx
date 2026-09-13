@@ -12,6 +12,7 @@ function AutoTextureApplier({ url, object }: { url: string, object: THREE.Object
   useEffect(() => {
     if (!texture || !object) return;
 
+    // eslint-disable-next-line react-hooks/immutability
     texture.colorSpace = THREE.SRGBColorSpace;
     texture.wrapS = THREE.RepeatWrapping;
     texture.wrapT = THREE.RepeatWrapping;
@@ -20,9 +21,10 @@ function AutoTextureApplier({ url, object }: { url: string, object: THREE.Object
       if ((child as THREE.Mesh).isMesh) {
         const mesh = child as THREE.Mesh;
         if (mesh.material) {
-          const applyTexture = (m: any, index?: number) => {
+          const applyTexture = (m: THREE.Material, index?: number) => {
             // Apply if there is no map, or if the map failed to load an image
-            if (!m.map || !m.map.image) {
+            const matWithMap = m as THREE.MeshStandardMaterial;
+            if (!matWithMap.map || !matWithMap.map.image) {
               const newMat = new THREE.MeshStandardMaterial({
                 map: texture,
                 side: THREE.DoubleSide,
@@ -52,7 +54,7 @@ function AutoTextureApplier({ url, object }: { url: string, object: THREE.Object
 }
 
 class ErrorBoundary extends Component<{ children: ReactNode, fallback: ReactNode }, { hasError: boolean }> {
-  constructor(props: any) {
+  constructor(props: { children: ReactNode; fallback: ReactNode }) {
     super(props);
     this.state = { hasError: false };
   }
@@ -94,7 +96,7 @@ function normalizeMaterials(obj: THREE.Object3D) {
   });
 }
 
-function handleCentered({ container, width, height, depth }: any) {
+function handleCentered({ container, width, height, depth }: { container: THREE.Object3D; width: number; height: number; depth: number }) {
   const maxDim = Math.max(width, height, depth);
   if (maxDim > 0 && maxDim !== Infinity) {
     const targetSize = 10;

@@ -2,7 +2,7 @@
 
 import React, { useMemo } from 'react';
 import { useGameStore } from '@/store/useGameStore';
-import { useLearningStore } from '@/store/useLearningStore';
+import { useLearningStore, type LearningEntityData } from '@/store/useLearningStore';
 import data from '@/data/learningEntities.json';
 import { X, Lock } from 'lucide-react';
 
@@ -47,14 +47,21 @@ export default function BotanicalBookUI() {
               return (
                 <div 
                   key={flower.id} 
+                  onClick={() => {
+                    if (isUnlocked) {
+                      setBotanicalBookOpen(false);
+                      useLearningStore.getState().setActiveEntity(flower as unknown as LearningEntityData);
+                    }
+                  }}
                   className={`relative flex flex-row items-center border-2 rounded-lg p-3 transition-all ${
                     isUnlocked 
-                      ? 'bg-amber-50/80 border-amber-700 shadow-md hover:shadow-lg' 
+                      ? 'bg-amber-50/80 border-amber-700 shadow-md hover:shadow-lg cursor-pointer hover:border-amber-500 hover:scale-[1.01]' 
                       : 'bg-gray-200/50 border-gray-400 opacity-80 grayscale'
                   }`}
                 >
                   {/* Image */}
                   <div className="w-24 h-24 flex-shrink-0 bg-white/50 rounded-md overflow-hidden flex items-center justify-center border border-amber-900/20 mr-4 relative shadow-inner">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img 
                       src={`/assets/flowers_2d/${flower.modelPath.split('/').pop()?.replace('.glb', '.png')}`} 
                       alt="Flower" 

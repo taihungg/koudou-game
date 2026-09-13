@@ -36,8 +36,8 @@ function AnimatedCharacter({ modelUrl, animationState, rotationRef }: AnimatedCh
 
   const character = useMemo(() => {
     const clone = SkeletonUtils.clone(characterGltf.scene);
-    clone.traverse((node: any) => {
-      if (node.isMesh) {
+    clone.traverse((node: THREE.Object3D) => {
+      if ((node as THREE.Mesh).isMesh) {
         node.castShadow = true;
         node.receiveShadow = true;
       }
@@ -79,8 +79,15 @@ function AnimatedCharacter({ modelUrl, animationState, rotationRef }: AnimatedCh
 // Player Component
 // Handles physics, keyboard input, and state machine.
 // -----------------------------------------------------------------------------
-/** `spawn` cho phép mỗi màn đặt điểm xuất hiện riêng; mặc định giữ như cũ. */
-export default function Player({ spawn = [0, 5, 0] }: { spawn?: [number, number, number] } = {}) {
+/**
+ * `spawn` cho phép mỗi màn đặt điểm xuất hiện riêng; mặc định giữ như cũ.
+ * `worldId` phân biệt hệ toạ độ để lưu/khôi phục đúng vị trí — forest (Ch1)
+ * và village (Ch2) không dùng chung một hệ toạ độ nên không thể gộp chung.
+ */
+export default function Player({
+  spawn = [0, 5, 0],
+  worldId = "forest",
+}: { spawn?: [number, number, number]; worldId?: string } = {}) {
   const rigidBodyRef = useRef<RapierRigidBody>(null);
   const rotationRef = useRef<number>(0);
   const orbitAzimuthRef = useRef<number>(Math.PI / 4);
@@ -88,6 +95,40 @@ export default function Player({ spawn = [0, 5, 0] }: { spawn?: [number, number,
   const [, get] = useKeyboardControls();
   const { isInteracting } = useGameStore();
   const nearbyEntity = useLearningStore((s) => s.nearbyEntity);
+
+  // Đọc vị trí đã lưu (localStorage rehydrate xong trước render đầu tiên, xem
+  // useGameStore.ts) MỘT LẦN lúc mount — RigidBody chỉ áp dụng prop `position`
+  // lúc khởi tạo, đổi prop sau đó không tự dịch chuyển vật lý.
+  const [initialSpawn] = useState<[number, number, number]>(() => {
+    return useGameStore.getState().playerPositions[worldId] ?? spawn;
+  });
+
+  // Định kỳ ghi vị trí hiện tại vào store (không ghi mỗi khung hình để khỏi
+  // spam re-render/lưu session) + ghi lần cuối khi rời trang hoặc unmount, để
+  // SessionSync (subscribe + debounce) luôn có toạ độ mới nhất lúc lưu.
+  useEffect(() => {
+    const flush = () => {
+      const body = rigidBodyRef.current;
+      if (!body) return;
+      // Ở thời điểm cleanup lúc unmount, thứ tự dọn dẹp giữa <Physics> và effect
+      // này không được đảm bảo — handle Rust phía sau `body` có thể đã bị giải
+      // phóng dù ref JS chưa null, khiến `.translation()` ném lỗi "null pointer
+      // passed to rust". Lưu vị trí là best-effort nên nuốt lỗi ở đây là an toàn.
+      try {
+        const t = body.translation();
+        useGameStore.getState().setPlayerPosition(worldId, [t.x, t.y, t.z]);
+      } catch {
+        // Body đã bị huỷ — bỏ qua, lần lưu định kỳ trước đó vẫn còn giá trị.
+      }
+    };
+    const interval = setInterval(flush, 2000);
+    window.addEventListener("beforeunload", flush);
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener("beforeunload", flush);
+      flush();
+    };
+  }, [worldId]);
 
   const speed = 5;
   const sprintMultiplier = 1.8;
@@ -285,7 +326,7 @@ export default function Player({ spawn = [0, 5, 0] }: { spawn?: [number, number,
       colliders={false}
       mass={1}
       type="dynamic"
-      position={spawn}
+      position={initialSpawn}
       enabledRotations={[false, false, false]}
       ccd={true}
       canSleep={false}

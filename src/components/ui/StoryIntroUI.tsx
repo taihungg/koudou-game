@@ -5,18 +5,18 @@ import { useGameStore } from '@/store/useGameStore';
 
 export default function StoryIntroUI() {
   const { hasSeenVillageIntro, setHasSeenVillageIntro, setInteracting } = useGameStore();
-  const [isVisible, setIsVisible] = useState(false);
+  const [closed, setClosed] = useState(false);
+  const isVisible = !hasSeenVillageIntro && !closed;
 
   useEffect(() => {
     // Show intro only once when entering village
-    if (!hasSeenVillageIntro) {
-      setIsVisible(true);
+    if (isVisible) {
       setInteracting(true);
     }
-  }, [hasSeenVillageIntro, setInteracting]);
+  }, [isVisible, setInteracting]);
 
   const handleClose = () => {
-    setIsVisible(false);
+    setClosed(true);
     setHasSeenVillageIntro(true);
     setInteracting(false);
   };
@@ -43,7 +43,7 @@ export default function StoryIntroUI() {
             Tout porte à croire que les habitants du village voisin pourraient être impliqués.
           </p>
           <p className="text-amber-200 italic font-bold">
-            "Je dois trouver quelqu'un du village et lui parler pour découvrir la vérité."
+            &ldquo;Je dois trouver quelqu&apos;un du village et lui parler pour découvrir la vérité.&rdquo;
           </p>
         </div>
 

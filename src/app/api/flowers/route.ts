@@ -9,7 +9,7 @@ export async function GET() {
     const files = fs.readdirSync(directoryPath);
     const glbFiles = files.filter(file => file.endsWith('.glb'));
     return NextResponse.json({ files: glbFiles });
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: 'Unable to scan directory' }, { status: 500 });
   }
 }
@@ -26,7 +26,7 @@ export async function POST(req: Request) {
     
     fs.writeFileSync(path.join(outDir, filename), base64Data, 'base64');
     return NextResponse.json({ success: true });
-  } catch (e) {
+  } catch {
     return NextResponse.json({ error: 'Failed' }, { status: 500 });
   }
 }

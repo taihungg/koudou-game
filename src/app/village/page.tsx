@@ -7,6 +7,7 @@ import VillageEnvironment from "@/components/game/VillageEnvironment";
 import Player from "@/components/game/Player";
 import LearningCardUI from "@/components/ui/LearningCardUI";
 import InventoryHUD from "@/components/ui/InventoryHUD";
+import HelpUI from "@/components/ui/HelpUI";
 import BotanicalBookUI from "@/components/ui/BotanicalBookUI";
 import DuboisNotebookUI from "@/components/ui/DuboisNotebookUI";
 import { OrthographicCamera } from "@react-three/drei";
@@ -22,7 +23,7 @@ import ObserveLensCanvas from "@/components/ui/ObserveLensCanvas";
 // vì các thư viện @react-three/fiber và rapier chưa cập nhật kịp với Three.js r169+
 if (typeof window !== "undefined") {
   const originalWarn = console.warn;
-  console.warn = (...args: any[]) => {
+  console.warn = (...args: unknown[]) => {
     const msg = args[0];
     if (typeof msg === 'string' && (
       msg.includes('THREE.WebGLShadowMap: PCFSoftShadowMap has been deprecated') ||
@@ -53,6 +54,7 @@ export default function Village() {
       <LearningCardUI />
       <DialogueUI />
       <InventoryHUD />
+      <HelpUI />
       <BotanicalBookUI />
       <DuboisNotebookUI />
       <CompassHUD />
@@ -71,7 +73,7 @@ export default function Village() {
           />
           <Physics debug={false}>
             <VillageEnvironment />
-            <Player />
+            <Player worldId="village" />
           </Physics>
         </Canvas>
       </KeyboardControls>

@@ -45,3 +45,6 @@ raw_assets
 # agent
 .agents
 .claude
+
+# server-side session storage (per-IP save data)
+/.data

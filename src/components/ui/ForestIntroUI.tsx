@@ -3,20 +3,25 @@
 import { useState, useEffect } from 'react';
 import { useGameStore } from '@/store/useGameStore';
 
+/**
+ * Bản kể chuyện TĨNH của Chương 1 — nay là ĐƯỜNG LÙI của cutscene mở màn
+ * (`IntroCinematicUI.tsx`), dùng khi người chơi bật `prefers-reduced-motion`.
+ * Không gắn thẳng vào `/forest/page.tsx` nữa; chỉ `IntroCinematicUI` render nó.
+ */
 export default function ForestIntroUI() {
-  const { hasSeenForestIntro, setHasSeenForestIntro, setInteracting } = useGameStore();
-  const [isVisible, setIsVisible] = useState(false);
+  const { hasSeenChapter1Intro, setHasSeenChapter1Intro, setInteracting } = useGameStore();
+  const [closed, setClosed] = useState(false);
+  const isVisible = !hasSeenChapter1Intro && !closed;
 
   useEffect(() => {
-    if (!hasSeenForestIntro) {
-      setIsVisible(true);
+    if (isVisible) {
       setInteracting(true);
     }
-  }, [hasSeenForestIntro, setInteracting]);
+  }, [isVisible, setInteracting]);
 
   const handleClose = () => {
-    setIsVisible(false);
-    setHasSeenForestIntro(true);
+    setClosed(true);
+    setHasSeenChapter1Intro(true);
     setInteracting(false);
   };
 
@@ -31,7 +36,7 @@ export default function ForestIntroUI() {
       <div className="relative w-full max-w-2xl bg-amber-900/95 border-4 border-amber-700 rounded-2xl p-10 shadow-[0_0_50px_rgba(0,0,0,0.8)] text-amber-50 backdrop-blur-lg animate-in fade-in zoom-in duration-500 font-story">
         
         <h2 className="text-4xl font-black text-amber-300 mb-6 border-b-2 border-amber-800 pb-4 text-center tracking-wide">
-          Chapitre 1 : L'Arrivée
+          Chapitre 1 : L&apos;Arrivée
         </h2>
         
         <div className="text-xl font-medium mb-8 leading-relaxed space-y-4">
@@ -39,10 +44,10 @@ export default function ForestIntroUI() {
             Alex est un étudiant vietnamien en botanique, en stage dans une organisation de conservation francophone en Afrique centrale.
           </p>
           <p>
-            Lors d'une expédition dans une vaste forêt nouvellement découverte, Alex s'est égaré loin de son groupe.
+            Lors d&apos;une expédition dans une vaste forêt nouvellement découverte, Alex s&apos;est égaré loin de son groupe.
           </p>
           <p className="text-amber-200 italic font-bold">
-            "Perdu dans la nature, je dois maintenant explorer les environs, identifier la flore locale pour survivre, et découvrir les mystères de cette forêt."
+            &ldquo;Perdu dans la nature, je dois maintenant explorer les environs, identifier la flore locale pour survivre, et découvrir les mystères de cette forêt.&rdquo;
           </p>
         </div>
 

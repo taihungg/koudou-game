@@ -1,5 +1,6 @@
 import { GAME_ASSETS } from '@/constants/assets';
 import { BRIDGE_POINT, RIVER_SAMPLES } from './river';
+import { VILLAGE_BOUNDS, VILLAGE_GATE, VILLAGE_STREET_Z } from './village';
 import type { BiomeGround, LandmarkConfig, PathConfig, ZoneConfig } from './types';
 
 /**
@@ -33,6 +34,21 @@ export const RENDER_DISTANCE = 1;
  * bình thường (zoom trình duyệt, cutscene, minimap...).
  */
 export const TERRAIN_RENDER_DISTANCE = RENDER_DISTANCE + 2;
+
+/**
+ * Bán kính chunk khi đang chiếu cutscene.
+ *
+ * Camera điện ảnh là camera phối cảnh, nhìn ngang và xa hơn nhiều so với ô
+ * ~40 × 39 m của camera gameplay: với `RENDER_DISTANCE = 1` (cây chỉ tồn tại
+ * trong 120 × 120 m) mọi khuôn hình rộng đều lộ mặt đất trọc. Nới lên 2 là đủ —
+ * sương `fogExp2` mật độ 0,0085 nuốt gần hết mọi thứ xa quá ~150 m, nên nới
+ * thêm nữa chỉ tốn draw call chứ không thấy gì hơn.
+ *
+ * An toàn về hiệu năng vì trong cutscene người chơi bị đóng băng, không có va
+ * chạm/di chuyển nào tranh ngân sách khung hình.
+ */
+export const RENDER_DISTANCE_CINEMATIC = 2;
+export const TERRAIN_RENDER_DISTANCE_CINEMATIC = RENDER_DISTANCE_CINEMATIC + 2;
 
 /** Cạnh một ô địa hình. Bộ tile naturekit là 1×1 unit, nhân 5 → 8 ô/chunk chẵn. */
 export const TILE = 5;
@@ -102,11 +118,32 @@ export const ZONES: ZoneConfig[] = [
   },
   {
     id: 'human_traces',
+    // Mép Đông lùi từ x=190 về x=150 để nhường chỗ cho zone `village`. Hai zone
+    // chồng nhau thì `sampleBiome` chia đôi trọng số (xem worldSampling.ts) —
+    // để nguyên 190 thì cả ngôi làng bị pha 50% biome `logged`: nền đất xám
+    // nâu lấn hết màu đất nện của làng, và gốc cây/thân đổ của vùng phá rừng
+    // mọc rải rác ngay giữa sân làng.
+    //
+    // Vùng chồng còn lại chỉ là dải blend 14 m tràn tới x≈164, tức đúng đoạn
+    // cổng làng — chuyển tiếp nằm ở NGƯỠNG, và từ ngôi nhà đầu tiên (x=166)
+    // trở đi là 100% biome làng.
     name: 'Traces humaines',
-    shape: { type: 'rect', min: [20, 155], max: [190, 196] },
+    shape: { type: 'rect', min: [20, 155], max: [150, 196] },
     biome: 'logged',
     blend: 14,
     seed: 1008,
+  },
+  {
+    // Village de Koudou — cửa vào Chương 2. Hình CHỮ NHẬT, khác mọi zone khác
+    // trên bản đồ vốn đều là tròn/dải uốn: trên minimap một khối vuông vắn đọc
+    // ngay ra "chỗ này do người quy hoạch", không lẫn với rừng. Mặt bằng lấy
+    // đúng từ bố cục thật, xem `village.ts`.
+    id: 'village',
+    name: 'Village de Koudou',
+    shape: { type: 'rect', min: VILLAGE_BOUNDS.min, max: VILLAGE_BOUNDS.max },
+    biome: 'village',
+    blend: 12,
+    seed: 1009,
   },
 ];
 
@@ -126,7 +163,18 @@ export const PATHS: PathConfig[] = [
   { id: 'p5', width: 5, points: [[-110, 80], [-140, 120], [-160, 165]] },
   { id: 'p6', width: 6, points: [[-110, 80], [-40, 95], [55, 100]] },
   { id: 'p7', width: 5, points: [[55, 100], [100, 140], [140, 170]] },
-  { id: 'p8', width: 6, points: [[140, 170], [140, WORLD_HALF]] },
+  // p8 trước đây chạy thẳng lên mép bản đồ (x=140 → z=WORLD_HALF) và cụt ở
+  // vành cổ thụ: một lối mòn không dẫn tới đâu cả. Nay nó rẽ qua chỗ hai người
+  // dân đang nói chuyện rồi chạy tới cổng làng — lối mòn có đích đến.
+  { id: 'p8', width: 6, points: [[140, 170], [138, 176], VILLAGE_GATE.position] },
+  // p9 — đường chính trong làng. Rộng hơn lối mòn rừng (7 so với 5–6) vì đây là
+  // đường có người dọn, không phải vệt chân người đi mòn ra.
+  //
+  // Dừng ở x=189 chứ không chạy tới tận giếng (x=194): con đường KẾT THÚC ở
+  // quảng trường trước giếng, chứ không đâm xuyên qua nó. Chừa 5 m đất nện làm
+  // khoảng sân, và giếng vì thế đóng tầm nhìn ở cuối trục thay vì đứng giữa
+  // lòng đường.
+  { id: 'p9', width: 7, points: [VILLAGE_GATE.position, [189, VILLAGE_STREET_Z]] },
 ];
 
 /**
@@ -145,6 +193,10 @@ export const BIOME_GROUND: BiomeGround = {
   rocky: '#6b6355',
   cabin_clearing: '#75974a',
   logged: '#7b6a4e',
+  // Đất nện — sáng và ấm hơn `logged` để hai vùng liền kề vẫn tách nhau, và
+  // sáng hơn PATH_GROUND (#8a7a5c) để con đường chính hiện ra như một vệt SẪM
+  // cắt qua sân làng, thay vì chìm vào nền cùng tông.
+  village: '#9d8b68',
   // Nền mặc định của cả bản đồ — nâng sáng lên để forêt ancienne còn chỗ tối hơn.
   deep_canopy: '#2c4322',
 };
@@ -205,3 +257,102 @@ export const LANDMARKS: LandmarkConfig[] = [
     clearance: 6,
   },
 ];
+
+export interface VillagerNPCConfig {
+  id: string;
+  modelUrl: string;
+  position: [number, number];
+  rotationY: number;
+}
+
+/**
+ * Deux habitants qui discutent des récents glissements de terrain, postés à
+ * l'écart du chemin p8 dans `human_traces` (fin de la carte, zone
+ * déforestation). Alex peut s'approcher et écouter en secret — la
+ * conversation alimente l'exercice d'écoute à trous, voir
+ * `src/data/villagerListeningExercise.ts`.
+ */
+export const VILLAGER_DIALOGUE_SCENE: {
+  npcs: VillagerNPCConfig[];
+  sensor: { position: [number, number]; radius: number };
+} = {
+  npcs: [
+    {
+      id: 'human_traces_villager_a',
+      modelUrl: GAME_ASSETS.MODELS.CHARACTERS.PLAYERS_RANGER,
+      position: [130, 176],
+      rotationY: 0,
+    },
+    {
+      id: 'human_traces_villager_b',
+      modelUrl: GAME_ASSETS.MODELS.CHARACTERS.PLAYERS_BARBARIAN,
+      position: [130, 190],
+      rotationY: Math.PI,
+    },
+  ],
+  sensor: { position: [130, 183], radius: 18 },
+};
+
+export interface BurningTreeConfig {
+  id: string;
+  modelPath: string;
+  position: [number, number];
+  /** Hauteur visée en mètres — la mise à l'échelle passe par `scaleToHeight`. */
+  targetHeight: number;
+  rotationY: number;
+}
+
+/**
+ * Incendie de forêt : trois arbres en flammes dans une clairière au bord du
+ * chemin p3, à ~30 m de la rivière. La distance est le cœur de la boucle de
+ * jeu — Alex doit faire l'aller-retour "remplir le seau → verser l'eau" une
+ * fois par arbre (voir `useFireQuestStore`), donc assez près pour que ce ne
+ * soit pas pénible, assez loin pour que ce soit un trajet.
+ *
+ * Les arbres sont aussi des points de dégagement pour la végétation
+ * (`vegetationSampling.ts`) : sans ça, la forêt dense repousse par-dessus les
+ * flammes au rechargement du chunk.
+ */
+export const FIRE_QUEST_SCENE: {
+  center: [number, number];
+  /** Rayon de déclenchement de la quête en approchant. */
+  discoverRadius: number;
+  /** Rayon d'interaction autour de chaque tronc pour verser l'eau. */
+  treeRadius: number;
+  /**
+   * Distance maximale à l'axe de la rivière pour pouvoir puiser. Les murs de
+   * collision sont à `RIVER_HALF_WIDTH` (9 m) et font 2 m d'épaisseur, donc le
+   * joueur ne peut pas s'approcher à moins de ~8,4 m : 12 m laisse une berge
+   * utile d'environ 3,5 m tout le long du cours d'eau.
+   */
+  waterReach: number;
+  trees: BurningTreeConfig[];
+} = {
+  center: [38, -45],
+  discoverRadius: 22,
+  treeRadius: 5,
+  waterReach: 12,
+  trees: [
+    {
+      id: 'fire_tree_a',
+      modelPath: GAME_ASSETS.MODELS.QUATERNIUS.COMMONTREE_DEAD_1,
+      position: [33, -47],
+      targetHeight: 7,
+      rotationY: 0.4,
+    },
+    {
+      id: 'fire_tree_b',
+      modelPath: GAME_ASSETS.MODELS.QUATERNIUS.COMMONTREE_DEAD_3,
+      position: [42, -48],
+      targetHeight: 9,
+      rotationY: 2.1,
+    },
+    {
+      id: 'fire_tree_c',
+      modelPath: GAME_ASSETS.MODELS.QUATERNIUS.COMMONTREE_DEAD_2,
+      position: [38, -39],
+      targetHeight: 8,
+      rotationY: 4.0,
+    },
+  ],
+};

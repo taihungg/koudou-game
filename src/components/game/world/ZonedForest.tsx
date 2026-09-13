@@ -3,8 +3,17 @@
 import { useMemo, useState } from "react";
 import { useFrame } from "@react-three/fiber";
 import { useSearchParams } from "next/navigation";
-import { CHUNK_SIZE, RENDER_DISTANCE, TERRAIN_RENDER_DISTANCE, WORLD_HALF } from "@/config/world/chapter1";
+import {
+  CHUNK_SIZE,
+  RENDER_DISTANCE,
+  RENDER_DISTANCE_CINEMATIC,
+  TERRAIN_RENDER_DISTANCE,
+  TERRAIN_RENDER_DISTANCE_CINEMATIC,
+  WORLD_HALF,
+} from "@/config/world/chapter1";
 import { ISO_CAMERA_OFFSET } from "@/constants/camera";
+import { useCinematicStore } from "@/store/useCinematicStore";
+import { cameraFocus } from "@/utils/cameraFocus";
 import { ChunkTerrain } from "./TerrainTiles";
 import { ChunkVegetation } from "./ChunkVegetation";
 import Bridge from "./Bridge";
@@ -12,6 +21,9 @@ import Landmarks from "./Landmarks";
 import MinimapProbe from "./MinimapProbe";
 import River from "./River";
 import RiverWalls from "./RiverWalls";
+import Village from "./Village";
+import VillagersDialogueScene from "./VillagersDialogueScene";
+import FireQuestScene from "./FireQuestScene";
 import WorldBounds from "./WorldBounds";
 import WorldSpecies from "./WorldSpecies";
 import { WorldDebugProbe } from "./WorldDebugHUD";
@@ -47,26 +59,36 @@ function chunkRing(centerX: number, centerZ: number, radius: number) {
 export default function ZonedForest() {
   const [center, setCenter] = useState({ x: 0, z: 0 });
   const debug = useSearchParams().get("debug") === "1";
+  const cinematic = useCinematicStore((state) => state.phase !== "idle");
 
   useFrame((state) => {
-    // Player đặt camera tại player + ISO_CAMERA_OFFSET trên cả ba trục nên có
-    // thể suy ngược ra vị trí người chơi mà không cần truyền ref xuống đây.
-    const playerX = state.camera.position.x - ISO_CAMERA_OFFSET;
-    const playerZ = state.camera.position.z - ISO_CAMERA_OFFSET;
+    // Bình thường: Player đặt camera tại player + ISO_CAMERA_OFFSET trên cả ba
+    // trục nên có thể suy ngược ra vị trí người chơi mà không cần truyền ref
+    // xuống đây. Trong cutscene camera bay tự do nên phép suy ngược đó vô nghĩa
+    // — lúc ấy máy quay điện ảnh tự khai báo tâm stream qua `cameraFocus`.
+    const focusX = cameraFocus.override
+      ? cameraFocus.x
+      : state.camera.position.x - ISO_CAMERA_OFFSET;
+    const focusZ = cameraFocus.override
+      ? cameraFocus.z
+      : state.camera.position.z - ISO_CAMERA_OFFSET;
 
-    const cx = Math.round(playerX / CHUNK_SIZE);
-    const cz = Math.round(playerZ / CHUNK_SIZE);
+    const cx = Math.round(focusX / CHUNK_SIZE);
+    const cz = Math.round(focusZ / CHUNK_SIZE);
 
     if (cx !== center.x || cz !== center.z) setCenter({ x: cx, z: cz });
   });
 
+  const terrainRadius = cinematic ? TERRAIN_RENDER_DISTANCE_CINEMATIC : TERRAIN_RENDER_DISTANCE;
+  const vegetationRadius = cinematic ? RENDER_DISTANCE_CINEMATIC : RENDER_DISTANCE;
+
   const terrainChunks = useMemo(
-    () => chunkRing(center.x, center.z, TERRAIN_RENDER_DISTANCE),
-    [center.x, center.z],
+    () => chunkRing(center.x, center.z, terrainRadius),
+    [center.x, center.z, terrainRadius],
   );
   const vegetationChunks = useMemo(
-    () => chunkRing(center.x, center.z, RENDER_DISTANCE),
-    [center.x, center.z],
+    () => chunkRing(center.x, center.z, vegetationRadius),
+    [center.x, center.z, vegetationRadius],
   );
 
   return (
@@ -77,6 +99,9 @@ export default function ZonedForest() {
       <Bridge />
       <Landmarks />
       <WorldSpecies />
+      <VillagersDialogueScene />
+      <Village />
+      <FireQuestScene />
       <MinimapProbe />
       {terrainChunks.map((c) => (
         <ChunkTerrain key={`${c.x}_${c.z}`} chunkX={c.x} chunkZ={c.z} />

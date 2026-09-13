@@ -1,6 +1,7 @@
-import { CHUNK_SIZE, LANDMARKS, RIVER_HALF_WIDTH } from "@/config/world/chapter1";
+import { CHUNK_SIZE, FIRE_QUEST_SCENE, LANDMARKS, RIVER_HALF_WIDTH, VILLAGER_DIALOGUE_SCENE } from "@/config/world/chapter1";
 import { BELT_CANOPY, getPalette } from "@/config/world/biomes";
 import { WORLD_SPECIES } from "@/config/world/species";
+import { VILLAGE_BUILDINGS } from "@/config/world/village";
 import type { BiomeId, VegetationCategory, VegetationEntry } from "@/config/world/types";
 import { getNativeHeight, getAssetScale } from "@/constants/assetScale";
 import { hashCoordinates, mulberry32 } from "./random";
@@ -44,6 +45,7 @@ const BIOME_SEED: Record<BiomeId, number> = {
   rocky: 6,
   cabin_clearing: 7,
   logged: 8,
+  village: 9,
 };
 
 /** Seed riêng cho pass cổ thụ vành biên — không trùng bất kỳ biome nào ở trên. */
@@ -99,6 +101,14 @@ function relevantBiomes(chunkX: number, chunkZ: number): BiomeId[] {
 const CLEARANCE_POINTS: { position: [number, number]; clearance: number }[] = [
   ...LANDMARKS.map((lm) => ({ position: lm.position, clearance: lm.clearance })),
   ...WORLD_SPECIES.map((sp) => ({ position: sp.position, clearance: sp.clearance })),
+  ...VILLAGER_DIALOGUE_SCENE.npcs.map((n) => ({ position: n.position, clearance: 5 })),
+  // Clairière de l'incendie : il faut voir les flammes de loin ET pouvoir
+  // tourner autour de chaque tronc pour verser l'eau.
+  ...FIRE_QUEST_SCENE.trees.map((t) => ({ position: t.position, clearance: 7 })),
+  // Village de Koudou : sans ça, les buissons et les touffes d'herbe poussent
+  // au travers des murs et des palissades — la végétation est semée par une
+  // grille de bruit qui ignore complètement les objets posés à la main.
+  ...VILLAGE_BUILDINGS.map((b) => ({ position: b.position, clearance: b.clearance })),
 ];
 
 function tooCloseToAuthoredPoint(x: number, z: number): boolean {

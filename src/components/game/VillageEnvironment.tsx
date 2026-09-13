@@ -1,6 +1,5 @@
 "use client";
 
-import { RigidBody } from "@react-three/rapier";
 import InfiniteForest from "./InfiniteForest";
 import StaticVillage from "./StaticVillage";
 

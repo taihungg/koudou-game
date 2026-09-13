@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import { ISO_CAMERA_OFFSET } from "@/constants/camera";
+import { cameraFocus } from "@/utils/cameraFocus";
 
 /**
  * Ô nhớ module-scope nối vị trí người chơi từ trong Canvas ra minimap DOM bên
@@ -20,6 +21,11 @@ export default function MinimapProbe() {
   const frame = useRef(0);
 
   useFrame((state) => {
+    // Trong cutscene, camera không còn dính với người chơi nữa — cứ suy ngược
+    // như thường thì chấm minimap sẽ bay lung tung khắp bản đồ. Người chơi vẫn
+    // đứng nguyên tại chỗ, nên giữ luôn giá trị cũ.
+    if (cameraFocus.override) return;
+
     // ~20 lần/giây là đủ mượt cho một chấm nhỏ trên minimap, khỏi tính mỗi khung hình.
     if (frame.current++ % 3 !== 0) return;
     minimapProbe.x = state.camera.position.x - ISO_CAMERA_OFFSET;

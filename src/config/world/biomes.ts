@@ -329,6 +329,49 @@ export const BIOME_PALETTES: Partial<Record<BiomeId, BiomePalette>> = {
       spacing: 10,
     },
   },
+
+  // Village de Koudou — sân làng, đất nện. Đây là palette THƯA NHẤT bản đồ, và
+  // đó là chủ đích: bố cục của làng (hàng rào, hai hàng nhà, trục đường, giếng
+  // ở cuối trục — xem village.ts) chỉ đọc ra được nếu KHÔNG có gì che. Mỗi tầng
+  // thực vật thêm vào đây là một tầng làm mờ bố cục đó đi.
+  //
+  // Cụ thể: bỏ hẳn `understory` (cây tầng dưới tán cao 3–5 m sẽ che đúng tầm
+  // mái nhà), `canopy` giãn tới 34 m nên cả làng chỉ còn vài cây bóng mát ở
+  // rìa, `shrub` giãn 16 m và chỉ còn bụi thấp. `clutter` ngược lại giữ dày
+  // (spacing 4) nhưng toàn cỏ lùn — cỏ dại mọc ở mép sân là thứ nói "có người
+  // ở đây nhưng không ai quét dọn", trong khi vẫn thấp hơn đầu gối nên không
+  // che gì cả.
+  village: {
+    canopy: {
+      models: [M.NATUREKIT.TREE_DEFAULT, M.NATUREKIT.TREE_SIMPLE],
+      heightRange: [7, 9],
+      spacing: 34,
+    },
+    shrub: {
+      models: [M.QUATERNIUS.BUSH_1, M.NATUREKIT.PLANT_BUSHSMALL],
+      heightRange: [0.7, 1.2],
+      spacing: 16,
+    },
+    clutter: {
+      models: [
+        M.FOREST.GRASS_CLUMP_1,
+        M.FOREST.GRASS_CLUMP_3,
+        M.FOREST1.GRASS_1_A_SINGLESIDED_COLOR1,
+      ],
+      heightRange: [0.25, 0.5],
+      spacing: 4,
+    },
+    props: {
+      models: [
+        M.VILLAGES.BAG_1,
+        M.VILLAGES.BAG_2,
+        M.DECORATION.PROPS_CRATE_A_SMALL,
+        M.DECORATION.PROPS_BARREL,
+      ],
+      heightRange: [0.6, 1],
+      spacing: 24,
+    },
+  },
 };
 
 /** Palette thật, lùi về `deep_canopy` cho biome chưa được author. */

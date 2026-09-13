@@ -1,4 +1,4 @@
-import React, { useMemo, useRef, useState, useEffect } from "react";
+import React, { useMemo, useRef, useEffect } from "react";
 import { useFrame } from "@react-three/fiber";
 import { RigidBody, CylinderCollider } from "@react-three/rapier";
 import { useGLTF, useFBX, useAnimations } from "@react-three/drei";
@@ -17,7 +17,7 @@ export interface LearningItem {
 }
 
 const LearningGLTF = ({ item }: { item: LearningItem }) => {
-  const { scene } = useGLTF(item.entityData.modelPath) as any;
+  const { scene } = useGLTF(item.entityData.modelPath);
   const clonedScene = useMemo(() => scene.clone(), [scene]);
   const setNearbyEntity = useLearningStore((s) => s.setNearbyEntity);
   const isCompleted = useLearningStore((s) => s.completedExercises.includes(item.entityData.id));
@@ -43,9 +43,7 @@ const LearningGLTF = ({ item }: { item: LearningItem }) => {
   });
 
   const handleEnter = () => {
-    if (!isCompleted) {
-      setNearbyEntity(item.entityData);
-    }
+    setNearbyEntity(item.entityData);
   };
 
   const handleExit = () => {
@@ -81,7 +79,7 @@ const LearningGLTF = ({ item }: { item: LearningItem }) => {
         <primitive object={clonedScene} castShadow receiveShadow />
       </group>
 
-      {/* Dấu hiệu nhận biết nổi bật và sensor: biến mất hoàn toàn khi ĐÃ HOÀN THÀNH */}
+      {/* Dấu hiệu nhận biết nổi bật: biến mất khi ĐÃ HOÀN THÀNH (nhưng collider sensor vẫn giữ để người chơi có thể tương tác lại) */}
       {!isCompleted && (
         <>
           {/* Fake glowing aura (optimized, no real light) */}
@@ -101,12 +99,13 @@ const LearningGLTF = ({ item }: { item: LearningItem }) => {
             <coneGeometry args={[0.18, 4, 8, 1, true]} />
             <meshBasicMaterial color="#fff8d6" transparent opacity={0.35} depthWrite={false} side={THREE.DoubleSide} blending={THREE.AdditiveBlending} />
           </mesh>
-
-          <RigidBody type="fixed" colliders={false} sensor onIntersectionEnter={handleEnter} onIntersectionExit={handleExit}>
-            <CylinderCollider args={[2.0, item.sensorRadius]} position={[0, 1.0, 0]} />
-          </RigidBody>
         </>
       )}
+
+      {/* Sensor tương tác luôn duy trì */}
+      <RigidBody type="fixed" colliders={false} sensor onIntersectionEnter={handleEnter} onIntersectionExit={handleExit}>
+        <CylinderCollider args={[2.0, item.sensorRadius]} position={[0, 1.0, 0]} />
+      </RigidBody>
     </group>
   );
 };
@@ -128,8 +127,8 @@ const LearningFBX = ({ item }: { item: LearningItem }) => {
   }, [actions, names]);
 
   useEffect(() => {
-    clonedScene.traverse((child: any) => {
-      if (child.isMesh) {
+    clonedScene.traverse((child: THREE.Object3D) => {
+      if ((child as THREE.Mesh).isMesh) {
         child.castShadow = true;
         child.receiveShadow = true;
       }
@@ -137,9 +136,7 @@ const LearningFBX = ({ item }: { item: LearningItem }) => {
   }, [clonedScene]);
 
   const handleEnter = () => {
-    if (!isCompleted) {
-      setNearbyEntity(item.entityData);
-    }
+    setNearbyEntity(item.entityData);
   };
 
   const handleExit = () => {
@@ -173,11 +170,9 @@ const LearningFBX = ({ item }: { item: LearningItem }) => {
         {/* Scale down FBX because they are usually huge */}
         <primitive object={clonedScene} scale={0.01} />
       </group>
-      {!isCompleted && (
-        <RigidBody type="fixed" colliders={false} sensor onIntersectionEnter={handleEnter} onIntersectionExit={handleExit}>
-          <CylinderCollider args={[5.0, item.sensorRadius]} position={[0, 2.5, 0]} />
-        </RigidBody>
-      )}
+      <RigidBody type="fixed" colliders={false} sensor onIntersectionEnter={handleEnter} onIntersectionExit={handleExit}>
+        <CylinderCollider args={[5.0, item.sensorRadius]} position={[0, 2.5, 0]} />
+      </RigidBody>
     </group>
   );
 };
